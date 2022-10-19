@@ -1,2 +1,2 @@
 # WithMe
-#こんにちわ
+#<activity android:name=".loginActivity"></activity>
