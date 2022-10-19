@@ -13,6 +13,20 @@
         <activity android:name=".tagselectactivity" />
         <!-- <activity android:name=".notificationSetting" /> -->
         <!-- <activity android:name=".notification" /> -->
+        
+         <activity android:name=".chatlistActivity"></activity>
+        <activity android:name=".mypageActivity" />
+        <activity android:name=".editprofileActivity" />
+        <activity android:name=".settinglistActivity" />
+        <activity android:name=".postActivity" />
+        <activity android:name=".detailtimelineActivity" />
+        <activity android:name=".editpasswordActivity" />
+        <activity android:name=".withdrawalActivity" />
+        <activity android:name=".talkActivity" />
+        <activity android:name=".notificationActivity" />
+        <activity android:name=".notificationsettingActivity" />
+        <activity android:name=".tagselectactivity" />
+        
         <activity android:name=".goodAdapter" />
         <activity android:name=".timelineAdapter" />
         <activity android:name=".blocAdapter" />
