@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe">
-        <activity android:name=".tagselectactivity"></activity>
-        <activity android:name=".notificationSetting" />
-        <activity android:name=".notification" />
+        <activity android:name=".loginActivity" />
+        <activity android:name=".tagselectactivity" />
+        <!-- <activity android:name=".notificationSetting" /> -->
+        <!-- <activity android:name=".notification" /> -->
         <activity android:name=".goodAdapter" />
         <activity android:name=".timelineAdapter" />
         <activity android:name=".blocAdapter" />
