@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="タイムライン" />
-    <item android:title="チャット" />
-    <item android:title="通知" />
-    <item android:title="マイページ" />
-    <item android:title="設定" />
-    <item android:title="ログアウト" />
+    <item android:id="@+id/timeline"
+        android:title="タイムライン" />
+
+    <item android:id="@+id/chat"
+        android:title="チャット" />
+
+    <item
+        android:id="@+id/notification"
+        android:title="通知" />
+
+    <item
+        android:id="@+id/mypage"
+        android:title="マイページ" />
+
+    <item
+        android:id="@+id/setting"
+        android:title="設定" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="ログアウト" />
 </menu>
