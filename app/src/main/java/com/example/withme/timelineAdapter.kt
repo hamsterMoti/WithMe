@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class timelineAdapter  (private  val dateSet:MutableList<timelinedata>):RecyclerView.Adapter<timelineAdapter.ViewHoldew>() {
+class timelineAdapter  (private  val dateSet:MutableList<timelinedata>,private val activity : AppCompatActivity):RecyclerView.Adapter<timelineAdapter.ViewHoldew>() {
 
     class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
         var categoryText: TextView
@@ -20,6 +21,7 @@ class timelineAdapter  (private  val dateSet:MutableList<timelinedata>):Recycler
         var titleText: TextView
         var overviewText: TextView
         var answerText: TextView
+        var zentai: LinearLayout
 
         init {
             categoryText = item.findViewById(R.id.categoryText)
@@ -28,6 +30,7 @@ class timelineAdapter  (private  val dateSet:MutableList<timelinedata>):Recycler
             titleText = item.findViewById(R.id.titleText)
             overviewText = item.findViewById(R.id.overviewText)
             answerText = item.findViewById(R.id.answerText)
+            zentai = item.findViewById(R.id.zentai)
 
         }
 
@@ -52,6 +55,11 @@ class timelineAdapter  (private  val dateSet:MutableList<timelinedata>):Recycler
         holder.titleText.setText(dateSet[position].titleText)
         holder.overviewText.setText(dateSet[position].overviewText)
         holder.answerText.setText(dateSet[position].answerText)
+
+        holder.zentai.setOnClickListener{
+            var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
+            activity.startActivity(intent)
+        }
 
     }
 
