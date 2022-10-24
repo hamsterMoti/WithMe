@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class goodAdapter  (private  val dateSet:MutableList<gooddata>):RecyclerView.Adapter<goodAdapter.ViewHoldew>() {
+class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activity : AppCompatActivity):RecyclerView.Adapter<goodAdapter.ViewHoldew>() {
 
     class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
         var userImage:ImageView
@@ -44,9 +44,38 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>):RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: goodAdapter.ViewHoldew, position: Int) {
-        //仮データ挿入
+        //データ挿入
         holder.contoributorName.setText(dateSet[position].contoributorName)
         holder.titleText.setText(dateSet[position].titleText)
+
+        //アイコン画像がタップされた時の処理
+        holder.userImage.setOnClickListener{
+            //マイページへ遷移
+            var intent = Intent(activity.applicationContext, mypageActivity::class.java)
+            activity.startActivity(intent)
+        }
+        //ユーザネームがタップされた時の処理
+        holder.contoributorName.setOnClickListener{
+            //マイページへ遷移
+            var intent = Intent(activity.applicationContext, mypageActivity::class.java)
+            activity.startActivity(intent)
+        }
+        //投稿内容がタップされた時の処理
+        holder.titleText.setOnClickListener{
+            //timeline詳細画面へ遷移
+            var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
+            activity.startActivity(intent)
+        }
+        //コメント画像がタップされた時の処理
+        holder.commentimage.setOnClickListener{
+            //timeline詳細画面へ遷移
+            var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
+            activity.startActivity(intent)
+        }
+        //いいね画像がタップされた時の処理
+        holder.goodImage.setOnClickListener{
+        }
+
 
     }
     override fun getItemCount(): Int {

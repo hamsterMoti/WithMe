@@ -18,7 +18,7 @@ class blockActivity : AppCompatActivity() {
             countList.add(blockDate(1,"トウモロコシ","トマト嫌い",1))
         }
         blockrecycle.layoutManager = LinearLayoutManager(applicationContext)
-        val adapter = blocAdapter(countList)
+        val adapter = blocAdapter(countList,this)
         blockrecycle.adapter = adapter
         //----------------------------------------------------------------------
 

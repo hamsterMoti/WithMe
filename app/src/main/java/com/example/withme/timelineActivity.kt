@@ -23,7 +23,7 @@ class timelineActivity : AppCompatActivity() {
             countList.add(timelinedata("カテゴリー：","食べ物",0,"食べ放題行く人","大阪で募集","解答件数"))
         }
         timelineRecycl.layoutManager = LinearLayoutManager(applicationContext)
-        val adapter = timelineAdapter(countList)
+        val adapter = timelineAdapter(countList,this)
         timelineRecycl.adapter = adapter
         //----------------------------------------------------------------------
 
