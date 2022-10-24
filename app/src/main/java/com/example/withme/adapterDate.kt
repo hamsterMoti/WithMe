@@ -14,3 +14,37 @@ data class timelinedata( //timeLineadapterのデータ情報
     var answerText: String
 
     )
+
+data class talklinedata( //tailadapterのデータ
+
+    var userImage:Int,
+    var nameText:String,
+    var talkText:String,
+
+    )
+
+data class gooddata( //goodadapterのデータ
+
+    var userImage:Int,
+    var contoributorName:String,
+    var titleText:String,
+    var commentimage:Int,
+    var goodImage:Int,
+
+    )
+
+data class notificationDate( //notificationのデータ
+
+    var userImage:Int,
+    var notificationText:String,
+
+    )
+
+data class blockDate( //blockのデータ
+
+    var userImage:Int,
+    var usernameText:String,
+    var profileText:String,
+    var blockButton:Int,
+
+    )

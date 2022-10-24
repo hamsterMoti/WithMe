@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".mypageActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="406dp"
+        android:layout_height="389dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="341dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/activity_good_adapter" />
 </androidx.constraintlayout.widget.ConstraintLayout>
