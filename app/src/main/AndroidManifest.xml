@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe">
-        <activity android:name=".logoutActivity"></activity>
+        <activity android:name=".blockActivity"></activity>
+        <activity android:name=".logoutActivity" />
         <activity android:name=".settingActivity" />
         <activity android:name=".chatActivity" /> <!-- <activity android:name=".adapterDate"></activity> -->
         <activity android:name=".timelineActivity" />
