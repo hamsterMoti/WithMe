@@ -10,7 +10,7 @@ class notificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification2)
 
-        val notificationRecycle = findViewById<RecyclerView>(R.id.recyclerView)
+        val notificationRecycle = findViewById<RecyclerView>(R.id.notificationRecycle)
 
         //adapterにいれる仮データ（後で変更する）-------------------------------------
         val countList = mutableListOf<notificationDate>()
