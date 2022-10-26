@@ -19,6 +19,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         var titleText:TextView
         var commentimage:ImageView
         var goodImage:ImageView
+        var statusImage:Button
 
 
         init {
@@ -27,6 +28,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
             titleText = item.findViewById(R.id.titleText)
             commentimage = item.findViewById(R.id.commentimage)
             goodImage = item.findViewById(R.id.goodImage)
+            statusImage = item.findViewById(R.id.statusImage)
 
         }
 
@@ -74,6 +76,10 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         }
         //いいね画像がタップされた時の処理
         holder.goodImage.setOnClickListener{
+        }
+        //ステイタスボタンをタップしたときの処理
+        holder.statusImage.setOnClickListener {
+
         }
 
 
