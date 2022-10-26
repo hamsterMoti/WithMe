@@ -7,7 +7,7 @@
     tools:context=".timelineActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/profileRecyclerView"
         android:layout_width="424dp"
         android:layout_height="644dp"
         android:layout_marginTop="86dp"

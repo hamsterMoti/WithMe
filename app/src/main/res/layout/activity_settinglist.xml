@@ -6,4 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".settinglistActivity">
 
+    <LinearLayout
+        android:layout_width="313dp"
+        android:layout_height="557dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tuutiText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="通知設定" />
+
+        <TextView
+            android:id="@+id/blockText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="ブロック一覧表" />
+
+        <TextView
+            android:id="@+id/outText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="退会する" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
