@@ -1,7 +1,9 @@
 package com.example.withme
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,8 +16,15 @@ class mypageActivity : AppCompatActivity() {
         val goodRecycle = findViewById<RecyclerView>(R.id.profileRecyclerView)
         val goodButton = findViewById<ImageView>(R.id.goodButton)
         val postButton = findViewById<ImageView>(R.id.postButton)
+        val editprofileButton = findViewById<Button>(R.id.editprofileButton)
 
 
+       //editprofileボタンタップ時の処理
+        editprofileButton.setOnClickListener {
+            var intent = Intent(applicationContext, editprofileActivity::class.java)
+            startActivity(intent)
+        }
+        
         //adapterにいれる仮データ（後で変更する）-------------------------------------
         val countList = mutableListOf<gooddata>()
 
