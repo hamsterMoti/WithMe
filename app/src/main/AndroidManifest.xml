@@ -10,11 +10,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe">
-        <activity android:name=".blockActivity"></activity>
+        <activity android:name=".termsServiceActivity" />
+        <activity android:name=".passwordActivity" />
+        <activity android:name=".profileActivity" />
+        <activity android:name=".blockActivity" />
         <activity android:name=".logoutActivity" />
         <activity android:name=".settingActivity" />
         <activity android:name=".chatActivity" /> <!-- <activity android:name=".adapterDate"></activity> -->
-        <activity android:name=".timelineActivity" />
         <activity android:name=".loginActivity" />
         <activity android:name=".tagselectactivity" /> <!-- <activity android:name=".notificationSetting" /> -->
         <!-- <activity android:name=".notification" /> -->
@@ -32,15 +34,21 @@
         <activity
             android:name=".tagselectactivity"
             tools:ignore="DuplicateActivity" />
-        <activity android:name=".goodAdapter" />
+        <activity android:name=".goodAdapter"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".timelineAdapter"
             tools:ignore="Instantiatable" />
-        <activity android:name=".blocAdapter" />
-        <activity android:name=".talkAdapter" />
-        <activity android:name=".notificationAdapter" />
+        <activity android:name=".blocAdapter"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".talkAdapter"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".notificationAdapter"
+            tools:ignore="Instantiatable" />
         <activity android:name=".taguAdapter" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+            <activity android:name=".timelineActivity" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

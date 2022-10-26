@@ -35,7 +35,7 @@ class timelineActivity : AppCompatActivity() {
         val notification = Intent(this, notificationActivity::class.java)
         val mypage = Intent(this, mypageActivity::class.java)
         val setting = Intent(this, settingActivity::class.java)
-        val logout = Intent(this, logoutActivity::class.java)
+        val login = Intent(this, loginActivity::class.java)
 
         //連携処理を実施
         when (item.itemId) {
@@ -44,7 +44,7 @@ class timelineActivity : AppCompatActivity() {
             R.id.notification -> startActivity(notification)
             R.id.mypage -> startActivity(mypage)
             R.id.setting -> startActivity(setting)
-            else -> startActivity(logout)//ログアウト処理を書く
+            else -> startActivity(login)//ログアウト処理を書く
         }
         return super.onOptionsItemSelected(item)
     }
@@ -52,5 +52,4 @@ class timelineActivity : AppCompatActivity() {
         getMenuInflater().inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
 }
