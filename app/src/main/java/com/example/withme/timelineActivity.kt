@@ -1,8 +1,6 @@
 package com.example.withme
 
-import android.app.SearchManager
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,7 +13,7 @@ class timelineActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timeline)
 
-        val timelineRecycl = findViewById<RecyclerView>(R.id.recyclerView)
+        val timelineRecycl = findViewById<RecyclerView>(R.id.profileRecyclerView)
 
         //adapterにいれる仮データ（後で変更する）-------------------------------------
         val countList = mutableListOf<timelinedata>()
