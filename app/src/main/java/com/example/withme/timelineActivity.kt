@@ -34,7 +34,7 @@ class timelineActivity : AppCompatActivity() {
         val chat = Intent(this, chatActivity::class.java)
         val notification = Intent(this, notificationActivity::class.java)
         val mypage = Intent(this, mypageActivity::class.java)
-        val setting = Intent(this, settingActivity::class.java)
+        val settingsettinglist = Intent(this, settinglistActivity::class.java)
         val login = Intent(this, loginActivity::class.java)
 
         //連携処理を実施
@@ -43,7 +43,7 @@ class timelineActivity : AppCompatActivity() {
             R.id.chat -> startActivity(chat)
             R.id.notification -> startActivity(notification)
             R.id.mypage -> startActivity(mypage)
-            R.id.setting -> startActivity(setting)
+            R.id.setting -> startActivity(settingsettinglist)
             else -> startActivity(login)//ログアウト処理を書く
         }
         return super.onOptionsItemSelected(item)
