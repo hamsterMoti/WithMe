@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe">
+        <activity android:name=".myApplication"></activity>
         <activity android:name=".termsServiceActivity" />
         <activity android:name=".passwordActivity" />
         <activity android:name=".profileActivity" />
@@ -34,21 +35,24 @@
         <activity
             android:name=".tagselectactivity"
             tools:ignore="DuplicateActivity" />
-        <activity android:name=".goodAdapter"
+        <activity
+            android:name=".goodAdapter"
             tools:ignore="Instantiatable" />
         <activity
             android:name=".timelineAdapter"
             tools:ignore="Instantiatable" />
-        <activity android:name=".blocAdapter"
+        <activity
+            android:name=".blocAdapter"
             tools:ignore="Instantiatable" />
-        <activity android:name=".talkAdapter"
+        <activity
+            android:name=".talkAdapter"
             tools:ignore="Instantiatable" />
-        <activity android:name=".notificationAdapter"
+        <activity
+            android:name=".notificationAdapter"
             tools:ignore="Instantiatable" />
         <activity android:name=".taguAdapter" />
-        <activity android:name=".MainActivity"/>
-            <activity android:name=".timelineActivity" >
-
+        <activity android:name=".MainActivity" />
+        <activity android:name=".timelineActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
