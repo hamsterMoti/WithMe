@@ -7,7 +7,7 @@
     tools:context=".loginActivity">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/myIdEdit"
         android:layout_width="312dp"
         android:layout_height="47dp"
         android:layout_marginStart="43dp"
@@ -15,11 +15,11 @@
         android:ems="10"
         android:hint="メールアドレス"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/passEdit"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/loginText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="164dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/passEdit"
         android:layout_width="301dp"
         android:layout_height="50dp"
         android:layout_marginStart="51dp"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/createAccountGuideText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
@@ -71,5 +71,5 @@
         android:layout_marginTop="33dp"
         android:text="ログイン"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/passEdit" />
 </androidx.constraintlayout.widget.ConstraintLayout>
