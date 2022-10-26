@@ -30,6 +30,7 @@ data class gooddata( //goodadapterのデータ
     var titleText:String,
     var commentimage:Int,
     var goodImage:Int,
+    var statusImage:Int
 
     )
 
