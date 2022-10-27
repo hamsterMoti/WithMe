@@ -1,14 +1,16 @@
 package com.example.withme
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+
 
 class timelineActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +18,14 @@ class timelineActivity : AppCompatActivity() {
         setContentView(R.layout.activity_timeline)
 
         val timelineRecycl = findViewById<RecyclerView>(R.id.profileRecyclerView)
+        val fab: View = findViewById(R.id.fab)
+
+        //FABボタンタップ処理
+        fab.setOnClickListener { view ->
+            var intent = Intent(applicationContext, postActivity::class.java)
+            startActivity(intent)
+        }
+
         
 
         //adapterにいれる仮データ（後で変更する）-------------------------------------
