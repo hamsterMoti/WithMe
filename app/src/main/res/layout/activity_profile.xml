@@ -7,7 +7,7 @@
     tools:context=".profileActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/profileText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
@@ -18,60 +18,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/addressEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:hint="メールアドレス"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/editTextDate"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNameEdit" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/userNameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="ニックネーム"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginBottom="28dp"
-        android:ems="10"
-        android:hint="生年月日"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/checkBox"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="132dp"
-        android:layout_marginBottom="116dp"
-        android:text="男"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="112dp"
-        android:layout_marginBottom="116dp"
-        android:text="女"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
     <Button
         android:id="@+id/nextButton"
@@ -84,13 +52,40 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/userImage"
         android:layout_width="51dp"
         android:layout_height="48dp"
-        android:layout_marginStart="170dp"
-        android:layout_marginTop="51dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="38dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/profileText"
         app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="148dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginBottom="106dp"
+        app:layout_constraintBottom_toTopOf="@+id/nextButton"
+        app:layout_constraintStart_toStartOf="parent" >
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="61dp"
+            android:layout_height="match_parent"
+            android:text="男" />
+    </RadioGroup>
+
+    <RadioButton
+        android:id="@+id/radioButton4"
+        android:layout_width="61dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginBottom="108dp"
+        android:text="女"
+        app:layout_constraintBottom_toTopOf="@+id/nextButton"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

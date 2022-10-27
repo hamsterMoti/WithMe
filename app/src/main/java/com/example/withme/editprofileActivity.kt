@@ -1,6 +1,7 @@
 package com.example.withme
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ class editprofileActivity : AppCompatActivity() {
         userImage.setOnClickListener {
             //ギャラリーを開きイメージに定義
             openGalleryForImage()
+//            userImage.setImageBitmap(bitmap)
         }
 
 
@@ -46,5 +48,7 @@ class editprofileActivity : AppCompatActivity() {
             }
         }
     }
-
+//    fun convertImageToBitmap():{
+//
+//    }
 }
