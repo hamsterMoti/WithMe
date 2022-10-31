@@ -1,0 +1,62 @@
+package com.example.withme
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+
+
+class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,private val activity : AppCompatActivity): RecyclerView.Adapter<listapplicantAdapter.ViewHoldew>() {
+
+    class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
+        var userImage:ImageView
+        var userText:TextView
+        var addButton:Button
+        var rejectionButton	:Button
+
+        init {
+            userImage = item.findViewById(R.id.userImage)
+            userText = item.findViewById(R.id.userText)
+            addButton = item.findViewById(R.id.addButton)
+            rejectionButton = item.findViewById(R.id.rejectionButton)
+
+        }
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): listapplicantAdapter.ViewHoldew {
+        //一行分のレイアウト読みこみ
+        val viwe = LayoutInflater.from(parent.context)
+            .inflate(R.layout.activity_listapplicant_adapter, parent, false)
+        return listapplicantAdapter.ViewHoldew(viwe)
+    }
+    override fun onBindViewHolder(holder: listapplicantAdapter.ViewHoldew, position: Int) {
+
+        //データ挿入
+        holder.userText.setText(dateSet[position].userText)
+
+    }
+
+    override fun getItemCount(): Int {
+        return dateSet.size
+    }
+
+}
+
+
+
+//adapterにいれる仮データ（後で変更する）-------------------------------------
+//val countList = mutableListOf<applicantDate>()
+
+//    countList.add(applicantDate(1,"名前",0,0))
+
+//applicantListRecycl.layoutManager = LinearLayoutManager(applicationContext)
+//val adapter = listapplicantAdapter(countList,this)
+//applicantListRecycl.adapter = adapter
+//----------------------------------------------------------------------

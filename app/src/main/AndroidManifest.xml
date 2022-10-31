@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe">
-        <activity android:name=".myApplication"></activity>
+        <activity android:name=".applicantListActivity"></activity>
+        <activity android:name=".listapplicantAdapter" />
+        <activity android:name=".myApplication" />
         <activity android:name=".termsServiceActivity" />
         <activity android:name=".passwordActivity" />
         <activity android:name=".profileActivity" />

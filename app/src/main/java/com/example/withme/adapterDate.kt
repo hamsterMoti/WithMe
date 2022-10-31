@@ -49,3 +49,9 @@ data class blockDate( //blockのデータ
     var blockButton:Int,
 
     )
+data class applicantDate(
+    var userImage:Int,
+    var userText:String,
+    var addButton:Int,
+    var rejectionButton:Int
+)
