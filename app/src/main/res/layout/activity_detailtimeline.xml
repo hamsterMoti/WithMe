@@ -6,115 +6,109 @@
     android:layout_height="match_parent"
     tools:context=".detailtimelineActivity">
 
-    <ImageView
-        android:id="@+id/postImage"
-        android:layout_width="339dp"
-        android:layout_height="152dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.051"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/contributorImage"
-        android:layout_width="69dp"
-        android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.651"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
 
-    <TextView
-        android:id="@+id/contributorText"
-        android:layout_width="69dp"
-        android:layout_height="16dp"
-        android:gravity="center_horizontal"
-        android:text="投稿者"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576" />
+        <LinearLayout
+            android:layout_width="368dp"
+            android:layout_height="610dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/contributorName"
-        android:layout_width="211dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="108dp"
-        android:text="山田　太郎"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.641" />
+            <TextView
+                android:id="@+id/postdayText"
+                android:layout_width="150dp"
+                android:layout_height="16dp"
+                android:text="投稿日：yyyy/mm/dd" />
 
-    <TextView
-        android:id="@+id/deadliine"
-        android:layout_width="151dp"
-        android:layout_height="23dp"
-        android:gravity="right"
-        android:text="yyyy/mm/ddまで"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.923"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.672" />
+            <ImageView
+                android:id="@+id/postImage"
+                android:layout_width="339dp"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
 
-    <TextView
-        android:id="@+id/overviewText"
-        android:layout_width="347dp"
-        android:layout_height="114dp"
-        android:text="大阪の梅田周辺でカフェに付き合ってくれる人を募集しています。お気軽にお声がけお願いします。"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.423" />
+            <TextView
+                android:id="@+id/titleName"
+                android:layout_width="333dp"
+                android:layout_height="46dp"
+                android:text="カフェに行く人募集"
+                android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/titleName"
-        android:layout_width="333dp"
-        android:layout_height="46dp"
-        android:text="カフェに行く人募集"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.297" />
+            <TextView
+                android:id="@+id/overviewText"
+                android:layout_width="347dp"
+                android:layout_height="114dp"
+                android:text="大阪の梅田周辺でカフェに付き合ってくれる人を募集しています。お気軽にお声がけお願いします。"
+                android:textSize="14sp" />
 
-    <Button
-        android:id="@+id/DMButton"
-        android:layout_width="321dp"
-        android:layout_height="56dp"
-        android:text="メッセージを送る"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.972" />
+            <TextView
+                android:id="@+id/contributorText"
+                android:layout_width="69dp"
+                android:layout_height="16dp"
+                android:gravity="center_horizontal"
+                android:text="投稿者" />
 
-    <TextView
-        android:id="@+id/postdayText"
-        android:layout_width="150dp"
-        android:layout_height="16dp"
-        android:text="投稿日：yyyy/mm/dd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.985"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.014" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="81dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="68dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/contributorImage"
+                        android:layout_width="69dp"
+                        android:layout_height="60dp"
+                        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/deadliine"
+                        android:layout_width="293dp"
+                        android:layout_height="43dp"
+                        android:gravity="left"
+                        android:text="山田花子"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/deadliine2"
+                        android:layout_width="293dp"
+                        android:layout_height="43dp"
+                        android:gravity="right"
+                        android:text="yyyy/mm/ddまで" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/DMButton"
+                android:layout_width="321dp"
+                android:layout_height="56dp"
+                android:text="メッセージを送る" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
