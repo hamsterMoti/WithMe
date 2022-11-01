@@ -7,8 +7,9 @@
     tools:context=".detailtimelineActivity">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="405dp"
-        android:layout_height="672dp"
+        android:layout_height="578dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
@@ -163,15 +164,39 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <Button
-                android:id="@+id/DMButton"
-                android:layout_width="183dp"
-                android:layout_height="56dp"
-                android:text="メッセージを送る" />
+            <EditText
+                android:id="@+id/profileEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|left"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/oubobutton"
+        android:layout_width="398dp"
+        android:layout_height="45dp"
+        android:text="応募する"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.995" />
+
+    <Button
+        android:id="@+id/DMButton"
+        android:layout_width="416dp"
+        android:layout_height="47dp"
+        android:text="メッセージ送信"
+        app:layout_constraintBottom_toTopOf="@+id/oubobutton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

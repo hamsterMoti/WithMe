@@ -54,10 +54,11 @@
 
         <EditText
             android:id="@+id/profileEdit"
-            android:layout_width="365dp"
-            android:layout_height="272dp"
-            android:ems="10"
-            android:inputType="textPersonName" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="top|left" />
+
 
         <Button
             android:id="@+id/saveButton"
