@@ -11,11 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe">
         <activity android:name=".applicantListActivity"></activity>
-        <activity android:name=".listapplicantAdapter" />
+        <activity android:name=".listapplicantAdapter"
+            tools:ignore="Instantiatable" />
         <activity android:name=".myApplication" />
         <activity android:name=".termsServiceActivity" />
         <activity android:name=".passwordActivity" />
-        <activity android:name=".profileActivity" />
+        <activity android:name=".createaccountActivity" />
         <activity android:name=".blockActivity" />
         <activity android:name=".logoutActivity" />
         <activity android:name=".settingActivity" />
