@@ -62,7 +62,7 @@
 
 
             <View
-                android:id="@+id/1"
+                android:id="@+id/line1"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:background="#A5A5A5"
