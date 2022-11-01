@@ -7,12 +7,14 @@
     tools:context=".detailtimelineActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="405dp"
+        android:layout_height="672dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <LinearLayout
@@ -53,6 +55,60 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="yyyy/mm/ddまで" />
+
+
+            <View
+                android:id="@+id/1"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#A5A5A5"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="希望条件" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="定員：５名" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="性別：指定なし" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="年代：指定なし" />
+
+            <View
+                android:id="@+id/line２"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#A5A5A5"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
                 android:id="@+id/contributorText"
                 android:layout_width="69dp"
                 android:layout_height="16dp"
@@ -61,7 +117,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="81dp"
+                android:layout_height="67dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -78,31 +134,38 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="301dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/deadliine"
-                        android:layout_width="293dp"
-                        android:layout_height="43dp"
+                        android:layout_width="289dp"
+                        android:layout_height="60dp"
                         android:gravity="left"
                         android:text="山田花子"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/deadliine2"
-                        android:layout_width="293dp"
-                        android:layout_height="43dp"
-                        android:gravity="right"
-                        android:text="yyyy/mm/ddまで" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
+            <View
+                android:id="@+id/line３"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#A5A5A5"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
             <Button
                 android:id="@+id/DMButton"
-                android:layout_width="321dp"
+                android:layout_width="183dp"
                 android:layout_height="56dp"
                 android:text="メッセージを送る" />
 
