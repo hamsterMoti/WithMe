@@ -7,17 +7,17 @@
     tools:context=".termsServiceActivity">
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/agreeCheckBox"
         android:layout_width="106dp"
         android:layout_height="36dp"
         android:layout_marginStart="140dp"
         android:layout_marginBottom="24dp"
         android:text="同意する"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/nextButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/nextButton"
         android:layout_width="136dp"
         android:layout_height="51dp"
         android:layout_marginStart="128dp"
