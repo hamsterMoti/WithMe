@@ -22,5 +22,7 @@ class applicantListActivity : AppCompatActivity() {
         applicantListRecyeclerView.adapter = adapter
         //----------------------------------------------------------------------
 
+
+
     }
 }
