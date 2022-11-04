@@ -30,6 +30,8 @@ class createaccountActivity : AppCompatActivity() {
 
         val nicknameEdit = findViewById<EditText>(R.id.nicknameEdit)
         val mailaddressEdit = findViewById<EditText>(R.id.mailaddressEdit)
+        val nextButton = findViewById<Button>(R.id.nextButton)
+
         val emptyError = myApp.emptyError
 
         birthday = findViewById<TextView>(R.id.birthday)
@@ -39,7 +41,6 @@ class createaccountActivity : AppCompatActivity() {
         birthday.setOnClickListener{
             showDatePicker()
         }
-        val nextButton = findViewById<Button>(R.id.nextButton)
         nextButton.setOnClickListener {
             if (nicknameEdit.text.toString().isEmpty()) {
                 nicknameEdit.error = emptyError
@@ -48,7 +49,7 @@ class createaccountActivity : AppCompatActivity() {
             } else {
                 val nickname = nicknameEdit.text.toString()
                 val myId = mailaddressEdit.text.toString()
-                val intent = Intent(this, termsServiceActivity::class.java)
+                val intent = Intent(this, createaccountActivity::class.java)
                 startActivity(intent)
             }
 
