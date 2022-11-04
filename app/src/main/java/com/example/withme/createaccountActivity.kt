@@ -49,7 +49,7 @@ class createaccountActivity : AppCompatActivity() {
             } else {
                 val nickname = nicknameEdit.text.toString()
                 val myId = mailaddressEdit.text.toString()
-                val intent = Intent(this, createaccountActivity::class.java)
+                val intent = Intent(this, passwordActivity::class.java)
                 startActivity(intent)
             }
 
