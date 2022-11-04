@@ -7,6 +7,26 @@
     tools:context=".createaccountActivity">
 
     <TextView
+        android:id="@+id/nicknameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="171dp"
+        android:text="ニックネーム"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="56dp"
+        android:text="メールアドレス"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameEdit" />
+
+    <TextView
         android:id="@+id/profileText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,66 +37,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/addressEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="メールアドレス"
-        android:inputType="textEmailAddress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNameEdit" />
 
     <EditText
-        android:id="@+id/userNameEdit"
+        android:id="@+id/mailaddressEdit"
+        android:layout_width="246dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="37dp"
+        android:ems="10"
+        android:hint="torimatsuzaka@gmail.com"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressText" />
+
+    <EditText
+        android:id="@+id/nicknameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="23dp"
         android:ems="10"
-        android:hint="ニックネーム"
+        android:hint="ErikaToda"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userImage" />
+        app:layout_constraintTop_toBottomOf="@+id/nicknameText" />
 
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginBottom="32dp"
         android:text="次へ"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/userImage"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="38dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileText"
-        app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
-
 
     <TextView
+
         android:id="@+id/birthdayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="28dp"
         android:text="生年月日"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/mailaddressEdit" />
 
     <RadioGroup
         android:layout_width="182dp"
         android:layout_height="66dp"
-        android:layout_marginStart="103dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="90dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/birthdayText">
@@ -89,10 +101,28 @@
 
         <RadioButton
             android:id="@+id/radioButton3"
-            android:layout_width="97dp"
+            android:layout_width="94dp"
             android:layout_height="match_parent"
             android:text="女" />
 
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="21dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthdayText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="57dp"
+        android:text="性別"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthdayText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
