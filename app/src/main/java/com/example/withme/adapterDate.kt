@@ -28,7 +28,7 @@ data class gooddata( //goodadapterのデータ
     var userImage:Int,
     var contoributorName:String,
     var titleText:String,
-    var moreimage:Int,
+    var moreimage:String,
     var statusImage:Int
 
     )

@@ -10,9 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe">
+        <activity android:name=".btmsheet_Participation"></activity>
         <activity
             android:name=".ntmsheet"
-            tools:ignore="Instantiatable"/>
+            tools:ignore="Instantiatable" />
         <activity android:name=".applicantListActivity" />
         <activity
             android:name=".listapplicantAdapter"
