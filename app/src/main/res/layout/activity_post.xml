@@ -64,12 +64,13 @@
                 android:layout_height="wrap_content"
                 android:text="内容" />
 
+
             <EditText
                 android:id="@+id/contentEdit"
-                android:layout_width="313dp"
-                android:layout_height="175dp"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:layout_width="297dp"
+                android:layout_height="wrap_content"
+                android:gravity="top|left"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/textView"
