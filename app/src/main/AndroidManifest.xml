@@ -10,8 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe">
-        <activity android:name=".applicantListActivity"></activity>
-        <activity android:name=".listapplicantAdapter"
+        <activity
+            android:name=".ntmsheet"
+            tools:ignore="Instantiatable"/>
+        <activity android:name=".applicantListActivity" />
+        <activity
+            android:name=".listapplicantAdapter"
             tools:ignore="Instantiatable" />
         <activity android:name=".myApplication" />
         <activity android:name=".termsServiceActivity" />
@@ -22,8 +26,7 @@
         <activity android:name=".settingActivity" />
         <activity
             android:name=".chatActivity"
-            android:windowSoftInputMode="adjustPan"
-            /> <!-- <activity android:name=".adapterDate"></activity> -->
+            android:windowSoftInputMode="adjustPan" /> <!-- <activity android:name=".adapterDate"></activity> -->
         <activity android:name=".loginActivity" />
         <activity android:name=".tagselectactivity" /> <!-- <activity android:name=".notificationSetting" /> -->
         <!-- <activity android:name=".notification" /> -->
@@ -31,12 +34,12 @@
         <activity android:name=".mypageActivity" />
         <activity
             android:name=".editprofileActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".settinglistActivity" />
         <activity android:name=".postActivity" />
         <activity
             android:name=".detailtimelineActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".editpasswordActivity" />
         <activity android:name=".withdrawalActivity" />
         <activity android:name=".talkActivity" />

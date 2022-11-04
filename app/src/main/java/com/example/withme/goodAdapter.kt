@@ -1,15 +1,15 @@
 package com.example.withme
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+
 
 class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activity : AppCompatActivity):RecyclerView.Adapter<goodAdapter.ViewHoldew>() {
 
@@ -17,7 +17,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         var userImage:ImageView
         var contoributorName:TextView
         var titleText:TextView
-        var commentimage:ImageView
+        var moreimage:ImageView
         var statusImage:Button
 
 
@@ -25,7 +25,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
             userImage = item.findViewById(R.id.userImage)
             contoributorName = item.findViewById(R.id.contoributorName)
             titleText = item.findViewById(R.id.titleText)
-            commentimage = item.findViewById(R.id.commentimage)
+            moreimage = item.findViewById(R.id.moreImage)
             statusImage = item.findViewById(R.id.statusImage)
 
         }
@@ -66,15 +66,13 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
             var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
             activity.startActivity(intent)
         }
-        //コメント画像がタップされた時の処理
-        holder.commentimage.setOnClickListener{
-            //timeline詳細画面へ遷移
-            var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
-            activity.startActivity(intent)
+        //more画像がタップされた時の処理
+        holder.moreimage.setOnClickListener{
+            val myBottomSheet = ntmsheet()
+            myBottomSheet.show(activity.supportFragmentManager,"navigation_bottom_sheet")
         }
         //ステイタスボタンをタップしたときの処理
         holder.statusImage.setOnClickListener {
-
         }
 
     }
