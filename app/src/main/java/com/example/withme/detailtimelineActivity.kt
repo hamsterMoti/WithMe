@@ -1,5 +1,6 @@
 package com.example.withme
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,8 +14,13 @@ class detailtimelineActivity : AppCompatActivity() {
 
         val oubobutton = findViewById<Button>(R.id.oubobutton)
         //ボタン非表示
-        oubobutton.setVisibility(View.INVISIBLE)
+        //oubobutton.setVisibility(View.INVISIBLE)
 
+
+        oubobutton.setOnClickListener {
+            var intent = Intent(applicationContext, applicantListActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }

@@ -41,6 +41,11 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
         //データ挿入
         holder.userText.setText(dateSet[position].userText)
 
+        //ボタン非表示処理
+        holder.addButton.setOnClickListener {
+            holder.rejectionButton.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -49,14 +54,3 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
 
 }
 
-
-
-//adapterにいれる仮データ（後で変更する）-------------------------------------
-//val countList = mutableListOf<applicantDate>()
-
-//    countList.add(applicantDate(1,"名前",0,0))
-
-//applicantListRecycl.layoutManager = LinearLayoutManager(applicationContext)
-//val adapter = listapplicantAdapter(countList,this)
-//applicantListRecycl.adapter = adapter
-//----------------------------------------------------------------------
