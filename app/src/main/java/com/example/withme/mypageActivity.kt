@@ -28,19 +28,20 @@ class mypageActivity : AppCompatActivity() {
         //adapterにいれる仮データ（後で変更する）-------------------------------------
         val countList = mutableListOf<gooddata>()
 
-        countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ",1,1))
+        //moreimage : 0 = 投稿一覧　1 = 参加一覧
+        countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ","投稿一覧",1))
         goodRecycle.layoutManager = LinearLayoutManager(applicationContext)
         val adapter = goodAdapter(countList,this@mypageActivity)
         goodRecycle.adapter = adapter
         //----------------------------------------------------------------------
 
-        //イイねボタンが押された時の処理
+        //参加一覧ボタンが押された時の処理
         goodButton.setOnClickListener {
 
             //adapterにいれる仮データ（後で変更する）-------------------------------------
             val countList = mutableListOf<gooddata>()
 
-            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ",1,1))
+            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ","参加一覧",1))
             goodRecycle.layoutManager = LinearLayoutManager(applicationContext)
             val adapter = goodAdapter(countList,this@mypageActivity)
             goodRecycle.adapter = adapter
@@ -53,8 +54,8 @@ class mypageActivity : AppCompatActivity() {
             //adapterにいれる仮データ（後で変更する）-------------------------------------
             val countList = mutableListOf<gooddata>()
 
-            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ",1,1))
-            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ",1,1))
+            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ","投稿一覧",1))
+            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ","投稿一覧",1))
 
             goodRecycle.layoutManager = LinearLayoutManager(applicationContext)
             val adapter = goodAdapter(countList,this@mypageActivity)

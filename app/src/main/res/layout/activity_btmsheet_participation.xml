@@ -8,6 +8,13 @@
         android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="投稿を削除"
+        android:text="投稿者をブロックする"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="投稿者を通報する"
         android:textSize="24sp" />
 </LinearLayout>

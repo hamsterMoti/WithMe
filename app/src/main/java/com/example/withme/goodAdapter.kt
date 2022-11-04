@@ -1,6 +1,7 @@
 package com.example.withme
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,10 +67,19 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
             var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
             activity.startActivity(intent)
         }
-        //more画像がタップされた時の処理
+        //more画像がタップされた時ボトムシートを表示
         holder.moreimage.setOnClickListener{
-            val myBottomSheet = ntmsheet()
-            myBottomSheet.show(activity.supportFragmentManager,"navigation_bottom_sheet")
+
+            Log.v("nameaa",dateSet[position].moreimage)
+
+            if (dateSet[position].moreimage.equals("投稿一覧")){ //投稿一覧リストの場合
+                val myBottomSheet = ntmsheet()
+                myBottomSheet.show(activity.supportFragmentManager,"navigation_bottom_sheet")
+            }else if (dateSet[position].moreimage.equals("参加一覧")){ //参加一覧リストの場合
+                val myBottomSheet = btmsheet_Participation()
+                myBottomSheet.show(activity.supportFragmentManager,"navigation_bottom_sheet")
+            }
+
         }
         //ステイタスボタンをタップしたときの処理
         holder.statusImage.setOnClickListener {
