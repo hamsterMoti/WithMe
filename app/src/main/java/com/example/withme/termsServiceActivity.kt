@@ -7,8 +7,12 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import okhttp3.OkHttpClient
 
 class termsServiceActivity : AppCompatActivity() {
+    val client = OkHttpClient()
+    val myApp = myApplication.getInstance()
+    val errormsg = errorApplication.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_terms_service)
@@ -21,6 +25,9 @@ class termsServiceActivity : AppCompatActivity() {
         // チェックされたらタイムライン画面に遷移する
         nextButton.setOnClickListener{
             if(agreeCheckBox.isChecked){
+//             共通処理の値を呼び出し(URL,nickname,loginMyId,year,month,day,gender)
+//             共通処理の値をDBに保存
+//             http接続開始
                 val intent = Intent(this, timelineActivity::class.java)
                 startActivity(intent)
             }
