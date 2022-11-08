@@ -85,6 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mailaddressEdit" />
 
     <RadioGroup
+        android:id="@+id/genderRadioGroup"
         android:layout_width="182dp"
         android:layout_height="66dp"
         android:layout_marginStart="105dp"
@@ -94,13 +95,13 @@
         app:layout_constraintTop_toBottomOf="@+id/birthdayText">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/menRadioButton"
             android:layout_width="97dp"
             android:layout_height="match_parent"
             android:text="男" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/womanRadioButton"
             android:layout_width="94dp"
             android:layout_height="match_parent"
             android:text="女" />
