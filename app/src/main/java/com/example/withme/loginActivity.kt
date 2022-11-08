@@ -37,7 +37,7 @@ class loginActivity : AppCompatActivity() {
                 val myId = userEdit.text.toString()
                 val pass = passEdit.text.toString()
 //                URLを変更
-                val URL = myApp.apiUrl + "loginAuth.php?userId=$myId&password=$pass"
+                val URL ="http://34.229.155.198/with_me/loginAuth.php?userId=2200166@ecc.ac.jp&password=kayama"
                 val request = Request.Builder().url(URL).build()
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {

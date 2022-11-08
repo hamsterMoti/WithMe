@@ -47,8 +47,9 @@ class blocAdapter  (private  val dateSet:MutableList<blockDate>,private val acti
 
         //ブロック解除ボタンタップ
         holder.blockButton.setOnClickListener {
-            var intent = Intent(activity.applicationContext, MainActivity::class.java)
-            activity.startActivity(intent)
+            var blockActivity = activity as blockActivity
+            val myApp = myApplication.getInstance()
+            blockActivity.blockActivitysub(myApp)
         }
         //ボタン以外タップの場合
         holder.sonota.setOnClickListener {
