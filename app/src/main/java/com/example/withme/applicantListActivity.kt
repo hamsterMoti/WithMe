@@ -6,9 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class applicantListActivity : AppCompatActivity() {
+    val myApp = myApplication.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_applicant_list)
+
+        applicantListActivitysub(myApp)
+
+    }
+
+    fun applicantListActivitysub(myapp:myApplication){
 
         var applicantListRecyeclerView = findViewById<RecyclerView>(R.id.applicantListRecyeclerView)
 
@@ -22,7 +29,6 @@ class applicantListActivity : AppCompatActivity() {
         applicantListRecyeclerView.adapter = adapter
         //----------------------------------------------------------------------
 
-
-
     }
+
 }
