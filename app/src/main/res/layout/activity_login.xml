@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passEdit" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/passForgetGuideText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="117dp"
@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/createAccountText" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/passForgetText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="168dp"
@@ -92,5 +92,5 @@
         android:text="パスワード変更"
         android:textColor="#FF9800"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/passForgetGuideText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

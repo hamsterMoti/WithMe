@@ -30,6 +30,8 @@ class loginActivity : AppCompatActivity() {
         val userEdit = findViewById<EditText>(R.id.myIdEdit)
         val passEdit = findViewById<EditText>(R.id.passEdit)
         val emptyError = errormsg.emptyError
+        val passForgetText = findViewById<TextView>(R.id.passForgetText)
+
 
         loginButton.setOnClickListener {
 //            if (userEdit.text.toString().isEmpty()) {
@@ -44,20 +46,19 @@ class loginActivity : AppCompatActivity() {
             Log.v("ID", myId)
             Log.v("pass", pass)
 
-//                val URL = myApp.apiUrl + "loginAuth.php?userId=$myId&password=$pass"
-            val URL = myApp.apiUrl + "loginAuth.php?userId=aaa@bbb.com&password=Tanaka"
+            val URL = myApp.apiUrl + "loginAuth.php?userId=$myId&password=$pass"
+//            val URL = myApp.apiUrl + "loginAuth.php?userId=aaa@bbb.com&password=Tanaka"
 //                val URL = "http://34.229.155.198/with_me/loginAuth.php?userId=ecc@gmail.com&password=Katumura"
 //            val URL = "http://click.ecc.ac.jp/ecc/whisper_e/loginAuth.php?userId=00&password=00"
 
 
-           val request = Request.Builder().url(URL).build()
+            val request = Request.Builder().url(URL).build()
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     this@loginActivity.runOnUiThread {
                         Toast.makeText(applicationContext, "erorr", Toast.LENGTH_SHORT).show()
                     }
                 }
-
                 override fun onResponse(call: Call, response: Response) {
                     val csvStr = response.body!!.string()
                     val resultError = JSONObject(csvStr)
@@ -83,16 +84,16 @@ class loginActivity : AppCompatActivity() {
 //            }空白チェック
         }
 
-
-
         createAccountText.setOnClickListener {
             val intent = Intent(this, createaccountActivity::class.java)
             startActivity(intent)
         }
+        passForgetText.setOnClickListener {
+            val intent = Intent(this, editpasswordActivity::class.java)
+            startActivity(intent)
+
+        }
     }
-
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)
         val chat = Intent(this, chatActivity::class.java)
