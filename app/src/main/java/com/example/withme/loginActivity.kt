@@ -45,7 +45,7 @@ class loginActivity : AppCompatActivity() {
             Log.v("pass", pass)
 
 //                val URL = myApp.apiUrl + "loginAuth.php?userId=$myId&password=$pass"
-                val URL = myApp.apiUrl + "loginAuth.php?userId=aaa@bbb.com&password=Tanaka"
+            val URL = myApp.apiUrl + "loginAuth.php?userId=aaa@bbb.com&password=Tanaka"
 //                val URL = "http://34.229.155.198/with_me/loginAuth.php?userId=ecc@gmail.com&password=Katumura"
 //            val URL = "http://click.ecc.ac.jp/ecc/whisper_e/loginAuth.php?userId=00&password=00"
 
@@ -80,16 +80,16 @@ class loginActivity : AppCompatActivity() {
                     }
                 }
             })
-//            }
+//            }空白チェック
         }
 
 
 
-            createAccountText.setOnClickListener {
-                val intent = Intent(this, createaccountActivity::class.java)
-                startActivity(intent)
-            }
+        createAccountText.setOnClickListener {
+            val intent = Intent(this, createaccountActivity::class.java)
+            startActivity(intent)
         }
+    }
 
 
 
