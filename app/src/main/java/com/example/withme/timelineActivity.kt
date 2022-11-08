@@ -26,7 +26,6 @@ class timelineActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        
 
         //adapterにいれる仮データ（後で変更する）-------------------------------------
         val countList = mutableListOf<timelinedata>()
@@ -44,7 +43,7 @@ class timelineActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)
-        val chat = Intent(this, chatActivity::class.java)
+        val chat = Intent(this, chatlistActivity::class.java)
         val notification = Intent(this, notificationActivity::class.java)
         val mypage = Intent(this, mypageActivity::class.java)
         val settingsettinglist = Intent(this, settinglistActivity::class.java)

@@ -40,6 +40,7 @@ class loginActivity : AppCompatActivity() {
             val myId = userEdit.text.toString()
             val pass = passEdit.text.toString()
 //                URLを変更
+
             Log.v("ID", myId)
             Log.v("pass", pass)
 
@@ -49,7 +50,7 @@ class loginActivity : AppCompatActivity() {
 //            val URL = "http://click.ecc.ac.jp/ecc/whisper_e/loginAuth.php?userId=00&password=00"
 
 
-            val request = Request.Builder().url(URL).build()
+           val request = Request.Builder().url(URL).build()
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     this@loginActivity.runOnUiThread {

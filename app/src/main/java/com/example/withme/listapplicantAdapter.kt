@@ -41,9 +41,19 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
         //データ挿入
         holder.userText.setText(dateSet[position].userText)
 
-        //ボタン非表示処理
+        //追加ボタンタップ処理
         holder.addButton.setOnClickListener {
-            holder.rejectionButton.setVisibility(View.INVISIBLE);
+            //applicantListActivityのapplicantListActivitysub実行
+            var applicantListActivity = activity as applicantListActivity
+            val myApp = myApplication.getInstance()
+            applicantListActivity.applicantListActivitysub(myApp)
+        }
+        //拒否ボタンタップ処理
+        holder.rejectionButton.setOnClickListener {
+            //applicantListActivityのapplicantListActivitysub実行
+            var applicantListActivity = activity as applicantListActivity
+            val myApp = myApplication.getInstance()
+            applicantListActivity.applicantListActivitysub(myApp)
         }
 
     }

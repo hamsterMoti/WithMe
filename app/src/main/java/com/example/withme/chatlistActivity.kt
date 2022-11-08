@@ -5,10 +5,17 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class chatlistActivity : AppCompatActivity() {
+class chatlistActivity  : AppCompatActivity() {
+    val myApp = myApplication.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatlist)
+
+        chatlistActivitysub(myApp)
+
+    }
+
+    fun chatlistActivitysub(myapp:myApplication){
 
         val chatlistRecycle = findViewById<RecyclerView>(R.id.chatlistRecycle)
 
@@ -21,8 +28,6 @@ class chatlistActivity : AppCompatActivity() {
         val adapter = talkAdapter(countList)
         chatlistRecycle.adapter = adapter
         //----------------------------------------------------------------------
-
-
     }
 }
 
