@@ -10,13 +10,15 @@ import okhttp3.OkHttpClient
 class withdrawalActivity : AppCompatActivity() {
     val client = OkHttpClient()
     val myApp = myApplication.getInstance()
+    val errormsg = errorApplication.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_withdrawal)
 
         var withdrawalButton = findViewById<Button>(R.id.withdrawalButton)
         var nowpasswordEdit = findViewById<EditText>(R.id.nowpasswordEdit)
-        val emptyError = myApp.emptyError
+        val emptyError = errormsg.emptyError
 
         //退会ボタンが押された時の処理
         withdrawalButton.setOnClickListener {

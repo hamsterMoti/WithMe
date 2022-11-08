@@ -10,6 +10,8 @@ import okhttp3.OkHttpClient
 class passwordActivity : AppCompatActivity() {
     val client = OkHttpClient()
     val myApp = myApplication.getInstance()
+    val errormsg = errorApplication.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_password)
@@ -17,7 +19,7 @@ class passwordActivity : AppCompatActivity() {
         val passwordEdit = findViewById<EditText>(R.id.passwordEdit)
         val repasswordEdit = findViewById<EditText>(R.id.repasswordEdit)
         val nextButton = findViewById<Button>(R.id.nextButton)
-        val emptyError = myApp.emptyError
+        val emptyError = errormsg.emptyError
 
         nextButton.setOnClickListener {
             if (passwordEdit.text.toString().isEmpty()) {
@@ -26,6 +28,7 @@ class passwordActivity : AppCompatActivity() {
                 repasswordEdit.error = emptyError
             } else {
                 val intent = Intent(this, termsServiceActivity::class.java)
+//                myApp.loginUserId = passwordEdit
                 startActivity(intent)
             }
         }

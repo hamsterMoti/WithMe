@@ -27,6 +27,8 @@ class postActivity : AppCompatActivity() {
     // 日を取得
     val dd = cal.get(Calendar.DAY_OF_MONTH);
 
+    val errormsg = errorApplication.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -39,7 +41,7 @@ class postActivity : AppCompatActivity() {
 
     fun postsub(myapp:myApplication){
 
-        val emptyError = myApp.emptyError
+        val emptyError = errormsg.emptyError
         photo = findViewById<ImageView>(R.id.photo)
         recruitDaySp = findViewById<TextView>(R.id.recruitDaySp)
         val titleEdit = findViewById<EditText>(R.id.titleEdit)
