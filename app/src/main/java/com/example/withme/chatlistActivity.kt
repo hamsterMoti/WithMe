@@ -28,7 +28,7 @@ class chatlistActivity  : AppCompatActivity() {
             countList.add(talklinedata(1,"トウモロコシ","ポップコーンは美味しいよ"))
         }
         chatlistRecycle.layoutManager = LinearLayoutManager(applicationContext)
-        val adapter = talkAdapter(countList)
+        val adapter = talkAdapter(countList,this)
         chatlistRecycle.adapter = adapter
         //----------------------------------------------------------------------
     }
