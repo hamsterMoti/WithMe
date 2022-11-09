@@ -107,6 +107,12 @@ class postActivity : AppCompatActivity() {
                 if(day.length == 1){ day = "0"+day }
                 val bosyudata = ye+"-"+mon+"-"+day
 
+//                条件選択が指定なし簿場合空白にする
+                for (cnt in 1..3) {
+                    if(test[cnt] == "指定なし"){
+                        test[cnt] =""}
+                }
+
 //            入力データ確認
 //            var test = arrayListOf("性別","開始年代","終了年代","定員")
                 Log.v("alldata","タイトル-"+titleEdit.text.toString()+"種類-"+syuruiSpitem+"カテゴリ-"+categrySpitem+"日時-"+
