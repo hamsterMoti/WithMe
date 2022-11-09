@@ -18,21 +18,19 @@ class postActivity : AppCompatActivity() {
     private val REQUEST_GALLERY_TAKE = 2
     private lateinit var photo: ImageView
     private lateinit var recruitDaySp: TextView
-
-    var test = arrayListOf("0","1","2","3","4")
+    var ye = " "
+    var mon = " "
+    var day = " "
+    var test = arrayListOf("性別","開始年代","終了年代","定員")
     val myApp = myApplication.getInstance()
     var cal: Calendar = Calendar.getInstance()
-    // 年を取得
     val yyyy = cal.get(Calendar.YEAR);
-    // 月を取得(ただし0〜11のため、1を加算する)
     val mm = cal.get(Calendar.MONTH)
-    // 日を取得
     val dd = cal.get(Calendar.DAY_OF_MONTH);
 
     val errormsg = errorApplication.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
 
@@ -64,14 +62,12 @@ class postActivity : AppCompatActivity() {
         }
 
         //スピナー登録
-        val categoryarray = arrayOf("未選択", "料理・グルメ", "相談")
+        val categoryarray = arrayOf("料理・グルメ", "趣味")
         val syuruiarray = arrayOf( "同伴", "相談")
         val categoryarrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categoryarray)
         val syuruiarrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, syuruiarray)
         categrySp.adapter = categoryarrayAdapter
         syuruiSp.adapter = syuruiarrayAdapter
-        //スピナー選択取得
-        //val item = categrySp.selectedItem.toString()
 
         //募集日時textタップ処理
         recruitDaySp.setOnClickListener{
@@ -80,10 +76,11 @@ class postActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
 
+//            入力値チェック
             if ((titleEdit.text.toString().isEmpty())) {
                 titleEdit.error = emptyError
-                flag = 0 }
-            else{
+                flag = 0
+            }else{
                 flag = 1
             }
             if (contentEdit.text.toString().isEmpty()) {
@@ -101,16 +98,22 @@ class postActivity : AppCompatActivity() {
 
             if((flag == 1)&&(flag2 == 1)&&(flag3 == 1)){
 
+//             　選択されているアイテム取得
+                val categrySpitem = categrySp.selectedItem.toString()
+                val syuruiSpitem = syuruiSp.selectedItem.toString()
+
+//           　　 送るようにdata型に変更する
+                if (mon.length == 1){ mon = "0"+mon }
+                if(day.length == 1){ day = "0"+day }
+                val bosyudata = ye+"-"+mon+"-"+day
+
+//            入力データ確認
+//            var test = arrayListOf("性別","開始年代","終了年代","定員")
+                Log.v("alldata","タイトル-"+titleEdit.text.toString()+"種類-"+syuruiSpitem+"カテゴリ-"+categrySpitem+"日時-"+
+                        bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3])
+
             }
-
-            //val test = myDialogFragment().values
-
-            Log.v("date",test[0].toString())
-
-            val item = categrySp.selectedItem.toString()
-            Log.v("alldata","タイトル"+titleEdit.text.toString()+"カテゴリ"+item+"日時"+recruitDaySp.text.toString()+"内容"+contentEdit.text.toString())
         }
-
     }
 
     //ダイアログ
@@ -125,6 +128,9 @@ class postActivity : AppCompatActivity() {
             this,
             DatePickerDialog.OnDateSetListener() { view, year, month, dayOfMonth->
                 recruitDaySp.text = "${year}/${month + 1}/${dayOfMonth}"
+                ye = "${year}"
+                mon ="${month+1}"
+                day = "${dayOfMonth}"
             },
             yyyy,
             mm,

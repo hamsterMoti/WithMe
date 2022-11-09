@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment
 class myDialogFragment (var test:ArrayList<String>,con: Context): DialogFragment() {
 
     var cont = con
-    var values = arrayOf("0", "1", "2", "3")
+    var values = arrayOf("性別", "年代", "年代", "定員")
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -25,8 +25,8 @@ class myDialogFragment (var test:ArrayList<String>,con: Context): DialogFragment
         val spinner3 = customAlertView.findViewById<Spinner>(R.id.spinner3)
         val men = customAlertView.findViewById<Button>(R.id.button4)
         val woman = customAlertView.findViewById<Button>(R.id.button5)
-        men.setOnClickListener { values[0] = "男性" }
-        woman.setOnClickListener { values[0] = "女性" }
+        men.setOnClickListener { test[0] = "男" }
+        woman.setOnClickListener { test[0] = "女" }
         val age = arrayOf("指定なし", "10", "20", "30", "40", "50", "60", "70")
         val num = arrayOf("指定なし", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
 
