@@ -1,34 +1,50 @@
 package com.example.withme
 
+//import sun.security.krb5.Confounder.bytes
+//import jdk.nashorn.internal.objects.NativeRegExp.source
 import android.app.DatePickerDialog
+import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import java.time.chrono.JapaneseEra.values
+import okhttp3.OkHttpClient
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.util.*
+
 
 class postActivity : AppCompatActivity() {
 
     private val REQUEST_GALLERY_TAKE = 2
     private lateinit var photo: ImageView
     private lateinit var recruitDaySp: TextView
-    var ye = " "
-    var mon = " "
-    var day = " "
+    private lateinit var bitmap: Bitmap
+    private lateinit var jpgarr: ByteArray
+    private  lateinit var b64Encode:String
+    var ye = ""
+    var mon = ""
+    var day = ""
     var test = arrayListOf("性別","開始年代","終了年代","定員")
     val myApp = myApplication.getInstance()
     var cal: Calendar = Calendar.getInstance()
     val yyyy = cal.get(Calendar.YEAR);
     val mm = cal.get(Calendar.MONTH)
     val dd = cal.get(Calendar.DAY_OF_MONTH);
-
     val errormsg = errorApplication.getInstance()
+    var client = OkHttpClient()
+    
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +132,9 @@ class postActivity : AppCompatActivity() {
 //            入力データ確認
 //            var test = arrayListOf("性別","開始年代","終了年代","定員")
                 Log.v("alldata","タイトル-"+titleEdit.text.toString()+"種類-"+syuruiSpitem+"カテゴリ-"+categrySpitem+"日時-"+
-                        bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3])
+                        bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3]+b64Encode)
+
+
 
             }
         }
@@ -144,6 +162,7 @@ class postActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
+
     //ギャラリーを開くためのメソッド
     private fun openGalleryForImage() {
         //ギャラリーに画面を遷移するためのIntent
@@ -153,18 +172,34 @@ class postActivity : AppCompatActivity() {
     }
 
 
-    // onActivityResultにイメージ設定
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode){
-            2 -> {
-                if (resultCode == RESULT_OK && requestCode == REQUEST_GALLERY_TAKE){
-                    //選択された写真にImageViewを変更
-                    photo.setImageURI(data?.data) // handle chosen image
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int,
+        resultData: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if (requestCode == REQUEST_GALLERY_TAKE && resultCode == RESULT_OK) {
+            var uri: Uri? = null
+            if (resultData != null) {
+                uri = resultData.data
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                    photo.setImageBitmap(bitmap)
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             }
         }
+
+        var baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        jpgarr = baos.toByteArray()
+        b64Encode= Base64.getEncoder().encodeToString(jpgarr)
+
     }
+
+
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)
