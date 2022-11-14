@@ -18,7 +18,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import okhttp3.OkHttpClient
+import okhttp3.*
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
@@ -26,6 +27,7 @@ import java.util.*
 
 class postActivity : AppCompatActivity() {
 
+    val client = OkHttpClient()
     private val REQUEST_GALLERY_TAKE = 2
     private lateinit var photo: ImageView
     private lateinit var recruitDaySp: TextView
@@ -42,9 +44,6 @@ class postActivity : AppCompatActivity() {
     val mm = cal.get(Calendar.MONTH)
     val dd = cal.get(Calendar.DAY_OF_MONTH);
     val errormsg = errorApplication.getInstance()
-    var client = OkHttpClient()
-    
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,6 +132,40 @@ class postActivity : AppCompatActivity() {
 //            var test = arrayListOf("性別","開始年代","終了年代","定員")
                 Log.v("alldata","タイトル-"+titleEdit.text.toString()+"種類-"+syuruiSpitem+"カテゴリ-"+categrySpitem+"日時-"+
                         bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3]+b64Encode)
+
+
+                val url  = "https://click.ecc.ac.jp/ecc/whisper_e/whisperAdd2.php"
+                val body = FormBody.Builder()
+                    .add("userId", "00")
+                    .add("content", "aaa")
+                    .add("image", b64Encode)
+                    .build()
+                val request = Request.Builder().url(url).post(body).build()
+
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        this@postActivity.runOnUiThread {
+                            Toast.makeText(applicationContext, "erorr", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onResponse(call: Call, response: Response) {
+                        val csvStr = response.body!!.string()
+                        val resultError = JSONObject(csvStr)
+                        if (resultError.getString("result") == "error") {
+                            this@postActivity.runOnUiThread {
+                                Toast.makeText(
+                                    applicationContext,
+                                    errormsg.notMatch,
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        } else if (resultError.getString("result") == "success") {
+                            this@postActivity.runOnUiThread {
+                            }
+                        }
+                    }
+                })
 
 
 
