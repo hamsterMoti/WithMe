@@ -91,25 +91,25 @@ class postActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
 
-//            入力値チェック
-            if ((titleEdit.text.toString().isEmpty())) {
-                titleEdit.error = emptyError
-                flag = 0
-            }else{
-                flag = 1
-            }
-            if (contentEdit.text.toString().isEmpty()) {
-                contentEdit.error = emptyError
-                flag2 = 0
-            }else{
-                flag2 = 1
-            }
-            if(recruitDaySp.text.toString()=="タップしてください"){
-                Toast.makeText(this , "募集期間を入力してください", Toast.LENGTH_LONG).show();
-                flag3 = 0
-            }else{
-                flag3 = 1
-            }
+////            入力値チェック
+//            if ((titleEdit.text.toString().isEmpty())) {
+//                titleEdit.error = emptyError
+//                flag = 0
+//            }else{
+//                flag = 1
+//            }
+//            if (contentEdit.text.toString().isEmpty()) {
+//                contentEdit.error = emptyError
+//                flag2 = 0
+//            }else{
+//                flag2 = 1
+//            }
+//            if(recruitDaySp.text.toString()=="タップしてください"){
+//                Toast.makeText(this , "募集期間を入力してください", Toast.LENGTH_LONG).show();
+//                flag3 = 0
+//            }else{
+//                flag3 = 1
+//            }
 
             if((flag == 1)&&(flag2 == 1)&&(flag3 == 1)){
 
@@ -137,7 +137,7 @@ class postActivity : AppCompatActivity() {
                 val url  = "https://click.ecc.ac.jp/ecc/whisper_e/whisperAdd2.php"
                 val body = FormBody.Builder()
                     .add("userId", "00")
-                    .add("content", "aaa")
+                    .add("content", "１１１１")
                     .add("image", b64Encode)
                     .build()
                 val request = Request.Builder().url(url).post(body).build()
@@ -217,6 +217,7 @@ class postActivity : AppCompatActivity() {
                 uri = resultData.data
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                    //bitmap = Bitmap.createScaledBitmap(bitmap, 30, 30, true);
                     photo.setImageBitmap(bitmap)
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -226,8 +227,11 @@ class postActivity : AppCompatActivity() {
 
         var baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-        jpgarr = baos.toByteArray()
-        b64Encode= Base64.getEncoder().encodeToString(jpgarr)
+
+
+        //jpgarr = baos.toByteArray()
+        //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
+        //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
 
     }
 
