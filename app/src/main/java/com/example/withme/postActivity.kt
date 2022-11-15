@@ -2,8 +2,9 @@ package com.example.withme
 
 //import sun.security.krb5.Confounder.bytes
 //import jdk.nashorn.internal.objects.NativeRegExp.source
+//awsS3で使用
+
 import android.app.DatePickerDialog
-import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -18,6 +19,10 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import com.amazonaws.services.s3.AmazonS3Client
 import okhttp3.*
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -25,8 +30,15 @@ import java.io.IOException
 import java.util.*
 
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import java.io.File
+
+
 class postActivity : AppCompatActivity() {
 
+    var uri: Uri? = null
     val client = OkHttpClient()
     private val REQUEST_GALLERY_TAKE = 2
     private lateinit var photo: ImageView
@@ -91,6 +103,40 @@ class postActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
 
+            //S3へアップロード---
+//            val accessKey = "[IAMで作成したアクセスキー]"
+//            val secKey = "[IAMで作成したシークレットキー]"
+//            val buchet = "[作成したバケット名]"
+//            var path = uri.toString()
+//            // AWS認証情報の作成
+//            var BasicAWSCredentials  = BasicAWSCredentials(accessKey, secKey)
+//            var AmazonS3Client  =  AmazonS3Client(BasicAWSCredentials)
+//            //クライアント接続用オブジェクト
+//            var TransferUtility  =  TransferUtility(AmazonS3Client, getApplicationContext());//転送用オブジェクト
+//            //バケット名,S3内のファイル名(デイレクトり指定も可能),uploadファイル
+//            var TransferObserver  = TransferUtility.upload(buchet, "[upload時のファイル名]",  java.io.File(path))
+//
+//            //log出力用
+//            TransferObserver.setTransferListener(object : TransferListener {
+//                override fun onStateChanged(id: Int, state: TransferState) {
+//                    Log.d("AwsSample", "status: $state")
+//                } //完了時(COMPLETED)
+//
+//                override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
+//                    Log.d(
+//                        "AwsSample",
+//                        "progress: $id bytesCurrent:$bytesCurrent bytesTotal:$bytesTotal"
+//                    )
+//                } //転送時
+//                override fun onError(id: Int, ex: Exception) {
+//                    ex.printStackTrace()
+//                    Log.d("AwsSample", "失敗")
+//                } //失敗時
+//            })
+            //-----
+
+
+
 ////            入力値チェック
 //            if ((titleEdit.text.toString().isEmpty())) {
 //                titleEdit.error = emptyError
@@ -111,7 +157,7 @@ class postActivity : AppCompatActivity() {
 //                flag3 = 1
 //            }
 
-            if((flag == 1)&&(flag2 == 1)&&(flag3 == 1)){
+ //           if((flag == 1)&&(flag2 == 1)&&(flag3 == 1)){
 
 //             　選択されているアイテム取得
                 val categrySpitem = categrySp.selectedItem.toString()
@@ -133,43 +179,43 @@ class postActivity : AppCompatActivity() {
                 Log.v("alldata","タイトル-"+titleEdit.text.toString()+"種類-"+syuruiSpitem+"カテゴリ-"+categrySpitem+"日時-"+
                         bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3]+b64Encode)
 
+//                post通信
+//                val url  = "https://click.ecc.ac.jp/ecc/whisper_e/whisperAdd2.php"
+//                val body = FormBody.Builder()
+//                    .add("userId", "00")
+//                    .add("content", "１１１１")
+//                    .add("image", b64Encode)
+//                    .build()
+//                val request = Request.Builder().url(url).post(body).build()
+//
+//                client.newCall(request).enqueue(object : Callback {
+//                    override fun onFailure(call: Call, e: IOException) {
+//                        this@postActivity.runOnUiThread {
+//                            Toast.makeText(applicationContext, "erorr", Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                    override fun onResponse(call: Call, response: Response) {
+//                        val csvStr = response.body!!.string()
+//                        val resultError = JSONObject(csvStr)
+//                        if (resultError.getString("result") == "error") {
+//                            this@postActivity.runOnUiThread {
+//                                Toast.makeText(
+//                                    applicationContext,
+//                                    errormsg.notMatch,
+//                                    Toast.LENGTH_SHORT
+//                                )
+//                                    .show()
+//                            }
+//                        } else if (resultError.getString("result") == "success") {
+//                            this@postActivity.runOnUiThread {
+//                            }
+//                        }
+//                    }
+//                })
+//
 
-                val url  = "https://click.ecc.ac.jp/ecc/whisper_e/whisperAdd2.php"
-                val body = FormBody.Builder()
-                    .add("userId", "00")
-                    .add("content", "１１１１")
-                    .add("image", b64Encode)
-                    .build()
-                val request = Request.Builder().url(url).post(body).build()
 
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        this@postActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, "erorr", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    override fun onResponse(call: Call, response: Response) {
-                        val csvStr = response.body!!.string()
-                        val resultError = JSONObject(csvStr)
-                        if (resultError.getString("result") == "error") {
-                            this@postActivity.runOnUiThread {
-                                Toast.makeText(
-                                    applicationContext,
-                                    errormsg.notMatch,
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                            }
-                        } else if (resultError.getString("result") == "success") {
-                            this@postActivity.runOnUiThread {
-                            }
-                        }
-                    }
-                })
-
-
-
-            }
+            //}
         }
     }
 
@@ -212,23 +258,21 @@ class postActivity : AppCompatActivity() {
     ) {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (requestCode == REQUEST_GALLERY_TAKE && resultCode == RESULT_OK) {
-            var uri: Uri? = null
             if (resultData != null) {
                 uri = resultData.data
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                    //bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
                     //bitmap = Bitmap.createScaledBitmap(bitmap, 30, 30, true);
-                    photo.setImageBitmap(bitmap)
+                    photo.setImageURI(uri)
+                    Log.v("uri",uri.toString())
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             }
         }
 
-        var baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-
-
+        //var baos = ByteArrayOutputStream()
+        //bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
         //jpgarr = baos.toByteArray()
         //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
         //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
