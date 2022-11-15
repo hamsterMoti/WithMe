@@ -3,13 +3,20 @@ package com.example.withme
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 class notificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val client = OkHttpClient()
+        val myApp = myApplication.getInstance()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification2)
 
@@ -22,9 +29,63 @@ class notificationActivity : AppCompatActivity() {
         countList.add(notificationDate(1,"talkがきたよ",))
 
         notificationRecycle.layoutManager = LinearLayoutManager(applicationContext)
-        val adapter = notificationAdapter(countList)
+        val adapter = notificationAdapter(countList,this@notificationActivity)
         notificationRecycle.adapter = adapter
         //----------------------------------------------------------------------
+
+
+        //var apiUrl = myApp.apiUrl
+        var apiUrl = "http://34.229.9.247/with_me/notifyList.php?userId=2200166@ecc.ac.jp"
+        val request = Request.Builder().url(apiUrl).build()
+        val errorText = "エラー"
+        // Log.v("blockurl",apiUrl)
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                this@notificationActivity.runOnUiThread {
+                    Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onResponse(call: Call, response: Response) {
+
+                val csvStr = response.body!!.string()
+                val resultError = JSONObject(csvStr)
+
+
+                if(resultError.getString("result") == "error") {
+                    this@notificationActivity.runOnUiThread {
+                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }else if(resultError.getString("result") == "succes"){
+                    this@notificationActivity.runOnUiThread {
+                        Log.v("blockurl",apiUrl)
+                        val date =resultError.getJSONArray("blockList")
+                        val listlisrt = mutableListOf<notificationDate>()
+
+                        //データが存在する間listにデータを挿入する
+                        for (i in 0 until date.length()) {
+                            var json = date.getJSONObject(i)
+
+                            var notifyContent = json.getString("notifyContent")
+                            var notifyDate = json.getString("notifyDate")
+                            
+                            Log.v("blockinfo","notifyContent:" + notifyContent+"notifyDate"+notifyDate)
+                            listlisrt.add(notificationDate(1,notifyContent))
+
+                        }
+
+                        notificationRecycle.layoutManager = LinearLayoutManager(applicationContext)
+                        val adapter = notificationAdapter(listlisrt,this@notificationActivity)
+                        notificationRecycle.adapter = adapter
+
+                    }
+                }
+            }
+        })
+
+
+
+
 
     }
 
