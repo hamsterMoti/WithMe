@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class notificationAdapter  (private  val dateSet:MutableList<notificationDate>):RecyclerView.Adapter<notificationAdapter.ViewHoldew>() {
+class notificationAdapter  (private  val dateSet:MutableList<notificationDate>,private val activity : AppCompatActivity):RecyclerView.Adapter<notificationAdapter.ViewHoldew>() {
 
     class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
         var userImage:ImageView

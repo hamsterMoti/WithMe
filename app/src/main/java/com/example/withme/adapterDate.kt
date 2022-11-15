@@ -42,10 +42,10 @@ data class notificationDate( //notificationのデータ
 
 data class blockDate( //blockのデータ
 
-    var userImage:Int,
-    var usernameText:String,
-    var profileText:String,
-    var blockButton:Int,
+    var userId:String,
+    var userName:String,
+    var icon:String,
+    var profile:String,
 
     )
 data class applicantDate(

@@ -8,8 +8,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationRecycle"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="354dp"
+        android:layout_height="629dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
