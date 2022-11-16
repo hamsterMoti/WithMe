@@ -17,7 +17,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
             <!--            <SearchView-->
@@ -32,23 +32,23 @@
 
             <EditText
                 android:id="@+id/editTextTextPersonName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="318dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="検索"
                 android:inputType="textPersonName" />
-
+            <!--絞り込み-->
+            <ImageView
+                android:id="@+id/tuneImage"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_baseline_tune_24" />
+            <!--並び替え-->
             <ImageView
                 android:id="@+id/adjustImage"
-                android:layout_width="34dp"
-                android:layout_height="36dp"
-                app:srcCompat="@drawable/ic_baseline_tune_24" />
-
-            <ImageView
-                android:id="@+id/sortImage"
-                android:layout_width="27dp"
-                android:layout_height="36dp"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:rotation="91"
                 app:srcCompat="@drawable/ic_baseline_multiple_stop_24" />
