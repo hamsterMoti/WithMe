@@ -2,6 +2,7 @@ package com.example.withme
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -22,8 +23,10 @@ class timelineActivity : AppCompatActivity() {
 
         val timelineRecycl = findViewById<RecyclerView>(R.id.profileRecyclerView)
         val fab: View = findViewById(R.id.fab)
+//        絞り込み
         val adjustImage = findViewById<ImageView>(R.id.adjustImage)
-
+//        並び替え
+        val tuneImage = findViewById<ImageView>(R.id.tuneImage)
 
         //FABボタンタップ処理
         fab.setOnClickListener { view ->
@@ -52,21 +55,36 @@ class timelineActivity : AppCompatActivity() {
                 R.layout.adjustbottomseet,
                 findViewById(R.id.bottomSheet) as LinearLayout?
             )
-//            bottomSheetView.findViewById<View>(R.id.cancel_button).setOnClickListener {
-//
+            bottomSheetView.findViewById<View>(R.id.newPost).setOnClickListener {
+//          新着順に並び替える
+                Log.v("newpost","新着順")
 //                Toast.makeText(this@timelineActivity, "cancel", Toast.LENGTH_SHORT).show()
-//            }
+            }
+            bottomSheetView.findViewById<View>(R.id.oldPost).setOnClickListener {
+//          投稿順に並び替える
+                Log.v("oldpost","投稿順")
+            }
+            bottomSheetView.findViewById<View>(R.id.oldPost).setOnClickListener {
+//          締め切り近いに並び替える
+                Log.v("deadlinePost","締め切り近い")
+            }
+
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.show()
         }
+        tuneImage.setOnClickListener {
+            val bottomSheetDialog = BottomSheetDialog(
+                this@timelineActivity, R.style.BottomSheetDialogTheme
+            )
+            val tunebottomSheetView = LayoutInflater.from(applicationContext).inflate(
+                R.layout.tune_bottom_sheet,
+                findViewById(R.id.tunebottomSheet) as LinearLayout?
+            )
 
-
-
+            bottomSheetDialog.setContentView(tunebottomSheetView)
+            bottomSheetDialog.show()
+        }
     }
-
-
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)
         val chat = Intent(this, chatlistActivity::class.java)
