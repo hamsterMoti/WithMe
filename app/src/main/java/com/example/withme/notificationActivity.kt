@@ -22,20 +22,10 @@ class notificationActivity : AppCompatActivity() {
 
         val notificationRecycle = findViewById<RecyclerView>(R.id.notificationRecycle)
 
-        //adapterにいれる仮データ（後で変更する）-------------------------------------
-        val countList = mutableListOf<notificationDate>()
-
-        countList.add(notificationDate(1,"talkが来たよ"))
-        countList.add(notificationDate(1,"talkがきたよ",))
-
-        notificationRecycle.layoutManager = LinearLayoutManager(applicationContext)
-        val adapter = notificationAdapter(countList,this@notificationActivity)
-        notificationRecycle.adapter = adapter
-        //----------------------------------------------------------------------
 
 
         //var apiUrl = myApp.apiUrl
-        var apiUrl = "http://34.229.9.247/with_me/notifyList.php?userId=2200166@ecc.ac.jp"
+        var apiUrl = "http://100.26.59.120/with_me/notifyList.php?userId=2200166@ecc.ac.jp"
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
         // Log.v("blockurl",apiUrl)

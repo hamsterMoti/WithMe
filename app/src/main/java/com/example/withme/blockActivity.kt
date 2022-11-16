@@ -29,19 +29,9 @@ class blockActivity : AppCompatActivity() {
 
         val blockrecycle = findViewById<RecyclerView>(R.id.blockrecycle)
 
-        //adapterにいれる仮データ（後で変更する）-------------------------------------
-        val countList = mutableListOf<blockDate>()
-        for (i in 1..20){
-            countList.add(blockDate("a","トウモロコシ","トマト嫌い","a"))
-        }
-//        blockrecycle.layoutManager = LinearLayoutManager(applicationContext)
-//        val adapter = blocAdapter(countList,this)
-//        blockrecycle.adapter = adapter
-        //----------------------------------------------------------------------
-
 
         //var apiUrl = myApp.apiUrl
-        var apiUrl = "http://34.229.9.247/with_me/blockList.php?userId=2200166@ecc.ac.jp"
+        var apiUrl = "http://100.26.59.120/with_me/blockList.php?userId=2200166@ecc.ac.jp"
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
        // Log.v("blockurl",apiUrl)
