@@ -51,6 +51,10 @@ data class blockDate( //blockのデータ
 data class applicantDate(
     var userImage:Int,
     var userText:String,
-    var addButton:Int,
-    var rejectionButton:Int
+    var userId:String,
+    var age:String,
+    var gender:String,
+    var addFlg:Int,
+    var postNo:String,
+    var roomFlg:Int
 )

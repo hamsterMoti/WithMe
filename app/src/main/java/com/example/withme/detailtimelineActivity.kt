@@ -22,6 +22,7 @@ class detailtimelineActivity : AppCompatActivity() {
     val client = OkHttpClient()
     val myApp = myApplication.getInstance()
     var postNo = ""
+    var userId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +43,12 @@ class detailtimelineActivity : AppCompatActivity() {
         val DMButton = findViewById<Button>(R.id.DMButton)
         val oubobutton = findViewById<Button>(R.id.oubobutton)
 
+        //val loginuserId = myApp.loginMyId
+ //       var postNo = intent.getStringExtra("postNo")
+        var postNo = "6"
+        var loginuserId = "2200166@ecc.ac.jp"
 
-
-
-
-        var apiUrl = "http://100.26.59.120/with_me/postDetail.php?postNo=3&loginUserId=2200166@ecc.ac.jp"
+        var apiUrl = myApp.apiUrl+"postDetail.php?postNo="+postNo+"&loginUserId=" + loginuserId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
         // Log.v("blockurl",apiUrl)
@@ -71,11 +73,11 @@ class detailtimelineActivity : AppCompatActivity() {
                     this@detailtimelineActivity.runOnUiThread {
 
                         postNo = resultError.getString("postNo")
-                        var userId = resultError.getString("userId")
+                        userId = resultError.getString("userId")
                         var userName = resultError.getString("userName")
                         var icon = resultError.getString("icon")
                         var postDate = resultError.getString("postDate")
-                        var title = resultError.getString("title")
+                        title = resultError.getString("title")
                         var categoryName = resultError.getString("categoryName")
                         var content = resultError.getString("content")
                         var image = resultError.getString("image")
@@ -87,7 +89,6 @@ class detailtimelineActivity : AppCompatActivity() {
                         var status = resultError.getString("status")
                         var recFlag = resultError.getString("recFlag")
                         var appFlag = resultError.getString("appFlag")
-
                         val date =resultError.getJSONArray("postCommentList")
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {
@@ -97,9 +98,7 @@ class detailtimelineActivity : AppCompatActivity() {
                             var commenterId = json.getString("commenterId")
                             var commenterIcon = json.getString("commenterIcon")
                             var comment = json.getString("comment")
-
                         }
-
                         postdayText.setText(postDate)
                         titleName.setText(title)
                         overviewText.setText(content)
@@ -122,16 +121,40 @@ class detailtimelineActivity : AppCompatActivity() {
                 }
             }
     })
-
-
         oubobutton.setOnClickListener {
+//            if(loginuserId==userId){//投稿一覧画面へ遷移
             var intent = Intent(applicationContext, applicantListActivity::class.java)
+            intent.putExtra("title",title)
             intent.putExtra("postNo",postNo)
             startActivity(intent)
-
-        }
-
-
+//            }else{//応募処理
+//                var apiUrl = "http://100.26.59.120/with_me/applyCtl.php?loginUserId=aaa@bbb.com&postNo="+postNo+"&appFlag=null"
+//                val request = Request.Builder().url(apiUrl).build()
+//                val errorText = "エラー"
+//                // Log.v("blockurl",apiUrl)
+//                client.newCall(request).enqueue(object : Callback {
+//                    override fun onFailure(call: Call, e: IOException) {
+//                        this@detailtimelineActivity.runOnUiThread {
+//                            Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                    override fun onResponse(call: Call, response: Response) {
+//                        val csvStr = response.body!!.string()
+//                        val resultError = JSONObject(csvStr)
+//                        if(resultError.getString("result") == "error") {
+//                            this@detailtimelineActivity.runOnUiThread {
+//                                Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
+//                                    .show()
+//                            }
+//                        }else if(resultError.getString("result") == "success"){
+//                            this@detailtimelineActivity.runOnUiThread {
+//                                Toast.makeText(applicationContext, "応募しました", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                    }
+//                })
+        //                }
+            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
