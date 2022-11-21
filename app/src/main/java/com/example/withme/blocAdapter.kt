@@ -78,8 +78,6 @@ class blocAdapter  (private  val dateSet:MutableList<blockDate>,private val acti
                 }
             })
 
-
-
         }
         //ボタン以外タップの場合
         holder.sonota.setOnClickListener {

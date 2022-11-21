@@ -4,11 +4,12 @@ package com.example.withme
 //import jdk.nashorn.internal.objects.NativeRegExp.source
 //awsS3で使用
 
+
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,31 +17,28 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import com.amazonaws.auth.BasicAWSCredentials
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
+import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.model.CannedAccessControlList
 import okhttp3.*
-import org.json.JSONObject
-import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
 
-import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
-import java.io.File
-
 
 class postActivity : AppCompatActivity() {
 
+    private lateinit var file: File
+    private lateinit var imageFile: File
     var uri: Uri? = null
     val client = OkHttpClient()
     private val REQUEST_GALLERY_TAKE = 2
+    private val TEMP_FILE_NAME = "temp_upload_image"
     private lateinit var photo: ImageView
     private lateinit var recruitDaySp: TextView
     private lateinit var bitmap: Bitmap
@@ -103,19 +101,26 @@ class postActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
 
-            //S3へアップロード---
-//            val accessKey = "[IAMで作成したアクセスキー]"
-//            val secKey = "[IAMで作成したシークレットキー]"
-//            val buchet = "[作成したバケット名]"
-//            var path = uri.toString()
+//                var credentialsProvider = AWSUtil.getCredentialsProvider(this@postActivity)
+//                var  s3 = AmazonS3Client(credentialsProvider)
+//                var transferUtility = TransferUtility(s3, this@postActivity.getApplicationContext());
+//                var transferObserver = transferUtility.upload("my_bucket", "my_images/01.jpg", file, CannedAccessControlList.PublicRead)
+
+
+
+//            S3へアップロード---
+//            val accessKey = "AKIA4QEAAAZWJYAHMEM"
+//            val secKey = "HXpsa8coRXhVPKUROb7KfIK7qRuoZN01HE5AyYg4"
+//            val buchet = "with-me"
+//            var path = "ストレージ/DCIM/Camera/IMG20221114142504.jpg"
 //            // AWS認証情報の作成
-//            var BasicAWSCredentials  = BasicAWSCredentials(accessKey, secKey)
-//            var AmazonS3Client  =  AmazonS3Client(BasicAWSCredentials)
-//            //クライアント接続用オブジェクト
-//            var TransferUtility  =  TransferUtility(AmazonS3Client, getApplicationContext());//転送用オブジェクト
-//            //バケット名,S3内のファイル名(デイレクトり指定も可能),uploadファイル
-//            var TransferObserver  = TransferUtility.upload(buchet, "[upload時のファイル名]",  java.io.File(path))
-//
+//            var  basicAWSCredentials =  BasicAWSCredentials(accessKey, secKey)
+//            var s3Client =  AmazonS3Client(basicAWSCredentials)
+//            //クライアント接続用オブジェクトsInstance
+//            var transferUtility =  TransferUtility(s3Client, getApplicationContext());//転送用オブジェクト
+//            バケット名,S3内のファイル名(デイレクトり指定も可能),uploadファイル
+//            var TransferObserver  = transferUtility.upload(buchet, "tomato",  java.io.File(uri.toString()))
+
 //            //log出力用
 //            TransferObserver.setTransferListener(object : TransferListener {
 //                override fun onStateChanged(id: Int, state: TransferState) {
@@ -133,7 +138,7 @@ class postActivity : AppCompatActivity() {
 //                    Log.d("AwsSample", "失敗")
 //                } //失敗時
 //            })
-            //-----
+//            //-----
 
 
 
@@ -173,6 +178,8 @@ class postActivity : AppCompatActivity() {
                     if(test[cnt] == "指定なし"){
                         test[cnt] =""}
                 }
+
+
 
 //            入力データ確認
 //            var test = arrayListOf("性別","開始年代","終了年代","定員")
@@ -244,14 +251,14 @@ class postActivity : AppCompatActivity() {
 
     //ギャラリーを開くためのメソッド
     private fun openGalleryForImage() {
+
         //ギャラリーに画面を遷移するためのIntent
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_GALLERY_TAKE)
+
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(
         requestCode: Int, resultCode: Int,
         resultData: Intent?
@@ -260,9 +267,10 @@ class postActivity : AppCompatActivity() {
         if (requestCode == REQUEST_GALLERY_TAKE && resultCode == RESULT_OK) {
             if (resultData != null) {
                 uri = resultData.data
+
                 try {
-                    //bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
-                    //bitmap = Bitmap.createScaledBitmap(bitmap, 30, 30, true);
+                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
                     photo.setImageURI(uri)
                     Log.v("uri",uri.toString())
                 } catch (e: IOException) {
@@ -272,11 +280,40 @@ class postActivity : AppCompatActivity() {
         }
 
         //var baos = ByteArrayOutputStream()
-        //bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        file = File(File(java.lang.String.valueOf(this@postActivity.getExternalCacheDir())), TEMP_FILE_NAME)
+        var fos: FileOutputStream? = null
+        file.createNewFile()
+        fos = FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
         //jpgarr = baos.toByteArray()
         //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
         //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
 
+    }
+
+    private fun createUploadFile(context: Context, bitmap: Bitmap): File? {
+        val file: File =
+            File(File(java.lang.String.valueOf(context.getExternalCacheDir())), TEMP_FILE_NAME)
+        var fos: FileOutputStream? = null
+        try {
+            file.createNewFile()
+            fos = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            // TODO handle error
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.flush()
+                    fos.close()
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                // TODO handle error
+            }
+        }
+        return file
     }
 
 

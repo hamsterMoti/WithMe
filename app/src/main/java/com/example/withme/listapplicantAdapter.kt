@@ -1,26 +1,37 @@
 package com.example.withme
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 
 class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,private val activity : AppCompatActivity): RecyclerView.Adapter<listapplicantAdapter.ViewHoldew>() {
 
+    var createflag = 0 //部屋がない＝０　あり＝１
+    val myApp = myApplication.getInstance()
+    val client = OkHttpClient()
+
     class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
         var userImage:ImageView
         var userText:TextView
+        var agegender:TextView
         var addButton:Button
         var rejectionButton	:Button
 
         init {
             userImage = item.findViewById(R.id.userImage)
             userText = item.findViewById(R.id.userText)
+            agegender = item.findViewById(R.id.agegender)
             addButton = item.findViewById(R.id.addButton)
             rejectionButton = item.findViewById(R.id.rejectionButton)
 
@@ -40,20 +51,75 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
 
         //データ挿入
         holder.userText.setText(dateSet[position].userText)
+        holder.agegender.setText(dateSet[position].age+"歳　"+dateSet[position].gender)
+        Log.v("kakunin","adapterstart"+dateSet[position].userText)
 
-        //追加ボタンタップ処理
-        holder.addButton.setOnClickListener {
-            //applicantListActivityのapplicantListActivitysub実行
-            var applicantListActivity = activity as applicantListActivity
-            val myApp = myApplication.getInstance()
-            applicantListActivity.applicantListActivitysub(myApp)
-        }
-        //拒否ボタンタップ処理
-        holder.rejectionButton.setOnClickListener {
-            //applicantListActivityのapplicantListActivitysub実行
-            var applicantListActivity = activity as applicantListActivity
-            val myApp = myApplication.getInstance()
-            applicantListActivity.applicantListActivitysub(myApp)
+        if(dateSet[position].addFlg == 2){//既にグループに追加済みの場合
+            holder.rejectionButton.setVisibility(View.INVISIBLE)
+            holder.addButton.setText("追加済み")
+            Log.v("kakunin","追加済み")
+        }else{
+            Log.v("kakunin","未追加")
+
+            //追加ボタンタップ処理
+            holder.addButton.setOnClickListener {
+                Log.v("kakunin","ボタン押された")
+                if(dateSet[position].roomFlg==1){
+                    Log.v("kakunin","部屋無")
+                    Toast.makeText(activity.applicationContext, "部屋がありません", Toast.LENGTH_SHORT).show()
+                }else{
+                    Log.v("kakunin","部屋あり")
+
+                    //あとで可能なら変更する
+                    holder.rejectionButton.setVisibility(View.INVISIBLE)
+                    holder.addButton.setText("追加済み")
+
+
+                    //ユーザ追加処理
+                    var apiUrl = myApp.apiUrl+"memberAdd.php?userId="+dateSet[position].userId+"&roomNo="+dateSet[position].postNo
+                    val request = Request.Builder().url(apiUrl).build()
+                    val errorText = "エラー"
+                    Log.v("blockurl", apiUrl.toString())
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            this@listapplicantAdapter.activity.runOnUiThread {
+                                Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                                Log.v("kakunin", "エラー１".toString())
+                            }
+                        }
+                        override fun onResponse(call: Call, response: Response) {
+                            val csvStr = response.body!!.string()
+                            val resultError = JSONObject(csvStr)
+                            if(resultError.getString("result") == "error") {
+                                this@listapplicantAdapter.activity.runOnUiThread {
+                                    Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT)
+                                        .show()
+                                    Log.v("kakunin", "エラー".toString())
+                                }
+                            }else if(resultError.getString("result") == "succes"){
+                                this@listapplicantAdapter.activity.runOnUiThread {
+                                    Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT)
+                                        .show()
+                                    Log.v("kakunin", "成功".toString())
+                                    //applicantListActivityのapplicantListActivitysub実行
+                                    var applicantListActivity = activity as applicantListActivity
+                                    val myApp = myApplication.getInstance()
+                                    applicantListActivity.applicantListActivitysub(myApp,dateSet[position].postNo)
+
+                                }
+                            }
+                        }
+                    })
+                }
+
+            }
+            //拒否ボタンタップ処理
+            holder.rejectionButton.setOnClickListener {
+                //applicantListActivityのapplicantListActivitysub実行
+                var applicantListActivity = activity as applicantListActivity
+                val myApp = myApplication.getInstance()
+                applicantListActivity.applicantListActivitysub(myApp,dateSet[position].postNo)
+            }
         }
 
     }
