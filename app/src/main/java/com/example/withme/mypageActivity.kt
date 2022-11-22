@@ -1,16 +1,44 @@
 package com.example.withme
 
 import android.content.Intent
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 class mypageActivity : AppCompatActivity() {
+    val myApp = myApplication.getInstance()
+    val client = OkHttpClient()
+
+    var addresId = ""
+    var userName = ""
+    var profile =""
+    var icon = ""
+    var age =""
+    var gender = ""
+    var flag = ""
+    var post_postNo =""
+    var post_image = ""
+    var post_title1 = ""
+    var post_content = ""
+    var post_status = ""
+    var apply_postNo = ""
+    var apply_image = ""
+    var apply_content =""
+    var apply_title = ""
+    var apply_status = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage)
@@ -20,53 +48,104 @@ class mypageActivity : AppCompatActivity() {
         val postButton = findViewById<ImageView>(R.id.postButton)
         val editprofileButton = findViewById<Button>(R.id.editprofileButton)
 
-
        //editprofileボタンタップ時の処理
         editprofileButton.setOnClickListener {
             var intent = Intent(applicationContext, editprofileActivity::class.java)
             startActivity(intent)
         }
-        
-        //adapterにいれる仮データ（後で変更する）-------------------------------------
-        val countList = mutableListOf<gooddata>()
 
-        //moreimage : 0 = 投稿一覧　1 = 参加一覧
-        countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ","投稿一覧",1))
-        goodRecycle.layoutManager = LinearLayoutManager(applicationContext)
-        val adapter = goodAdapter(countList,this@mypageActivity)
-        goodRecycle.adapter = adapter
-        //----------------------------------------------------------------------
+        mypageActivitysub(myApp)
+    }
 
-        //参加一覧ボタンが押された時の処理
-        goodButton.setOnClickListener {
+    fun mypageActivitysub(myapp:myApplication){
+        var userId = myApp.loginMyId
+        var loginUserId = myApp.checkId
 
-            //adapterにいれる仮データ（後で変更する）-------------------------------------
-            val countList = mutableListOf<gooddata>()
+        val userImage = findViewById<ImageView>(R.id.userImage)
+        val addressText = findViewById<TextView>(R.id.addressText)
+        val nameText = findViewById<TextView>(R.id.nameText)
+        val ageText = findViewById<TextView>(R.id.ageText)
+        val genderImage = findViewById<ImageView>(R.id.genderImage)
+        val profileText = findViewById<TextView>(R.id.profileText)
+        val postButton = findViewById<ImageView>(R.id.postButton)
+        val goodButton = findViewById<ImageView>(R.id.goodButton)
+        val profileRecyclerView = findViewById<RecyclerView>(R.id.profileRecyclerView)
+        var postList = mutableListOf<gooddata>()
+        var goodList = mutableListOf<gooddata>()
 
-            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ","参加一覧",1))
-            goodRecycle.layoutManager = LinearLayoutManager(applicationContext)
-            val adapter = goodAdapter(countList,this@mypageActivity)
-            goodRecycle.adapter = adapter
-            //----------------------------------------------------------------------
+        //データ取得
+        var apiUrl = myApp.apiUrl+"userPage.php?userId="+userId+"&loginUserId="+loginUserId
+        Log.v("alldata",apiUrl)
+        val request = Request.Builder().url(apiUrl).build()
+        val errorText = "エラー"
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                this@mypageActivity.runOnUiThread {
+                    Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val csvStr = response.body!!.string()
+                val resultError = JSONObject(csvStr)
+                if(resultError.getString("result") == "error") {
+                    this@mypageActivity.runOnUiThread {
+                    }
+                }else if(resultError.getString("result") == "success"){
+                    this@mypageActivity.runOnUiThread {
+                        addresId = resultError.getString("userId")
+                        userName = resultError.getString("userName")
+                        profile = resultError.getString("profile")
+                        icon = resultError.getString("icon")
+                        age = resultError.getString("age")
+                        gender = resultError.getString("gender")
+                        flag = resultError.getString("flag")
+                        //データ表示
+                        addressText.setText(addresId)
+                        nameText.setText(userName)
+                        profileText.setText(profile)
+                        ageText.setText(age)
 
-        }
-        //投稿一覧ボタンが押された時の処理
+                        var date =resultError.getJSONArray("postList")
+                        for (i in 0 until date.length()) {
+                            var json = date.getJSONObject(i)
+                            post_postNo = json.getString("postNo")
+                            post_image = json.getString("image")
+                            post_title1 = json.getString("title")
+                            post_content = json.getString("content")
+                            post_status = json.getString("status")
+                            postList.add(gooddata(1,post_title1,post_content,"投稿一覧",post_status.toInt()))
+                        }
+                        date =resultError.getJSONArray("applyList")
+                        for (i in 0 until date.length()) {
+                            var json = date.getJSONObject(i)
+                            apply_postNo = json.getString("postNo")
+                            apply_image = json.getString("image")
+                            apply_content = json.getString("content")
+                            apply_title = json.getString("title")
+                            apply_status = json.getString("status")
+                            goodList.add(gooddata(1,apply_title,apply_content,"参加一覧",apply_status.toInt()))
+                        }
+                        //投稿一覧
+                        profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                        val adapter = goodAdapter(postList,this@mypageActivity)
+                        profileRecyclerView.adapter = adapter
+                    }
+                }
+            }
+        })
+
+        //投稿一覧
         postButton.setOnClickListener {
-
-            //adapterにいれる仮データ（後で変更する）-------------------------------------
-            val countList = mutableListOf<gooddata>()
-
-            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ","投稿一覧",1))
-            countList.add(gooddata(1,"トウモロコシ","ポップコーンは美味しいよ","投稿一覧",1))
-
-            goodRecycle.layoutManager = LinearLayoutManager(applicationContext)
-            val adapter = goodAdapter(countList,this@mypageActivity)
-            goodRecycle.adapter = adapter
-            //----------------------------------------------------------------------
-
+            profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+            val adapter = goodAdapter(postList,this@mypageActivity)
+            profileRecyclerView.adapter = adapter
         }
-
-
+        //応募一覧表
+        goodButton.setOnClickListener {
+            profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+            val adapter = goodAdapter(goodList,this@mypageActivity)
+            profileRecyclerView.adapter = adapter
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
