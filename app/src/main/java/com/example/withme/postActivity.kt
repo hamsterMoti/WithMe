@@ -19,11 +19,13 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.CannedAccessControlList
 import okhttp3.*
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -47,7 +49,7 @@ class postActivity : AppCompatActivity() {
     var ye = ""
     var mon = ""
     var day = ""
-    var test = arrayListOf("性別","開始年代","終了年代","定員")
+    var test = arrayListOf("","","","")
     val myApp = myApplication.getInstance()
     var cal: Calendar = Calendar.getInstance()
     val yyyy = cal.get(Calendar.YEAR);
@@ -184,7 +186,37 @@ class postActivity : AppCompatActivity() {
 //            入力データ確認
 //            var test = arrayListOf("性別","開始年代","終了年代","定員")
                 Log.v("alldata","タイトル-"+titleEdit.text.toString()+"種類-"+syuruiSpitem+"カテゴリ-"+categrySpitem+"日時-"+
-                        bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3]+b64Encode)
+                        bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3])
+
+
+            //画像以外のデータアップロード
+            var apiUrl = myApp.apiUrl+"postAdd.php?userId=aaa@bbb.com&category="+categrySpitem+"&title="+titleEdit.text+"&content="+contentEdit.text+"&term="+bosyudata+"&capacity="+categrySpitem+"&hopeGender="+test[0]+"&lowLimit="+test[1]+"&highLimit="+test[2]+"&recFlag="+syuruiSpitem
+            Log.v("alldata",apiUrl)
+            Log.v("alldata",categrySpitem)
+            val request = Request.Builder().url(apiUrl).build()
+            val errorText = "エラー"
+            Log.v("blockurl", apiUrl.toString())
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    this@postActivity.runOnUiThread {
+                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    val csvStr = response.body!!.string()
+                    val resultError = JSONObject(csvStr)
+                    if(resultError.getString("result") == "error") {
+                        this@postActivity.runOnUiThread {
+                        }
+                    }else if(resultError.getString("result") == "success"){
+                        this@postActivity.runOnUiThread {
+                            Toast.makeText(applicationContext, "投稿しました", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            })
+
+
 
 //                post通信
 //                val url  = "https://click.ecc.ac.jp/ecc/whisper_e/whisperAdd2.php"
@@ -290,33 +322,6 @@ class postActivity : AppCompatActivity() {
         //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
 
     }
-
-    private fun createUploadFile(context: Context, bitmap: Bitmap): File? {
-        val file: File =
-            File(File(java.lang.String.valueOf(context.getExternalCacheDir())), TEMP_FILE_NAME)
-        var fos: FileOutputStream? = null
-        try {
-            file.createNewFile()
-            fos = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            // TODO handle error
-        } finally {
-            try {
-                if (fos != null) {
-                    fos.flush()
-                    fos.close()
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-                // TODO handle error
-            }
-        }
-        return file
-    }
-
-
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
