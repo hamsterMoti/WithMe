@@ -3,13 +3,19 @@ package com.example.withme
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 class chatlistActivity  : AppCompatActivity() {
     val myApp = myApplication.getInstance()
+    val client = OkHttpClient()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatlist)
@@ -21,16 +27,49 @@ class chatlistActivity  : AppCompatActivity() {
     fun chatlistActivitysub(myapp:myApplication){
 
         val chatlistRecycle = findViewById<RecyclerView>(R.id.chatlistRecycle)
-
-        //adapterにいれる仮データ（後で変更する）-------------------------------------
         val countList = mutableListOf<talklinedata>()
-        for (i in 1..10){
-            countList.add(talklinedata(1,"トウモロコシ","ポップコーンは美味しいよ"))
-        }
-        chatlistRecycle.layoutManager = LinearLayoutManager(applicationContext)
-        val adapter = talkAdapter(countList,this)
-        chatlistRecycle.adapter = adapter
-        //----------------------------------------------------------------------
+        //recycleviewの処理
+        var apiUrl = myApp.apiUrl+"chatList.php?userId="+myApp.loginMyId
+        val request = Request.Builder().url(apiUrl).build()
+        val errorText = "エラー"
+        Log.v("blockurl", apiUrl.toString())
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                this@chatlistActivity.runOnUiThread {
+                    Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val csvStr = response.body!!.string()
+                val resultError = JSONObject(csvStr)
+                if(resultError.getString("result") == "error") {
+                    this@chatlistActivity.runOnUiThread {
+                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }else if(resultError.getString("result") == "succes"){
+                    this@chatlistActivity.runOnUiThread {
+                        val date =resultError.getJSONArray("chatList")
+                        //データが存在する間listにデータを挿入する
+                        for (i in 0 until date.length()) {
+                            var json = date.getJSONObject(i)
+                            var roomNo = json.getString("roomNo")
+                            var userId = json.getString("userId")
+                            var message = json.getString("message")
+                            var image = json.getString("image")
+                            var messageDate = json.getString("messageDate")
+
+                            countList.add(talklinedata(1,userId,message))
+                        }
+
+                        chatlistRecycle.layoutManager = LinearLayoutManager(applicationContext)
+                        val adapter = talkAdapter(countList,this@chatlistActivity)
+                        chatlistRecycle.adapter = adapter
+
+                    }
+                }
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

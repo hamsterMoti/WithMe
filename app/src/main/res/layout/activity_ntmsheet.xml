@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tune"
     android:orientation="vertical"
+    android:background="@drawable/adjustlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:behavior_hideable="true">
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/textView5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="投稿を削除"
-        android:textSize="24sp" />
+        android:layout_height="89dp"
+        android:text="投稿を削除する"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+
 </LinearLayout>

@@ -11,11 +11,15 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 
 class timelineActivity : AppCompatActivity() {
+    val client = OkHttpClient()
+    val myApp = myApplication.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,23 +38,15 @@ class timelineActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //初期タイムライン
+        var apiUrl = myApp.apiUrl+"timelineInfo.php?userId="+myApp.loginMyId
+        access(apiUrl,timelineRecycl)
 
-        //adapterにいれる仮データ（後で変更する）-------------------------------------
-        val countList = mutableListOf<timelinedata>()
-        for (i in 1..10) {
-            countList.add(timelinedata("カテゴリー：", "食べ物", 0, "食べ放題行く人", "大阪で募集", "解答件数"))
-        }
-        timelineRecycl.layoutManager = LinearLayoutManager(applicationContext)
-        val adapter = timelineAdapter(countList, this)
-        timelineRecycl.adapter = adapter
-        //----------------------------------------------------------------------
 
         adjustImage.setOnClickListener {
             val bottomSheetDialog = BottomSheetDialog(
                 this@timelineActivity, R.style.BottomSheetDialogTheme
-
             )
-
             val bottomSheetView = LayoutInflater.from(applicationContext).inflate(
                 R.layout.adjustbottomseet,
                 findViewById(R.id.bottomSheet) as LinearLayout?
@@ -58,33 +54,91 @@ class timelineActivity : AppCompatActivity() {
             bottomSheetView.findViewById<View>(R.id.newPost).setOnClickListener {
 //          新着順に並び替える
                 Log.v("newpost","新着順")
-//                Toast.makeText(this@timelineActivity, "cancel", Toast.LENGTH_SHORT).show()
+                var apiUrl = myApp.apiUrl+"timelineInfo.php?userId="+myApp.loginMyId+"&sSort=1"
+                access(apiUrl,timelineRecycl)
             }
             bottomSheetView.findViewById<View>(R.id.oldPost).setOnClickListener {
 //          投稿順に並び替える
-                Log.v("oldpost","投稿順")
+                Log.v("newpost","投稿順")
+                var apiUrl = myApp.apiUrl+"timelineInfo.php?userId="+myApp.loginMyId+"&sSort=2"
+                access(apiUrl,timelineRecycl)
             }
-            bottomSheetView.findViewById<View>(R.id.oldPost).setOnClickListener {
+            bottomSheetView.findViewById<View>(R.id.deadlinePost).setOnClickListener {
 //          締め切り近いに並び替える
-                Log.v("deadlinePost","締め切り近い")
+                Log.v("newpost","締め切り近い")
+                var apiUrl = myApp.apiUrl+"timelineInfo.php?userId="+myApp.loginMyId+"&sSort=3"
+                access(apiUrl,timelineRecycl)
             }
 
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.show()
         }
         tuneImage.setOnClickListener {
+
             val bottomSheetDialog = BottomSheetDialog(
                 this@timelineActivity, R.style.BottomSheetDialogTheme
             )
             val tunebottomSheetView = LayoutInflater.from(applicationContext).inflate(
                 R.layout.tune_bottom_sheet,
-                findViewById(R.id.tunebottomSheet) as LinearLayout?
+                findViewById(R.id.tune) as LinearLayout?
             )
 
             bottomSheetDialog.setContentView(tunebottomSheetView)
             bottomSheetDialog.show()
         }
     }
+
+    fun access(apiUrl:String,timelineRecycl:RecyclerView){
+
+        //初期のタイムライン
+        val countList = mutableListOf<timelinedata>()
+        val request = Request.Builder().url(apiUrl).build()
+        val errorText = "エラー"
+        Log.v("blockurl",apiUrl)
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                this@timelineActivity.runOnUiThread {
+                    Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val csvStr = response.body!!.string()
+                val resultError = JSONObject(csvStr)
+                if(resultError.getString("result") == "error") {
+                    this@timelineActivity.runOnUiThread {
+                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }else if(resultError.getString("result") == "success"){
+                    this@timelineActivity.runOnUiThread {
+                        val date =resultError.getJSONArray("postList")
+                        //データが存在する間listにデータを挿入する
+                        for (i in 0 until date.length()) {
+                            var json = date.getJSONObject(i)
+                            var postNo = json.getString("postNo")
+                            var postDate = json.getString("postDate")
+                            var category = json.getString("category")
+                            var title = json.getString("title")
+                            var content = json.getString("content")
+                            var term = json.getString("term")
+                            var commentNum = json.getString("commentNum")
+                            var applyNum = json.getString("applyNum")
+                            var status = json.getString("status")
+                            var recFlag = json.getString("recFlag")
+                            countList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content, "応募件数"+applyNum,postNo,recFlag))
+                        }
+                        //recycleview
+                        timelineRecycl.layoutManager = LinearLayoutManager(applicationContext)
+                        val adapter = timelineAdapter(countList, this@timelineActivity)
+                        timelineRecycl.adapter = adapter
+                    }
+                }
+            }
+        })
+
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)
         val chat = Intent(this, chatlistActivity::class.java)
