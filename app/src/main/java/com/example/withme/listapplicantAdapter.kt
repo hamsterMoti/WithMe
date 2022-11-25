@@ -17,7 +17,6 @@ import java.io.IOException
 
 class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,private val activity : AppCompatActivity): RecyclerView.Adapter<listapplicantAdapter.ViewHoldew>() {
 
-    var createflag = 0 //部屋がない＝０　あり＝１
     val myApp = myApplication.getInstance()
     val client = OkHttpClient()
 
@@ -57,24 +56,19 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
         if(dateSet[position].addFlg == 2){//既にグループに追加済みの場合
             holder.rejectionButton.setVisibility(View.INVISIBLE)
             holder.addButton.setText("追加済み")
-            Log.v("kakunin","追加済み")
-        }else{
-            Log.v("kakunin","未追加")
+        }
 
             //追加ボタンタップ処理
             holder.addButton.setOnClickListener {
                 Log.v("kakunin","ボタン押された")
                 if(dateSet[position].roomFlg==1){
-                    Log.v("kakunin","部屋無")
                     Toast.makeText(activity.applicationContext, "部屋がありません", Toast.LENGTH_SHORT).show()
+                }else if(dateSet[position].addFlg == 2) {
+                    Toast.makeText(activity.applicationContext, "追加済みです", Toast.LENGTH_SHORT).show()
                 }else{
-                    Log.v("kakunin","部屋あり")
-
                     //あとで可能なら変更する
-                    holder.rejectionButton.setVisibility(View.INVISIBLE)
-                    holder.addButton.setText("追加済み")
-
-
+//                    holder.rejectionButton.setVisibility(View.INVISIBLE)
+//                    holder.addButton.setText("追加済み")
                     //ユーザ追加処理
                     var apiUrl = myApp.apiUrl+"memberAdd.php?userId="+dateSet[position].userId+"&roomNo="+dateSet[position].postNo
                     val request = Request.Builder().url(apiUrl).build()
@@ -82,43 +76,59 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
                     Log.v("blockurl", apiUrl.toString())
                     client.newCall(request).enqueue(object : Callback {
                         override fun onFailure(call: Call, e: IOException) {
-                            this@listapplicantAdapter.activity.runOnUiThread {
+                            activity.runOnUiThread {
                                 Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                                Log.v("kakunin", "エラー１".toString())
                             }
                         }
                         override fun onResponse(call: Call, response: Response) {
                             val csvStr = response.body!!.string()
                             val resultError = JSONObject(csvStr)
                             if(resultError.getString("result") == "error") {
-                                this@listapplicantAdapter.activity.runOnUiThread {
-                                    Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT)
-                                        .show()
-                                    Log.v("kakunin", "エラー".toString())
+                                activity.runOnUiThread {
+                                    Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
                                 }
                             }else if(resultError.getString("result") == "succes"){
-                                this@listapplicantAdapter.activity.runOnUiThread {
-                                    Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT)
-                                        .show()
-                                    Log.v("kakunin", "成功".toString())
-                                    //applicantListActivityのapplicantListActivitysub実行
+                                activity.runOnUiThread {
                                     var applicantListActivity = activity as applicantListActivity
                                     val myApp = myApplication.getInstance()
                                     applicantListActivity.applicantListActivitysub(myApp,dateSet[position].postNo)
-
                                 }
                             }
                         }
                     })
-                }
 
             }
             //拒否ボタンタップ処理
             holder.rejectionButton.setOnClickListener {
-                //applicantListActivityのapplicantListActivitysub実行
-                var applicantListActivity = activity as applicantListActivity
-                val myApp = myApplication.getInstance()
-                applicantListActivity.applicantListActivitysub(myApp,dateSet[position].postNo)
+
+                var apiUrl = myApp.apiUrl+"applyDeny.php?userId="+dateSet[position].userId+"&postNo="+dateSet[position].postNo
+                val request = Request.Builder().url(apiUrl).build()
+                val errorText = "エラー"
+                Log.v("blockurl", apiUrl.toString())
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        activity.runOnUiThread {
+                            Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onResponse(call: Call, response: Response) {
+                        val csvStr = response.body!!.string()
+                        val resultError = JSONObject(csvStr)
+                        if(resultError.getString("result") == "error") {
+                            activity.runOnUiThread {
+                                Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                            }
+                        }else if(resultError.getString("result") == "succes"){
+                            activity.runOnUiThread {
+                                var applicantListActivity = activity as applicantListActivity
+                                val myApp = myApplication.getInstance()
+                                applicantListActivity.applicantListActivitysub(myApp,dateSet[position].postNo)
+                            }
+                        }
+                    }
+                })
+
+
             }
         }
 

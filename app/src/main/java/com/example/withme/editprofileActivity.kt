@@ -5,11 +5,19 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 class editprofileActivity : AppCompatActivity() {
-
+    val client = OkHttpClient()
+    val myApp = myApplication.getInstance()
     private val REQUEST_GALLERY_TAKE = 2
 
     private lateinit var userImage: ImageView
@@ -19,14 +27,47 @@ class editprofileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_editprofile)
 
         userImage = findViewById<ImageView>(R.id.userImage)
+        var nameEdit = findViewById<EditText>(R.id.nameEdit)
+        var profileEdit = findViewById<EditText>(R.id.profileEdit)
+        var saveButton = findViewById<Button>(R.id.saveButton)
+
+        //データ保存処理
+        saveButton.setOnClickListener {
+            var apiUrl = myApp.apiUrl+"userUpd.php?userId="+myApp.loginMyId+"&userName="+nameEdit.text.toString()+"&profile="+profileEdit.text.toString()
+            val request = Request.Builder().url(apiUrl).build()
+            val errorText = "エラー"
+            var countList = mutableListOf<timelinedata>()
+            // Log.v("blockurl",apiUrl)
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    this@editprofileActivity.runOnUiThread {
+                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    val csvStr = response.body!!.string()
+                    val resultError = JSONObject(csvStr)
+                    if(resultError.getString("result") == "error") {
+                        this@editprofileActivity.runOnUiThread {
+                            Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                        }
+                    }else if(resultError.getString("result") == "success"){
+                        this@editprofileActivity.runOnUiThread {
+                            Toast.makeText(applicationContext, "保存しました", Toast.LENGTH_SHORT).show()
+                            //マイページ画面へ遷移
+                            var intent = Intent(applicationContext, mypageActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                }
+            })
+        }
 
         userImage.setOnClickListener {
             //ギャラリーを開きイメージに定義
             openGalleryForImage()
-//            userImage.setImageBitmap(bitmap)
         }
-
-
     }
 
     //ギャラリーを開くためのメソッド

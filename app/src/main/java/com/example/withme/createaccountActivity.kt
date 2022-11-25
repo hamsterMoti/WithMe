@@ -78,12 +78,12 @@ class createaccountActivity : AppCompatActivity() {
                 }
                 Log.v("num",number.toString())
                 myApp.loginMyId = myId
-                myApp.nickname = nickname
-                myApp.year = yearLog.toInt().toString()
+//                myApp.nickname = nickname
+//                myApp.year = yearLog.toInt().toString()
                 val num1 = 0
                 Log.v("j", yearLog.toInt().toString())
-                myApp.month = monthLog.toInt().toString()
-                myApp.day = dayLog.toInt().toString()
+//                myApp.month = monthLog.toInt().toString()
+//                myApp.day = dayLog.toInt().toString()
                 val intent = Intent(this, passwordActivity::class.java)
                 startActivity(intent)
             }

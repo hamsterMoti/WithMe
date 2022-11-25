@@ -72,6 +72,14 @@ class mypageActivity : AppCompatActivity() {
         val profileRecyclerView = findViewById<RecyclerView>(R.id.profileRecyclerView)
         var postList = mutableListOf<gooddata>()
         var goodList = mutableListOf<gooddata>()
+//
+//
+//        //ネットない時のbottom確認用ーー
+//        postList.add(gooddata(1,"a","a","投稿一覧","0".toInt(),"1",""))
+//        profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+//        val adapter = goodAdapter(postList,this@mypageActivity)
+//        profileRecyclerView.adapter = adapter
+////        ーーーー
 
         //データ取得
         var apiUrl = myApp.apiUrl+"userPage.php?userId="+userId+"&loginUserId="+loginUserId
@@ -100,7 +108,11 @@ class mypageActivity : AppCompatActivity() {
                         gender = resultError.getString("gender")
                         flag = resultError.getString("flag")
                         //データ表示
-                        addressText.setText(addresId)
+                        if(userId == loginUserId){
+                            addressText.setText(addresId)
+                        }else{
+                            addressText.setText("")
+                        }
                         nameText.setText(userName)
                         profileText.setText(profile)
                         ageText.setText(age)
@@ -113,7 +125,7 @@ class mypageActivity : AppCompatActivity() {
                             post_title1 = json.getString("title")
                             post_content = json.getString("content")
                             post_status = json.getString("status")
-                            postList.add(gooddata(1,post_title1,post_content,"投稿一覧",post_status.toInt()))
+                            postList.add(gooddata(1,post_title1,post_content,"投稿一覧",post_status.toInt(),post_postNo,""))
                         }
                         date =resultError.getJSONArray("applyList")
                         for (i in 0 until date.length()) {
@@ -123,9 +135,9 @@ class mypageActivity : AppCompatActivity() {
                             apply_content = json.getString("content")
                             apply_title = json.getString("title")
                             apply_status = json.getString("status")
-                            goodList.add(gooddata(1,apply_title,apply_content,"参加一覧",apply_status.toInt()))
+                            goodList.add(gooddata(1,apply_title,apply_content,"参加一覧",apply_status.toInt(),post_postNo,""))
                         }
-                        //投稿一覧
+                        //初期リスト
                         profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = goodAdapter(postList,this@mypageActivity)
                         profileRecyclerView.adapter = adapter
@@ -133,6 +145,8 @@ class mypageActivity : AppCompatActivity() {
                 }
             }
         })
+
+
 
         //投稿一覧
         postButton.setOnClickListener {

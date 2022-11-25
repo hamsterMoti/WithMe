@@ -58,6 +58,8 @@ class timelineAdapter  (private  val dateSet:MutableList<timelinedata>,private v
 
         holder.zentai.setOnClickListener{
             var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
+            intent.putExtra("postNo",dateSet[position].postNo)
+            intent.putExtra("recFlag",dateSet[position].recFlag)
             activity.startActivity(intent)
         }
 

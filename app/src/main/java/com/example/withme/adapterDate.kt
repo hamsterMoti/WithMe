@@ -11,7 +11,9 @@ data class timelinedata( //timeLineadapterのデータ情報
     var statusImage: Int,
     var titleText: String,
     var overviewText: String,
-    var answerText: String
+    var answerText: String,
+    var postNo: String,
+    var recFlag:String
 
     )
 
@@ -29,7 +31,9 @@ data class gooddata( //goodadapterのデータ
     var contoributorName:String,
     var titleText:String,
     var moreimage:String,
-    var statusImage:Int
+    var statusImage:Int,
+    var postNo:String,
+    var youid:String
 
     )
 

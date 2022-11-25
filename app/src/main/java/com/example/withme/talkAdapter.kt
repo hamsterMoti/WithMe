@@ -36,7 +36,6 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
         //一行分のレイアウト読みこみ
         val viwe = LayoutInflater.from(parent.context)
             .inflate(R.layout.activity_talk_adapter, parent, false)
-
         return talkAdapter.ViewHoldew(viwe)
     }
     override fun onBindViewHolder(holder: talkAdapter.ViewHoldew, position: Int) {
@@ -46,7 +45,7 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
         holder.talkText.setText(dateSet[position].talkText)
         holder.talkzentai.setOnClickListener{
             //talk画面へ遷移
-            var intent = Intent(activity.applicationContext, talkAdapter::class.java)
+            var intent = Intent(activity.applicationContext, talkActivity::class.java)
             activity.startActivity(intent)
         }
 

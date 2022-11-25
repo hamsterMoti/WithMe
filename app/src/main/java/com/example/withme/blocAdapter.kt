@@ -14,6 +14,7 @@ import java.io.IOException
 
 class blocAdapter  (private  val dateSet:MutableList<blockDate>,private val activity : AppCompatActivity):RecyclerView.Adapter<blocAdapter.ViewHoldew>() {
     val client = OkHttpClient()
+    val myApp = myApplication.getInstance()
     class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
         var userImage: ImageView
         var usernameText: TextView
@@ -50,10 +51,7 @@ class blocAdapter  (private  val dateSet:MutableList<blockDate>,private val acti
 
         //ブロック解除ボタンタップ
         holder.blockButton.setOnClickListener {
-
-            val URL = "http://34.229.9.247/with_me/blockCtl.php?userId=2200166@ecc.ac.jp&blockUserId="+dateSet[position].userId+"&blockFlg=2"
-
-
+            val URL = myApp.apiUrl+"blockCtl.php?userId="+myApp.loginMyId+"&blockUserId="+dateSet[position].userId+"&blockFlg=2"
             val request = Request.Builder().url(URL).build()
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
