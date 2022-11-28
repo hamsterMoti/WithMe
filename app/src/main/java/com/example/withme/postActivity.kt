@@ -49,7 +49,7 @@ class postActivity : AppCompatActivity() {
     var ye = ""
     var mon = ""
     var day = ""
-    var test = arrayListOf("","","","")
+    var test = arrayListOf("","0","120","")
     val myApp = myApplication.getInstance()
     var cal: Calendar = Calendar.getInstance()
     val yyyy = cal.get(Calendar.YEAR);
@@ -89,7 +89,7 @@ class postActivity : AppCompatActivity() {
         }
 
         //スピナー登録
-        val categoryarray = arrayOf("料理・グルメ", "趣味")
+        val categoryarray = arrayOf("料理・グルメ", "お酒","スポーツ","ゲーム")
         val syuruiarray = arrayOf( "同伴", "相談")
         val categoryarrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categoryarray)
         val syuruiarrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, syuruiarray)
@@ -189,8 +189,15 @@ class postActivity : AppCompatActivity() {
                         bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3])
 
 
+            if(test[1].isEmpty()){
+                test[1]="0"
+            }
+            if(test[2].isEmpty()){
+                test[2]="120"
+            }
             //画像以外のデータアップロード
-            var apiUrl = myApp.apiUrl+"postAdd.php?userId=aaa@bbb.com&category="+categrySpitem+"&title="+titleEdit.text+"&content="+contentEdit.text+"&term="+bosyudata+"&capacity="+categrySpitem+"&hopeGender="+test[0]+"&lowLimit="+test[1]+"&highLimit="+test[2]+"&recFlag="+syuruiSpitem
+            var apiUrl = myApp.apiUrl+"postAdd.php?userId="+myapp.loginMyId+"&category="+categrySpitem+"&title="+titleEdit.text+"&content="+contentEdit.text+"&term="+bosyudata+"&capacity="+test[3]+"&hopeGender="+test[0]+"&lowLimit="+test[1]+"&highLimit="+test[2]+"&recFlag="+syuruiSpitem
+            Log.v("確認",apiUrl)
             Log.v("alldata",apiUrl)
             Log.v("alldata",categrySpitem)
             val request = Request.Builder().url(apiUrl).build()

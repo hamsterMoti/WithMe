@@ -22,7 +22,7 @@ data class talklinedata( //tailadapterのデータ
     var userImage:Int,
     var nameText:String,
     var talkText:String,
-
+    var userName:String
     )
 
 data class gooddata( //goodadapterのデータ

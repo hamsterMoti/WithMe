@@ -41,7 +41,7 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
     override fun onBindViewHolder(holder: talkAdapter.ViewHoldew, position: Int) {
 
         //仮データ挿入
-        holder.nameText.setText(dateSet[position].nameText)
+        holder.nameText.setText(dateSet[position].userName)
         holder.talkText.setText(dateSet[position].talkText)
         holder.talkzentai.setOnClickListener{
             //talk画面へ遷移
