@@ -31,10 +31,10 @@ class blockActivity : AppCompatActivity() {
 
 
         //var apiUrl = myApp.apiUrl
-        var apiUrl = "http://100.26.59.120/with_me/blockList.php?userId=2200166@ecc.ac.jp"
+        var apiUrl = myapp.apiUrl+"/blockList.php?userId="+myapp.loginMyId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
-       // Log.v("blockurl",apiUrl)
+        Log.v("blockurl",apiUrl)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 this@blockActivity.runOnUiThread {
@@ -42,17 +42,15 @@ class blockActivity : AppCompatActivity() {
                 }
             }
             override fun onResponse(call: Call, response: Response) {
-
                 val csvStr = response.body!!.string()
                 val resultError = JSONObject(csvStr)
-
 
                 if(resultError.getString("result") == "error") {
                     this@blockActivity.runOnUiThread {
                         Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
                             .show()
                     }
-                }else if(resultError.getString("result") == "succes"){
+                }else if(resultError.getString("result") == "success"){
                     this@blockActivity.runOnUiThread {
                         Log.v("blockurl",apiUrl)
                         val date =resultError.getJSONArray("blockList")

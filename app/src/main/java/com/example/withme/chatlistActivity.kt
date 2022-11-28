@@ -55,11 +55,12 @@ class chatlistActivity  : AppCompatActivity() {
                             var json = date.getJSONObject(i)
                             var roomNo = json.getString("roomNo")
                             var userId = json.getString("userId")
+                            var userName = json.getString("userName")
                             var message = json.getString("message")
                             var image = json.getString("image")
                             var messageDate = json.getString("messageDate")
 
-                            countList.add(talklinedata(1,userId,message))
+                            countList.add(talklinedata(1,userId,message,userName))
                         }
 
                         chatlistRecycle.layoutManager = LinearLayoutManager(applicationContext)

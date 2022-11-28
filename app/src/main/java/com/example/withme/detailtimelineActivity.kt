@@ -163,7 +163,7 @@ class detailtimelineActivity : AppCompatActivity() {
                 intent.putExtra("postNo",postNo)
                 startActivity(intent)
             }else{//応募処理
-                var apiUrl = "http://100.26.59.120/with_me/applyCtl.php?loginUserId=aaa@bbb.com&postNo="+postNo+"&appFlag=null"
+                var apiUrl = myApp.apiUrl+"/applyCtl.php?loginUserId="+myApp.loginMyId+"&postNo="+postNo+"&appFlag=null"
                 val request = Request.Builder().url(apiUrl).build()
                 val errorText = "エラー"
                 // Log.v("blockurl",apiUrl)

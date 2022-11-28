@@ -52,23 +52,35 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         //データ挿入
         holder.contoributorName.setText(dateSet[position].contoributorName)
         holder.titleText.setText(dateSet[position].titleText)
+        if(dateSet[position].statusImage==1){
+            holder.statusImage.setText("募集中")
+        }else{
+            holder.statusImage.setText("締切")
+        }
+
 
         //アイコン画像がタップされた時の処理
         holder.userImage.setOnClickListener{
             //timeline詳細画面へ遷移
             var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
+            intent.putExtra("postNo",dateSet[position].postNo)
+            Log.v("postNo",dateSet[position].postNo)
             activity.startActivity(intent)
         }
         //ユーザネームがタップされた時の処理
         holder.contoributorName.setOnClickListener{
             //timeline詳細画面へ遷移
             var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
+            intent.putExtra("postNo",dateSet[position].postNo)
+            Log.v("postNo",dateSet[position].postNo)
             activity.startActivity(intent)
         }
         //投稿内容がタップされた時の処理
         holder.titleText.setOnClickListener{
             //timeline詳細画面へ遷移
             var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
+            intent.putExtra("postNo",dateSet[position].postNo)
+            Log.v("postNo",dateSet[position].postNo)
             activity.startActivity(intent)
         }
         //more画像がタップされた時ボトムシートを表示
@@ -83,7 +95,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                 )
                 bottomSheetView.findViewById<View>(R.id.textView5).setOnClickListener {
                     Log.v("newpost","投稿削除")
-                    var apiUrl = myApp.apiUrl + "deletePost.php?postNo="+dateSet[position].postNo
+                    var apiUrl = myApp.apiUrl + "postDelete.php?postNo="+dateSet[position].postNo
                     okituusinn(apiUrl,activity)
                 }
 
@@ -112,38 +124,36 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         }
         //ステイタスボタンをタップしたときの処理
         holder.statusImage.setOnClickListener {
-            var flag = 1
-            if(dateSet[position].statusImage==1){
-                flag = 2
-            }else{
-                flag = 1
-            }
-            var apiUrl = myApp.apiUrl+"statusCtl.php?userId="+myApp.loginMyId+"&postNo="+dateSet[position].postNo+"&statusFlg="+flag
-            val request = Request.Builder().url(apiUrl).build()
-            val errorText = "エラー"
-            Log.v("blockurl", apiUrl.toString())
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    activity.runOnUiThread {
-                        Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                    }
-                }
-                override fun onResponse(call: Call, response: Response) {
-                    val csvStr = response.body!!.string()
-                    val resultError = JSONObject(csvStr)
-                    if(resultError.getString("result") == "error") {
-                        activity.runOnUiThread {
-                            Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                        }
-                    }else if(resultError.getString("result") == "success"){
-                        activity.runOnUiThread {
-                            var mypageActivity = activity as mypageActivity
-                            val myApp = myApplication.getInstance()
-                            mypageActivity.mypageActivitysub(myApp)
-                        }
-                    }
-                }
-            })
+          if(myApp.loginMyId==myApp.checkId){
+              var apiUrl = myApp.apiUrl+"statusCtl.php?userId="+myApp.loginMyId+"&postNo="+dateSet[position].postNo+"&statusFlg="+dateSet[position].statusImage
+              val request = Request.Builder().url(apiUrl).build()
+              val errorText = "エラー"
+              Log.v("blockurl", apiUrl.toString())
+              client.newCall(request).enqueue(object : Callback {
+                  override fun onFailure(call: Call, e: IOException) {
+                      activity.runOnUiThread {
+                          Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                      }
+                  }
+                  override fun onResponse(call: Call, response: Response) {
+                      val csvStr = response.body!!.string()
+                      val resultError = JSONObject(csvStr)
+                      if(resultError.getString("result") == "error") {
+                          activity.runOnUiThread {
+                              Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                          }
+                      }else if(resultError.getString("result") == "success"){
+                          activity.runOnUiThread {
+                              holder.statusImage.setText("")
+                              var mypageActivity = activity as mypageActivity
+                              val myApp = myApplication.getInstance()
+                              mypageActivity.mypageActivitysub(myApp)
+                          }
+                      }
+                  }
+              })
+          }
+
         }
 
 
@@ -173,6 +183,9 @@ fun okituusinn(url:String,activity:AppCompatActivity){
                 }
             } else if (resultError.getString("result") == "success") {
                 activity.runOnUiThread {
+                    var mypageActivity = activity as mypageActivity
+                    val myApp = myApplication.getInstance()
+                    mypageActivity.mypageActivitysub(myApp)
                 }
             }
         }

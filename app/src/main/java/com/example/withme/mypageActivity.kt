@@ -135,7 +135,9 @@ class mypageActivity : AppCompatActivity() {
                             apply_content = json.getString("content")
                             apply_title = json.getString("title")
                             apply_status = json.getString("status")
-                            goodList.add(gooddata(1,apply_title,apply_content,"参加一覧",apply_status.toInt(),post_postNo,""))
+                            var apply_userId = json.getString("userId")
+                            Log.v("alldata",apply_postNo)
+                            goodList.add(gooddata(1,apply_title,apply_content,"参加一覧",apply_status.toInt(),apply_postNo,apply_userId))
                         }
                         //初期リスト
                         profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)

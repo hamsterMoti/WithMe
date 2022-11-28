@@ -22,13 +22,10 @@ class notificationActivity : AppCompatActivity() {
 
         val notificationRecycle = findViewById<RecyclerView>(R.id.notificationRecycle)
 
-
-
-        //var apiUrl = myApp.apiUrl
-        var apiUrl = "http://100.26.59.120/with_me/notifyList.php?userId=2200166@ecc.ac.jp"
+        var apiUrl = myApp.apiUrl+"notifyList.php?userId="+myApp.loginMyId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
-        // Log.v("blockurl",apiUrl)
+         Log.v("blockurl",apiUrl)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 this@notificationActivity.runOnUiThread {
@@ -36,32 +33,25 @@ class notificationActivity : AppCompatActivity() {
                 }
             }
             override fun onResponse(call: Call, response: Response) {
-
                 val csvStr = response.body!!.string()
                 val resultError = JSONObject(csvStr)
-
-
                 if(resultError.getString("result") == "error") {
                     this@notificationActivity.runOnUiThread {
                         Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
                             .show()
                     }
-                }else if(resultError.getString("result") == "succes"){
+                }else if(resultError.getString("result") == "success"){
                     this@notificationActivity.runOnUiThread {
                         Log.v("blockurl",apiUrl)
-                        val date =resultError.getJSONArray("blockList")
+                        val date =resultError.getJSONArray("notifyList")
                         val listlisrt = mutableListOf<notificationDate>()
-
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {
                             var json = date.getJSONObject(i)
-
                             var notifyContent = json.getString("notifyContent")
                             var notifyDate = json.getString("notifyDate")
-                            
                             Log.v("blockinfo","notifyContent:" + notifyContent+"notifyDate"+notifyDate)
                             listlisrt.add(notificationDate(1,notifyContent))
-
                         }
 
                         notificationRecycle.layoutManager = LinearLayoutManager(applicationContext)

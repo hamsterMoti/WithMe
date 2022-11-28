@@ -51,10 +51,9 @@ class applicantListActivity : AppCompatActivity() {
 
 
 
-        //        val loginuserId = myApp.loginMyId
-//        var postNo = intent.getStringExtra("postNo")
-        var postNo = "6"
-        var loginuserId = "2200166@ecc.ac.jp"
+//        //        val loginuserId = myApp.loginMyId
+////        var postNo = intent.getStringExtra("postNo")
+//        var loginuserId = "2200166@ecc.ac.jp"
 
 
         //recycleviewの処理
@@ -113,7 +112,7 @@ class applicantListActivity : AppCompatActivity() {
                     .show()
             }else{
                 //グループ作成の処理
-                var apiUrl = myApp.apiUrl+"roomCreate.php?postNo="+postNo+"&userId="+loginuserId
+                var apiUrl = myApp.apiUrl+"roomCreate.php?postNo="+postNo+"&userId="+myApp.loginMyId
                 val request = Request.Builder().url(apiUrl).build()
                 val errorText = "エラー"
                 Log.v("blockurl", apiUrl.toString())
