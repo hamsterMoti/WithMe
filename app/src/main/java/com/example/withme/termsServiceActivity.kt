@@ -6,8 +6,11 @@ import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import okhttp3.OkHttpClient
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 class termsServiceActivity : AppCompatActivity() {
     val client = OkHttpClient()
@@ -22,17 +25,51 @@ class termsServiceActivity : AppCompatActivity() {
         val agreeCheckBox = findViewById<CheckBox>(R.id.agreeCheckBox)
         val nextButton = findViewById<Button>(R.id.nextButton)
 
+//        intentでURLを受け取る
+        val userAddURL = intent.getStringExtra("UserURL")
+
         // チェックされたらタイムライン画面に遷移する
         nextButton.setOnClickListener{
-            if(agreeCheckBox.isChecked){
-//             共通処理の値を呼び出し(URL,nickname,loginMyId,year,month,day,gender)
-//             共通処理の値をDBに保存
-//             http接続開始
-                val intent = Intent(this, timelineActivity::class.java)
-                startActivity(intent)
+            if(agreeCheckBox.isChecked) {
+                Log.v("tagagree", "check")
+
+                if (userAddURL != null) {
+                    Log.v("tag", userAddURL)
+
+                    // http接続開始
+                    val request = Request.Builder().url(userAddURL).build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            this@termsServiceActivity.runOnUiThread {
+                                Toast.makeText(applicationContext, "erorr", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+
+                        override fun onResponse(call: Call, response: Response) {
+                            val csvStr = response.body!!.string()
+                            val resultError = JSONObject(csvStr)
+                            if (resultError.getString("result") == "error") {
+                                this@termsServiceActivity.runOnUiThread {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        errormsg.notMatch,
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                }
+                            } else if (resultError.getString("result") == "success") {
+                                this@termsServiceActivity.runOnUiThread {
+                                    val myApp = myApplication.getInstance()
+                                    val intent =
+                                        Intent(applicationContext, timelineActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            }
+                        }
+                    })
+                }
             }
         }
-
-
     }
 }
