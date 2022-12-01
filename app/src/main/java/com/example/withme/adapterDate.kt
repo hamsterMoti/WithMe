@@ -22,7 +22,7 @@ data class timelinedata( //timeLineadapterのデータ情報
 data class talklinedata( //tailadapterのデータ
 
     var userImage:Int,
-    var nameText:String,
+    var userId:String,
     var talkText:String,
     var userName:String
     )
