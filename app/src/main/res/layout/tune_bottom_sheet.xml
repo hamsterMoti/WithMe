@@ -33,7 +33,7 @@
             android:id="@+id/textView22"
             android:layout_width="295dp"
             android:layout_height="30sp"
-            android:text=" 料理・グルメ"
+            android:text="食べ物"
             android:textAlignment="textStart" />
     </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:layout_width="355dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:text="お酒"
+            android:text="イベント"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -76,7 +76,7 @@
             android:layout_width="289dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:text="スポーツ" />
+            android:text="エンタメ" />
 
     </LinearLayout>
 
@@ -97,6 +97,6 @@
             android:layout_width="254dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:text="ゲーム" />
+            android:text="暮らし" />
     </LinearLayout>
 </LinearLayout>

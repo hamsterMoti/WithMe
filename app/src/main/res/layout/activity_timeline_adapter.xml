@@ -3,11 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="350dp"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="#ffe9d8"
+    app:cardBackgroundColor="#DDFEFF"
     app:cardCornerRadius="10dp"
     app:cardElevation="8dp"
     app:cardUseCompatPadding="true">
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="330dp"
+        android:layout_height="150dp">
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="131dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="2dp"
+            android:alpha="0.50"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.125"
+            app:srcCompat="@drawable/ic_baseline_directions_run_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/zentai"
@@ -22,25 +41,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/categoryText"
-                android:layout_width="7dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="　　カテゴリ：" />
+                android:id="@+id/textView4"
+                android:layout_width="264dp"
+                android:layout_height="39dp"
+                android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/categorynameText"
-                android:layout_width="24dp"
+                android:id="@+id/textView7"
+                android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="料理・グルメ" />
-
-            <Button
-                android:id="@+id/statusImage"
-                android:layout_width="106dp"
-                android:layout_height="36dp"
-                android:text="募集中" />
-
+                android:text="募集中"
+                android:textColor="#000000" />
         </LinearLayout>
 
         <TextView
@@ -48,27 +60,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="スイパラ行きたいです"
+            android:textColor="#000000"
             android:textSize="24sp" />
 
         <TextView
             android:id="@+id/overviewText"
             android:layout_width="294dp"
             android:layout_height="47dp"
-            android:text="ついてきてくれる人募集" />
+            android:text="ついてきてくれる人募集"
+            android:textColor="#000000" />
 
         <LinearLayout
-            android:layout_width="411dp"
-            android:layout_height="47dp"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/answerText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/bosyukigen"
+                android:layout_width="160dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="回答数：６件" />
+                android:text="期限：yyyy/mm/dd"
+                android:textColor="#000000" />
 
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/comment" />
 
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="27dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="７"
+                android:textColor="#000000" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="28dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/oubosuru" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="31dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="４"
+                android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
 

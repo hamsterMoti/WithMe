@@ -19,7 +19,7 @@
             android:id="@+id/userImage"
             android:layout_width="51dp"
             android:layout_height="53dp"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            app:srcCompat="@drawable/men" />
 
         <LinearLayout
             android:layout_width="117dp"

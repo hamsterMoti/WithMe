@@ -11,25 +11,28 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
 
 class timelineAdapter  (private  val dateSet:MutableList<timelinedata>,private val activity : AppCompatActivity):RecyclerView.Adapter<timelineAdapter.ViewHoldew>() {
 
     class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
-        var categoryText: TextView
-        var categorynameText: TextView
-        var statusImage: Button
+        var categoryImage: ImageView
+        var statusText: TextView
         var titleText: TextView
         var overviewText: TextView
-        var answerText: TextView
+        var commentNumText: TextView
+        var ouboNumText:TextView
+        var bosyukigen:TextView
         var zentai: LinearLayout
 
         init {
-            categoryText = item.findViewById(R.id.categoryText)
-            categorynameText = item.findViewById(R.id.categorynameText)
-            statusImage = item.findViewById(R.id.statusImage)
+            categoryImage = item.findViewById(R.id.imageView6)
+            statusText = item.findViewById(R.id.textView7)
             titleText = item.findViewById(R.id.titleText)
             overviewText = item.findViewById(R.id.overviewText)
-            answerText = item.findViewById(R.id.answerText)
+            commentNumText = item.findViewById(R.id.textView9)
+            ouboNumText = item.findViewById(R.id.textView10)
+            bosyukigen = item.findViewById(R.id.bosyukigen)
             zentai = item.findViewById(R.id.zentai)
 
         }
@@ -49,12 +52,25 @@ class timelineAdapter  (private  val dateSet:MutableList<timelinedata>,private v
 
     override fun onBindViewHolder(holder: timelineAdapter.ViewHoldew, position: Int) {
 
-        //仮データ挿入
-        holder.categoryText.setText(dateSet[position].categoryText)
-        holder.categorynameText.setText(dateSet[position].categorynameText)
+        //データ挿入
         holder.titleText.setText(dateSet[position].titleText)
         holder.overviewText.setText(dateSet[position].overviewText)
-        holder.answerText.setText(dateSet[position].answerText)
+        holder.commentNumText.setText(dateSet[position].commentNum)
+        holder.ouboNumText.setText(dateSet[position].answerText)
+        holder.ouboNumText.setText(dateSet[position].answerText)
+        holder.bosyukigen.setText("期限："+dateSet[position].postTime)
+
+        if(dateSet[position].categorynameText == "食べ物"){
+            //holder.categoryImage.setImageResource(R.drawable.)
+        }else if(dateSet[position].categorynameText == "イベント"){
+            //holder.categoryImage.setImageResource(R.drawable.)
+        }else if(dateSet[position].categorynameText == "エンタメ"){
+            //holder.categoryImage.setImageResource(R.drawable.)
+        }else if(dateSet[position].categorynameText == "暮らし"){
+            //holder.categoryImage.setImageResource(R.drawable.)
+        }
+
+
 
         holder.zentai.setOnClickListener{
             var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)

@@ -97,6 +97,8 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                     Log.v("newpost","投稿削除")
                     var apiUrl = myApp.apiUrl + "postDelete.php?postNo="+dateSet[position].postNo
                     okituusinn(apiUrl,activity)
+                    //bottomシートclause
+                    bottomSheetDialog.dismiss()
                 }
 
                 bottomSheetDialog.setContentView(bottomSheetView)
@@ -113,9 +115,13 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                     Log.v("newpost","ブロック")
                     var apiUrl = myApp.apiUrl + "blockCtl.php?userId=" + myApp.loginMyId + "&blockUserId=" + dateSet[position].youid + "&blockFlg=1"
                     okituusinn(apiUrl,activity)
+                    //bottomシートclause
+                    bottomSheetDialog.dismiss()
                 }
                 bottomSheetView.findViewById<View>(R.id.textView3).setOnClickListener {
                     Log.v("newpost","通報")
+                    //bottomシートclause
+                    bottomSheetDialog.dismiss()
                 }
                 bottomSheetDialog.setContentView(bottomSheetView)
                 bottomSheetDialog.show()
@@ -124,7 +130,8 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         }
         //ステイタスボタンをタップしたときの処理
         holder.statusImage.setOnClickListener {
-          if(myApp.loginMyId==myApp.checkId){
+
+          if((myApp.loginMyId==myApp.checkId)&&(dateSet[position].moreimage=="投稿一覧")){
               var apiUrl = myApp.apiUrl+"statusCtl.php?userId="+myApp.loginMyId+"&postNo="+dateSet[position].postNo+"&statusFlg="+dateSet[position].statusImage
               val request = Request.Builder().url(apiUrl).build()
               val errorText = "エラー"

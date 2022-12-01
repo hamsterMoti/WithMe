@@ -19,7 +19,7 @@
             android:id="@+id/userImage"
             android:layout_width="77dp"
             android:layout_height="53dp"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            app:srcCompat="@drawable/woman" />
 
         <LinearLayout
             android:id="@+id/zikosyoukai"
@@ -32,14 +32,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="Name" />
 
             <TextView
                 android:id="@+id/profileText"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="Comment" />
 
         </LinearLayout>
 
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="ブロック済み" />
 
     </LinearLayout>
 
