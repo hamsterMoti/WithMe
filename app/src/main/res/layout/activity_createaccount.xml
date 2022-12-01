@@ -110,6 +110,7 @@
 
     <TextView
         android:id="@+id/birthday"
+        android:text="ooo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="141dp"
