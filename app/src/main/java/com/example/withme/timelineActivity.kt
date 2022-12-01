@@ -1,5 +1,6 @@
 package com.example.withme
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,12 +23,16 @@ import java.io.IOException
 class timelineActivity : AppCompatActivity() {
     val client = OkHttpClient()
     val myApp = myApplication.getInstance()
+    private var inputMethodManager: InputMethodManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timeline)
 
         val timelineRecycl = findViewById<RecyclerView>(R.id.profileRecyclerView)
+        val editTextTextPersonName = findViewById<EditText>(R.id.editTextTextPersonName)
+        val  searchbutton = findViewById<Button>(R.id.searchbutton)
+
         val fab: View = findViewById(R.id.fab)
 //        絞り込み
         val adjustImage = findViewById<ImageView>(R.id.adjustImage)
@@ -37,9 +44,15 @@ class timelineActivity : AppCompatActivity() {
             var intent = Intent(applicationContext, postActivity::class.java)
             startActivity(intent)
         }
+        searchbutton.setOnClickListener {
+            var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId+"&sString="+editTextTextPersonName.text
+            access(apiUrl,timelineRecycl)
+        }
+
+
 
         //初期タイムライン
-        var apiUrl = myApp.apiUrl+"timelineInfo.php?userId="+myApp.loginMyId
+        var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId
         access(apiUrl,timelineRecycl)
 
 
@@ -54,20 +67,26 @@ class timelineActivity : AppCompatActivity() {
             bottomSheetView.findViewById<View>(R.id.newPost).setOnClickListener {
 //          新着順に並び替える
                 Log.v("newpost","新着順")
-                var apiUrl = myApp.apiUrl+"timelineInfo.php?userId="+myApp.loginMyId+"&sSort=1"
+                var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId+"&sSort=1"
                 access(apiUrl,timelineRecycl)
+                //bottomシートclause
+                bottomSheetDialog.dismiss()
             }
             bottomSheetView.findViewById<View>(R.id.oldPost).setOnClickListener {
 //          投稿順に並び替える
                 Log.v("newpost","投稿順")
-                var apiUrl = myApp.apiUrl+"timelineInfo.php?userId="+myApp.loginMyId+"&sSort=2"
+                var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId+"&sSort=2"
                 access(apiUrl,timelineRecycl)
+                //bottomシートclause
+                bottomSheetDialog.dismiss()
             }
             bottomSheetView.findViewById<View>(R.id.deadlinePost).setOnClickListener {
 //          締め切り近いに並び替える
                 Log.v("newpost","締め切り近い")
-                var apiUrl = myApp.apiUrl+"timelineInfo.php?userId="+myApp.loginMyId+"&sSort=3"
+                var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId+"&sSort=3"
                 access(apiUrl,timelineRecycl)
+                //bottomシートclause
+                bottomSheetDialog.dismiss()
             }
 
             bottomSheetDialog.setContentView(bottomSheetView)
@@ -83,10 +102,43 @@ class timelineActivity : AppCompatActivity() {
                 findViewById(R.id.tune) as LinearLayout?
             )
 
+            tunebottomSheetView.findViewById<View>(R.id.textView22).setOnClickListener {
+//          絞り込みー料理グルメ
+                Log.v("newpost","食べ物")
+                var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId+"&sCategory=居酒屋"
+                access(apiUrl,timelineRecycl)
+                //bottomシートclause
+                bottomSheetDialog.dismiss()
+            }
+            tunebottomSheetView.findViewById<View>(R.id.textView23).setOnClickListener {
+//          絞り込みーお酒
+                Log.v("newpost","イベント")
+                var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId+"&sCategory=お酒"
+                access(apiUrl,timelineRecycl)
+                //bottomシートclause
+                bottomSheetDialog.dismiss()
+            }
+            tunebottomSheetView.findViewById<View>(R.id.textView24).setOnClickListener {
+//          絞り込みースポーツ
+                Log.v("newpost","エンタメ")
+                var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId+"&sCategory=スポーツ"
+                access(apiUrl,timelineRecycl)
+                //bottomシートclause
+                bottomSheetDialog.dismiss()
+            }
+            tunebottomSheetView.findViewById<View>(R.id.textView25).setOnClickListener {
+//          絞り込みーゲーム
+                Log.v("newpost","暮らし")
+                var apiUrl = myApp.apiUrl+"search.php?userId="+myApp.loginMyId+"&sCategory=ゲーム"
+                access(apiUrl,timelineRecycl)
+                //bottomシートclause
+                bottomSheetDialog.dismiss()
+            }
             bottomSheetDialog.setContentView(tunebottomSheetView)
             bottomSheetDialog.show()
         }
     }
+
 
     fun access(apiUrl:String,timelineRecycl:RecyclerView){
 
@@ -125,12 +177,13 @@ class timelineActivity : AppCompatActivity() {
                             var applyNum = json.getString("applyNum")
                             var status = json.getString("status")
                             var recFlag = json.getString("recFlag")
-                            countList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content, "応募件数"+applyNum,postNo,recFlag))
+                            countList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content,commentNum,applyNum,postNo,recFlag,postDate))
                         }
                         //recycleview
                         timelineRecycl.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = timelineAdapter(countList, this@timelineActivity)
                         timelineRecycl.adapter = adapter
+
                     }
                 }
             }

@@ -122,6 +122,13 @@ class detailtimelineActivity : AppCompatActivity() {
                 }
             }
     })
+        contributorImage.setOnClickListener {
+            myApp.checkId=userId
+            Toast.makeText(applicationContext, myApp.checkId, Toast.LENGTH_SHORT).show()
+            var intent = Intent(applicationContext, mypageActivity::class.java)
+            startActivity(intent)
+        }
+
 //        ーーーーーーーーー
 
         //message送信処理ーーーーー

@@ -11,9 +11,11 @@ data class timelinedata( //timeLineadapterのデータ情報
     var statusImage: Int,
     var titleText: String,
     var overviewText: String,
+    var commentNum:String,
     var answerText: String,
     var postNo: String,
-    var recFlag:String
+    var recFlag:String,
+    var postTime:String
 
     )
 

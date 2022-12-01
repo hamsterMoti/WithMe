@@ -65,7 +65,6 @@ class mypageActivity : AppCompatActivity() {
         val addressText = findViewById<TextView>(R.id.addressText)
         val nameText = findViewById<TextView>(R.id.nameText)
         val ageText = findViewById<TextView>(R.id.ageText)
-        val genderImage = findViewById<ImageView>(R.id.genderImage)
         val profileText = findViewById<TextView>(R.id.profileText)
         val postButton = findViewById<ImageView>(R.id.postButton)
         val goodButton = findViewById<ImageView>(R.id.goodButton)
@@ -80,6 +79,9 @@ class mypageActivity : AppCompatActivity() {
 //        val adapter = goodAdapter(postList,this@mypageActivity)
 //        profileRecyclerView.adapter = adapter
 ////        ーーーー
+
+
+        Toast.makeText(applicationContext, myapp.checkId, Toast.LENGTH_SHORT).show()
 
         //データ取得
         var apiUrl = myApp.apiUrl+"userPage.php?userId="+userId+"&loginUserId="+loginUserId
@@ -116,6 +118,12 @@ class mypageActivity : AppCompatActivity() {
                         nameText.setText(userName)
                         profileText.setText(profile)
                         ageText.setText(age)
+                        if(gender == "男性"){
+                            userImage.setImageResource(R.drawable.men)
+                        }else{
+                            userImage.setImageResource(R.drawable.woman)
+                        }
+
 
                         var date =resultError.getJSONArray("postList")
                         for (i in 0 until date.length()) {

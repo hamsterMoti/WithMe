@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 
@@ -23,10 +24,19 @@ class myDialogFragment (var test:ArrayList<String>,con: Context): DialogFragment
         val spinner = customAlertView.findViewById<Spinner>(R.id.spinner)
         val spinner2 = customAlertView.findViewById<Spinner>(R.id.spinner2)
         val spinner3 = customAlertView.findViewById<Spinner>(R.id.spinner3)
-        val men = customAlertView.findViewById<Button>(R.id.button4)
-        val woman = customAlertView.findViewById<Button>(R.id.button5)
-        men.setOnClickListener { test[0] = "男" }
-        woman.setOnClickListener { test[0] = "女" }
+        val men = customAlertView.findViewById<ImageView>(R.id.imageView8)
+        val woman = customAlertView.findViewById<ImageView>(R.id.imageView10)
+
+        men.setOnClickListener {
+            test[0] = "男"
+            woman.setAlpha(100)
+            men.setAlpha(255)
+        }
+        woman.setOnClickListener {
+            test[0] = "女"
+            woman.setAlpha(255)
+            men.setAlpha(100)
+        }
         val age = arrayOf("指定なし", "10", "20", "30", "40", "50", "60", "70")
         val num = arrayOf("指定なし", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
 

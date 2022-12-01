@@ -9,8 +9,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="359dp"
-        android:layout_height="640dp"
+        android:layout_width="357dp"
+        android:layout_height="611dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,16 +32,25 @@
 
             <EditText
                 android:id="@+id/editTextTextPersonName"
-                android:layout_width="318dp"
+                android:layout_width="133dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="検索"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="10sp" />
             <!--絞り込み-->
+            <Button
+                android:id="@+id/searchbutton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="8sp"
+                app:icon="@drawable/ic_baseline_add_24" />
+
             <ImageView
                 android:id="@+id/tuneImage"
-                android:layout_width="20dp"
+                android:layout_width="59dp"
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/ic_baseline_tune_24" />
             <!--並び替え-->
@@ -54,6 +63,7 @@
                 app:srcCompat="@drawable/ic_baseline_multiple_stop_24" />
 
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profileRecyclerView"
             android:layout_width="match_parent"
