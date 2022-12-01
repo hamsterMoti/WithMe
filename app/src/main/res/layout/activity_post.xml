@@ -96,19 +96,26 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/ariButton"
-                    android:layout_width="197dp"
+                <RadioGroup
+                    android:id="@+id/radioG"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:onClick="showDialog"
-                    android:text="あり" />
+                    android:layout_weight="1">
 
-                <Button
-                    android:id="@+id/nasiButton"
-                    android:layout_width="113dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="なし" />
+                    <RadioButton
+                        android:id="@+id/radioButton"
+                        android:layout_width="197dp"
+                        android:layout_height="wrap_content"
+                        android:onClick="showDialog"
+                        android:text="あり" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="なし" />
+                </RadioGroup>
             </LinearLayout>
 
             <Button

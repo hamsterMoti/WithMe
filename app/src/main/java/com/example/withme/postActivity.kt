@@ -8,6 +8,7 @@ package com.example.withme
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -19,25 +20,23 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.amazonaws.auth.CognitoCachingCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.services.s3.AmazonS3Client
-import com.amazonaws.services.s3.model.CannedAccessControlList
 import okhttp3.*
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.util.*
-
 
 
 class postActivity : AppCompatActivity() {
 
     private lateinit var file: File
     private lateinit var imageFile: File
-    var uri: Uri? = null
+    private lateinit var uri: Uri
+//    var uri: Uri? = null
     val client = OkHttpClient()
     private val REQUEST_GALLERY_TAKE = 2
     private val TEMP_FILE_NAME = "temp_upload_image"
@@ -76,20 +75,31 @@ class postActivity : AppCompatActivity() {
         val syuruiSp = findViewById<Spinner>(R.id.syuruiSp)
         val contentEdit = findViewById<EditText>(R.id.contentEdit)
         val postButton = findViewById<Button>(R.id.postButton)
-        val ariButton = findViewById<Button>(R.id.ariButton)
-        val nasiButton = findViewById<Button>(R.id.nasiButton)
+        var ragiaG = findViewById<RadioGroup>(R.id.radioG)
+        val ariButton = findViewById<RadioButton>(R.id.radioButton)
+        val nasiButton = findViewById<RadioButton>(R.id.radioButton3)
         var flag = 0
         var flag2 = 0
         var flag3 = 0
         var flag4 = 0
+
+
+        //ラジオボタン処理
+        ragiaG.setOnCheckedChangeListener { _, checkedId: Int ->
+            when (checkedId) {
+                R.id.radioButton3 -> test = arrayListOf("","0","120","")
+            }
+        }
+
 
         //画像タップ時の処理
         photo.setOnClickListener {
             openGalleryForImage()
         }
 
+
         //スピナー登録
-        val categoryarray = arrayOf("料理・グルメ", "お酒","スポーツ","ゲーム")
+        val categoryarray = arrayOf("食べ物", "イベント","エンタメ","暮らし")
         val syuruiarray = arrayOf( "同伴", "相談")
         val categoryarrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categoryarray)
         val syuruiarrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, syuruiarray)
@@ -103,66 +113,70 @@ class postActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
 
-//                var credentialsProvider = AWSUtil.getCredentialsProvider(this@postActivity)
-//                var  s3 = AmazonS3Client(credentialsProvider)
-//                var transferUtility = TransferUtility(s3, this@postActivity.getApplicationContext());
-//                var transferObserver = transferUtility.upload("my_bucket", "my_images/01.jpg", file, CannedAccessControlList.PublicRead)
-
-
-
-//            S3へアップロード---
+            //転送用ファイル作成
+//            val projection = arrayOf(MediaStore.MediaColumns.DATA)
+//            val cursor = contentResolver.query(uri, projection, null, null, null)
+//            if (cursor != null) {
+//                var path: String? = null
+//                if (cursor.moveToFirst()) {
+//                    path = cursor.getString(0)
+//                }
+//                cursor.close()
+//                if (path != null) {
+//                    file = File(path)
+//                }
+//            }
+//
 //            val accessKey = "AKIA4QEAAAZWJYAHMEM"
 //            val secKey = "HXpsa8coRXhVPKUROb7KfIK7qRuoZN01HE5AyYg4"
 //            val buchet = "with-me"
-//            var path = "ストレージ/DCIM/Camera/IMG20221114142504.jpg"
-//            // AWS認証情報の作成
-//            var  basicAWSCredentials =  BasicAWSCredentials(accessKey, secKey)
-//            var s3Client =  AmazonS3Client(basicAWSCredentials)
-//            //クライアント接続用オブジェクトsInstance
-//            var transferUtility =  TransferUtility(s3Client, getApplicationContext());//転送用オブジェクト
-//            バケット名,S3内のファイル名(デイレクトり指定も可能),uploadファイル
-//            var TransferObserver  = transferUtility.upload(buchet, "tomato",  java.io.File(uri.toString()))
-
+//
+//            // 認証情報の作成
+//            val basicAWSCredentials = BasicAWSCredentials(accessKey, secKey)
+//
+//            // 作成した認証情報でクライアント接続用オブジェクトを作成
+//            val s3Client = AmazonS3Client(basicAWSCredentials)
+//            val transferUtility = TransferUtility(s3Client, applicationContext)
+//
+//            // ファイルを指定してアップロードを行う
+//            val observer = transferUtility.upload(buchet, "test.png", file)
+//
 //            //log出力用
-//            TransferObserver.setTransferListener(object : TransferListener {
+//            observer.setTransferListener(object : TransferListener {
 //                override fun onStateChanged(id: Int, state: TransferState) {
 //                    Log.d("AwsSample", "status: $state")
-//                } //完了時(COMPLETED)
-//
+//                }//完了時(COMPLETED)
 //                override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
 //                    Log.d(
 //                        "AwsSample",
 //                        "progress: $id bytesCurrent:$bytesCurrent bytesTotal:$bytesTotal"
 //                    )
-//                } //転送時
+//                }//転送時
 //                override fun onError(id: Int, ex: Exception) {
 //                    ex.printStackTrace()
-//                    Log.d("AwsSample", "失敗")
-//                } //失敗時
+//                }//失敗時
 //            })
-//            //-----
-
 
 
 ////            入力値チェック
-//            if ((titleEdit.text.toString().isEmpty())) {
-//                titleEdit.error = emptyError
-//                flag = 0
-//            }else{
-//                flag = 1
-//            }
-//            if (contentEdit.text.toString().isEmpty()) {
-//                contentEdit.error = emptyError
-//                flag2 = 0
-//            }else{
-//                flag2 = 1
-//            }
-//            if(recruitDaySp.text.toString()=="タップしてください"){
-//                Toast.makeText(this , "募集期間を入力してください", Toast.LENGTH_LONG).show();
-//                flag3 = 0
-//            }else{
-//                flag3 = 1
-//            }
+            if ((titleEdit.text.toString().isEmpty())) {
+                titleEdit.error = emptyError
+                flag = 0
+            }else{
+                flag = 1
+            }
+            if (contentEdit.text.toString().isEmpty()) {
+                contentEdit.error = emptyError
+                flag2 = 0
+            }else{
+                flag2 = 1
+            }
+            if(recruitDaySp.text.toString()=="タップしてください"){
+                Toast.makeText(this , "募集期間を入力してください", Toast.LENGTH_LONG).show();
+                flag3 = 0
+            }else{
+                flag3 = 1
+            }
 
  //           if((flag == 1)&&(flag2 == 1)&&(flag3 == 1)){
 
@@ -181,13 +195,10 @@ class postActivity : AppCompatActivity() {
                         test[cnt] =""}
                 }
 
-
-
 //            入力データ確認
 //            var test = arrayListOf("性別","開始年代","終了年代","定員")
                 Log.v("alldata","タイトル-"+titleEdit.text.toString()+"種類-"+syuruiSpitem+"カテゴリ-"+categrySpitem+"日時-"+
                         bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3])
-
 
             if(test[1].isEmpty()){
                 test[1]="0"
@@ -223,45 +234,6 @@ class postActivity : AppCompatActivity() {
                 }
             })
 
-
-
-//                post通信
-//                val url  = "https://click.ecc.ac.jp/ecc/whisper_e/whisperAdd2.php"
-//                val body = FormBody.Builder()
-//                    .add("userId", "00")
-//                    .add("content", "１１１１")
-//                    .add("image", b64Encode)
-//                    .build()
-//                val request = Request.Builder().url(url).post(body).build()
-//
-//                client.newCall(request).enqueue(object : Callback {
-//                    override fun onFailure(call: Call, e: IOException) {
-//                        this@postActivity.runOnUiThread {
-//                            Toast.makeText(applicationContext, "erorr", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                    override fun onResponse(call: Call, response: Response) {
-//                        val csvStr = response.body!!.string()
-//                        val resultError = JSONObject(csvStr)
-//                        if (resultError.getString("result") == "error") {
-//                            this@postActivity.runOnUiThread {
-//                                Toast.makeText(
-//                                    applicationContext,
-//                                    errormsg.notMatch,
-//                                    Toast.LENGTH_SHORT
-//                                )
-//                                    .show()
-//                            }
-//                        } else if (resultError.getString("result") == "success") {
-//                            this@postActivity.runOnUiThread {
-//                            }
-//                        }
-//                    }
-//                })
-//
-
-
-            //}
         }
     }
 
@@ -287,7 +259,6 @@ class postActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-
     //ギャラリーを開くためのメソッド
     private fun openGalleryForImage() {
 
@@ -305,7 +276,7 @@ class postActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (requestCode == REQUEST_GALLERY_TAKE && resultCode == RESULT_OK) {
             if (resultData != null) {
-                uri = resultData.data
+                uri = resultData.data!!
 
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
