@@ -7,6 +7,7 @@ class errorApplication {
     val emptyError : String = "入力値がありません"
     val notMatch : String = "一致しません"
     val connectionError : String = "通信できませんでした"
+    val error : String = "エラーが発生しました"
 
     companion object {
         private var instance: errorApplication? = null
