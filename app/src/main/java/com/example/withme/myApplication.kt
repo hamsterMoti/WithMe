@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 class myApplication{
-    val ipAddress = "184.73.14.60"
+    val ipAddress = "3.214.68.105"
     var apiUrl: String = "http://$ipAddress/with_me/"
 //  ID（メールアドレス）
     var loginMyId: String = "aaa@bbb.com"
