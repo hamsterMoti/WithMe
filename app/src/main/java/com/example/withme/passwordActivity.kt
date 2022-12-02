@@ -32,13 +32,14 @@ class passwordActivity : AppCompatActivity() {
         var birthday = intent.getStringExtra("birthday")
         val gender = intent.getStringExtra("gender")
 
+
 //        val formatter = DateTimeFormatter.ofPattern("yyyy/[]M/[]d")
 //        birthday = LocalDate.parse(birthday, formatter).toString()
 //        Log.v("date",birthday.toString())
         nextButton.setOnClickListener {
             if (passwordEdit.text.toString().isEmpty()) {
                 passwordEdit.error = emptyError
-            } else if (repasswordEdit.text.toString().isEmpty()) {
+            } else if (repasswordEdit.text.isEmpty()) {
                 repasswordEdit.error = emptyError
             }else if(passwordEdit.text.toString() != repasswordEdit.text.toString()){
                 passwordEdit.error = errormsg.notMatch
@@ -48,7 +49,7 @@ class passwordActivity : AppCompatActivity() {
                     val pass = passwordEdit.text.toString()
                     val intent = Intent(this, termsServiceActivity::class.java)
                     val UserURL =
-                        myApp.apiUrl + "userAdd.php?userId=$myId&userName=$nickname&password=$birthday&birthday=$birthday&gender=$gender"
+                        myApp.apiUrl + "userAdd.php?userId=$myId&userName=$nickname&password=$pass&birthday=$birthday&gender=$gender"
                     intent.putExtra("UserURL", UserURL)
                     myApp.loginMyId = myId
                     startActivity(intent)
