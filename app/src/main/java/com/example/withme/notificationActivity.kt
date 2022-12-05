@@ -47,15 +47,18 @@ class notificationActivity : AppCompatActivity() {
                         val listlisrt = mutableListOf<notificationDate>()
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {
+                            Log.v("kakunin",i.toString())
                             var json = date.getJSONObject(i)
                             var notifyContent = json.getString("notifyContent")
                             var notifyDate = json.getString("notifyDate")
                             Log.v("blockinfo","notifyContent:" + notifyContent+"notifyDate"+notifyDate)
                             listlisrt.add(notificationDate(1,notifyContent))
                         }
+//                        リストを逆にする
+                        val result = listlisrt.asReversed()
 
                         notificationRecycle.layoutManager = LinearLayoutManager(applicationContext)
-                        val adapter = notificationAdapter(listlisrt,this@notificationActivity)
+                        val adapter = notificationAdapter(result,this@notificationActivity)
                         notificationRecycle.adapter = adapter
 
                     }
