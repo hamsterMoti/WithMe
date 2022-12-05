@@ -54,7 +54,7 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
         }
         holder.talkzentai.setOnClickListener{
             //talk画面へ遷移
-            var intent = Intent(activity.applicationContext, talkActivity::class.java)
+            var intent = Intent(activity.applicationContext, chatActivity::class.java)
             intent.putExtra("userId",dateSet[position].userId)
             activity.startActivity(intent)
         }

@@ -35,7 +35,7 @@ class chatActivity : AppCompatActivity() {
             ?.hide()
 //        intentでroomNoを受け取る
 //        val roomNo = intent.getStringExtra("UserURL")
-        val roomNo = 22
+        val roomNo = 27
 //        val userId = getInt("userId")
         val userId = "2200166@ecc.ac.jp"
         messageRecyclerView = findViewById(R.id.chatRecycle)
@@ -46,6 +46,7 @@ class chatActivity : AppCompatActivity() {
 
 //        チャット更新
         val URL = myApp.apiUrl+"chat.php?roomNo=$roomNo"
+        Log.v("blockurl",URL)
         // http接続開始
         val request = Request.Builder().url(URL).build()
         client.newCall(request).enqueue(object : Callback {
@@ -81,6 +82,7 @@ class chatActivity : AppCompatActivity() {
                             var image = json.getString("image")
                             var messageDate = json.getString("messageDate")
 
+                            Log.v("message",message)
                             messageList.add(Message(message,userId))
                         }
 
