@@ -52,7 +52,7 @@ class detailtimelineActivity : AppCompatActivity() {
         var apiUrl = myApp.apiUrl+"postDetail.php?postNo="+postNo+"&loginUserId=" + loginuserId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
-        // Log.v("blockurl",apiUrl)
+         Log.v("blockurl",apiUrl)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 this@detailtimelineActivity.runOnUiThread {
@@ -78,7 +78,7 @@ class detailtimelineActivity : AppCompatActivity() {
                         title = resultError.getString("title")
                         var categoryName = resultError.getString("categoryName")
                         var content = resultError.getString("content")
-                        var image = resultError.getString("image")
+                        var gender = resultError.getString("gender")
                         var term = resultError.getString("term")
                         var capacity = resultError.getString("capacity")
                         var hopeGenger = resultError.getString("hopeGenger")
@@ -96,6 +96,11 @@ class detailtimelineActivity : AppCompatActivity() {
                             var commenterId = json.getString("commenterId")
                             var commenterIcon = json.getString("commenterIcon")
                             var comment = json.getString("comment")
+                        }
+                        if(gender == "男性"){
+                            contributorImage.setImageResource(R.drawable.men)
+                        }else{
+                            contributorImage.setImageResource(R.drawable.woman)
                         }
                         postdayText.setText(postDate)
                         titleName.setText(title)
@@ -118,14 +123,25 @@ class detailtimelineActivity : AppCompatActivity() {
                         if(loginuserId==userId){
                             oubobutton.setText("応募一覧")
                         }
+                        if(categoryName == "食べ物"){
+                            postImage.setImageResource(R.drawable.user_6)
+                        }else if(categoryName == "イベント"){
+                            postImage.setImageResource(R.drawable.user_7)
+                        } else if(categoryName == "エンタメ"){
+                            postImage.setImageResource(R.drawable.user_8)
+                        } else if(categoryName == "暮らし"){
+                            postImage.setImageResource(R.drawable.user_9)
+                        }
                     }
                 }
             }
     })
+        //マイページへ画面遷移
         contributorImage.setOnClickListener {
             myApp.checkId=userId
             Toast.makeText(applicationContext, myApp.checkId, Toast.LENGTH_SHORT).show()
             var intent = Intent(applicationContext, mypageActivity::class.java)
+            intent.putExtra("targetId",userId)
             startActivity(intent)
         }
 

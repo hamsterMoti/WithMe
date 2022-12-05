@@ -21,7 +21,7 @@ data class timelinedata( //timeLineadapterのデータ情報
 
 data class talklinedata( //tailadapterのデータ
 
-    var userImage:Int,
+    var categoryText:String,
     var userId:String,
     var talkText:String,
     var userName:String
@@ -29,13 +29,14 @@ data class talklinedata( //tailadapterのデータ
 
 data class gooddata( //goodadapterのデータ
 
-    var userImage:Int,
+    var category:String,
     var contoributorName:String,
     var titleText:String,
     var moreimage:String,
     var statusImage:Int,
     var postNo:String,
-    var youid:String
+    var youid:String,
+    var saFlag:Int
 
     )
 

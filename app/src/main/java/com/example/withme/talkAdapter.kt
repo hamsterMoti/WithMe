@@ -43,12 +43,22 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
         //仮データ挿入
         holder.nameText.setText(dateSet[position].userName)
         holder.talkText.setText(dateSet[position].talkText)
+        if(dateSet[position].categoryText == "食べ物"){
+            holder.userImage.setImageResource(R.drawable.user_6)
+        }else if(dateSet[position].categoryText == "イベント"){
+            holder.userImage.setImageResource(R.drawable.user_7)
+        }else if(dateSet[position].categoryText == "エンタメ"){
+            holder.userImage.setImageResource(R.drawable.user_8)
+        }else if(dateSet[position].categoryText == "暮らし"){
+            holder.userImage.setImageResource(R.drawable.user_9)
+        }
         holder.talkzentai.setOnClickListener{
             //talk画面へ遷移
             var intent = Intent(activity.applicationContext, talkActivity::class.java)
             intent.putExtra("userId",dateSet[position].userId)
             activity.startActivity(intent)
         }
+
 
 
     }

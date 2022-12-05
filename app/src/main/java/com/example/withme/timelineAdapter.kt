@@ -61,13 +61,13 @@ class timelineAdapter  (private  val dateSet:MutableList<timelinedata>,private v
         holder.bosyukigen.setText("期限："+dateSet[position].postTime)
 
         if(dateSet[position].categorynameText == "食べ物"){
-            //holder.categoryImage.setImageResource(R.drawable.)
+            holder.categoryImage.setImageResource(R.drawable.user_6)
         }else if(dateSet[position].categorynameText == "イベント"){
-            //holder.categoryImage.setImageResource(R.drawable.)
+            holder.categoryImage.setImageResource(R.drawable.user_7)
         }else if(dateSet[position].categorynameText == "エンタメ"){
-            //holder.categoryImage.setImageResource(R.drawable.)
+            holder.categoryImage.setImageResource(R.drawable.user_8)
         }else if(dateSet[position].categorynameText == "暮らし"){
-            //holder.categoryImage.setImageResource(R.drawable.)
+            holder.categoryImage.setImageResource(R.drawable.user_9)
         }
 
 

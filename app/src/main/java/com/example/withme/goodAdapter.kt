@@ -57,6 +57,16 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         }else{
             holder.statusImage.setText("締切")
         }
+        if(dateSet[position].category == "食べ物"){
+            holder.userImage.setImageResource(R.drawable.user_6)
+        }else if(dateSet[position].category == "イベント"){
+            holder.userImage.setImageResource(R.drawable.user_7)
+        }else if(dateSet[position].category == "エンタメ"){
+            holder.userImage.setImageResource(R.drawable.user_8)
+        }else if(dateSet[position].category == "暮らし"){
+            holder.userImage.setImageResource(R.drawable.user_9)
+        }
+
 
 
         //アイコン画像がタップされた時の処理
@@ -85,24 +95,26 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         }
         //more画像がタップされた時ボトムシートを表示
         holder.moreimage.setOnClickListener{
-            if (dateSet[position].moreimage.equals("投稿一覧")){ //投稿一覧リストの場合
-                val bottomSheetDialog = BottomSheetDialog(
-                    activity, R.style.BottomSheetDialogTheme
-                )
-                val bottomSheetView = LayoutInflater.from(activity).inflate(
-                    R.layout.activity_ntmsheet,
-                    activity.findViewById(R.id.tune) as LinearLayout?
-                )
-                bottomSheetView.findViewById<View>(R.id.textView5).setOnClickListener {
-                    Log.v("newpost","投稿削除")
-                    var apiUrl = myApp.apiUrl + "postDelete.php?postNo="+dateSet[position].postNo
-                    okituusinn(apiUrl,activity)
-                    //bottomシートclause
-                    bottomSheetDialog.dismiss()
+            if (dateSet[position].moreimage.equals("投稿一覧")) { //投稿一覧リストの場合
+                if(dateSet[position].saFlag == 1) {
+                    val bottomSheetDialog = BottomSheetDialog(
+                        activity, R.style.BottomSheetDialogTheme
+                    )
+                    val bottomSheetView = LayoutInflater.from(activity).inflate(
+                        R.layout.activity_ntmsheet,
+                        activity.findViewById(R.id.tune) as LinearLayout?
+                    )
+                    bottomSheetView.findViewById<View>(R.id.textView5).setOnClickListener {
+                        Log.v("newpost", "投稿削除")
+                        var apiUrl =
+                            myApp.apiUrl + "postDelete.php?postNo=" + dateSet[position].postNo
+                        okituusinn(apiUrl, activity)
+                        //bottomシートclause
+                        bottomSheetDialog.dismiss()
+                    }
+                    bottomSheetDialog.setContentView(bottomSheetView)
+                    bottomSheetDialog.show()
                 }
-
-                bottomSheetDialog.setContentView(bottomSheetView)
-                bottomSheetDialog.show()
             }else if (dateSet[position].moreimage.equals("参加一覧")){ //参加一覧リストの場合
                 val bottomSheetDialog = BottomSheetDialog(
                     activity, R.style.BottomSheetDialogTheme
