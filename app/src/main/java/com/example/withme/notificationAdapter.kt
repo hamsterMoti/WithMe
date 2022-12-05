@@ -14,13 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 class notificationAdapter  (private  val dateSet:MutableList<notificationDate>,private val activity : AppCompatActivity):RecyclerView.Adapter<notificationAdapter.ViewHoldew>() {
 
     class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
-        var userImage:ImageView
         var notificationText:TextView
 
         init {
-            userImage = item.findViewById(R.id.userImage)
             notificationText = item.findViewById(R.id.notificationText)
-
         }
 
     }

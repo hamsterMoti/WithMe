@@ -47,7 +47,7 @@ class chatlistActivity  : AppCompatActivity() {
                         Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
                             .show()
                     }
-                }else if(resultError.getString("result") == "succes"){
+                }else if(resultError.getString("result") == "success"){
                     this@chatlistActivity.runOnUiThread {
                         val date =resultError.getJSONArray("chatList")
                         //データが存在する間listにデータを挿入する
@@ -56,11 +56,12 @@ class chatlistActivity  : AppCompatActivity() {
                             var roomNo = json.getString("roomNo")
                             var userId = json.getString("userId")
                             var userName = json.getString("userName")
+                            var category = json.getString("category")
                             var message = json.getString("message")
                             var image = json.getString("image")
                             var messageDate = json.getString("messageDate")
+                            countList.add(talklinedata(category,userId,message,userName))
 
-                            countList.add(talklinedata(1,userId,message,userName))
                         }
 
                         chatlistRecycle.layoutManager = LinearLayoutManager(applicationContext)

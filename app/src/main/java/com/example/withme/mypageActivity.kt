@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -29,6 +30,8 @@ class mypageActivity : AppCompatActivity() {
     var gender = ""
     var flag = ""
     var post_postNo =""
+    var post_category =""
+    var apply_category =""
     var post_image = ""
     var post_title1 = ""
     var post_content = ""
@@ -48,6 +51,7 @@ class mypageActivity : AppCompatActivity() {
         val postButton = findViewById<ImageView>(R.id.postButton)
         val editprofileButton = findViewById<Button>(R.id.editprofileButton)
 
+
        //editprofileボタンタップ時の処理
         editprofileButton.setOnClickListener {
             var intent = Intent(applicationContext, editprofileActivity::class.java)
@@ -58,8 +62,17 @@ class mypageActivity : AppCompatActivity() {
     }
 
     fun mypageActivitysub(myapp:myApplication){
-        var userId = myApp.loginMyId
-        var loginUserId = myApp.checkId
+
+        var loginUserId = myApp.loginMyId
+        var userId = intent.getStringExtra("targetId")
+        if(userId == null){
+            userId = myApp.loginMyId
+        }else{
+            myapp.checkId = userId.toString()
+        }
+        var saFlag = 0
+
+
 
         val userImage = findViewById<ImageView>(R.id.userImage)
         val addressText = findViewById<TextView>(R.id.addressText)
@@ -69,19 +82,10 @@ class mypageActivity : AppCompatActivity() {
         val postButton = findViewById<ImageView>(R.id.postButton)
         val goodButton = findViewById<ImageView>(R.id.goodButton)
         val profileRecyclerView = findViewById<RecyclerView>(R.id.profileRecyclerView)
+        val editprofileButton = findViewById<Button>(R.id.editprofileButton)
         var postList = mutableListOf<gooddata>()
         var goodList = mutableListOf<gooddata>()
-//
-//
-//        //ネットない時のbottom確認用ーー
-//        postList.add(gooddata(1,"a","a","投稿一覧","0".toInt(),"1",""))
-//        profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-//        val adapter = goodAdapter(postList,this@mypageActivity)
-//        profileRecyclerView.adapter = adapter
-////        ーーーー
 
-
-        Toast.makeText(applicationContext, myapp.checkId, Toast.LENGTH_SHORT).show()
 
         //データ取得
         var apiUrl = myApp.apiUrl+"userPage.php?userId="+userId+"&loginUserId="+loginUserId
@@ -109,11 +113,15 @@ class mypageActivity : AppCompatActivity() {
                         age = resultError.getString("age")
                         gender = resultError.getString("gender")
                         flag = resultError.getString("flag")
+
                         //データ表示
                         if(userId == loginUserId){
                             addressText.setText(addresId)
+                            saFlag = 1
                         }else{
                             addressText.setText("")
+                            editprofileButton.setVisibility(View.INVISIBLE)
+                            saFlag = 2
                         }
                         nameText.setText(userName)
                         profileText.setText(profile)
@@ -131,9 +139,10 @@ class mypageActivity : AppCompatActivity() {
                             post_postNo = json.getString("postNo")
                             post_image = json.getString("image")
                             post_title1 = json.getString("title")
+                            post_category = json.getString("category")
                             post_content = json.getString("content")
                             post_status = json.getString("status")
-                            postList.add(gooddata(1,post_title1,post_content,"投稿一覧",post_status.toInt(),post_postNo,""))
+                            postList.add(gooddata(post_category,post_title1,post_content,"投稿一覧",post_status.toInt(),post_postNo,"",saFlag))
                         }
                         date =resultError.getJSONArray("applyList")
                         for (i in 0 until date.length()) {
@@ -142,10 +151,11 @@ class mypageActivity : AppCompatActivity() {
                             apply_image = json.getString("image")
                             apply_content = json.getString("content")
                             apply_title = json.getString("title")
+                            apply_category = json.getString("category")
                             apply_status = json.getString("status")
                             var apply_userId = json.getString("userId")
                             Log.v("alldata",apply_postNo)
-                            goodList.add(gooddata(1,apply_title,apply_content,"参加一覧",apply_status.toInt(),apply_postNo,apply_userId))
+                            goodList.add(gooddata(apply_category,apply_title,apply_content,"参加一覧",apply_status.toInt(),apply_postNo,apply_userId,saFlag))
                         }
                         //初期リスト
                         profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)

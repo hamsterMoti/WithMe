@@ -83,7 +83,7 @@
                 android:id="@+id/teiintext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="定員：５名" />
+                android:text="定員：指定なし" />
 
             <TextView
                 android:id="@+id/genderText"

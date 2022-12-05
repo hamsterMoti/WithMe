@@ -34,6 +34,7 @@ class timelineActivity : AppCompatActivity() {
 //        RadioButon
         val recruitGroup = findViewById<RadioGroup>(R.id.recruitRadioGroup)
         val douhanRadio = findViewById<RadioButton>(R.id.douhanRadioButton)
+        val soudanRadioButton = findViewById<RadioButton>(R.id.soudanRadioButton)
         val id = recruitGroup.checkedRadioButtonId
 
 
@@ -47,22 +48,28 @@ class timelineActivity : AppCompatActivity() {
 //        並び替え
         val tuneImage = findViewById<ImageView>(R.id.tuneImage)
 
-        var recruitText = ""
 
-//        初期状態は同伴にチェック
-        recruitGroup.check(douhanRadio.id)
 
-//        RadioButtonの判定
-        when (id) {
-//            同伴
-            R.id.douhanRadioButton -> {
-                recruitText = "同伴"
-            }
-//            相談
-            R.id.soudanRadioButton -> {
-                recruitText = "相談"
+        var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId
+
+        var recruitText = "同伴"
+
+        //ラジオボタン処理
+        recruitGroup.setOnCheckedChangeListener { _, checkedId: Int ->
+            when (checkedId) {
+                R.id.douhanRadioButton -> {
+                    recruitText = "同伴"
+                    Log.v("flogaa",recruitText)
+                    access(apiUrl, timelineRecycl,recruitText)
+                }
+                R.id.soudanRadioButton -> {
+                    recruitText = "相談"
+                    Log.v("flogaa",recruitText)
+                    access(apiUrl, timelineRecycl,recruitText)
+                }
             }
         }
+
 
         //FABボタンタップ処理
         fab.setOnClickListener { view ->
@@ -72,13 +79,12 @@ class timelineActivity : AppCompatActivity() {
         searchbutton.setOnClickListener {
             var apiUrl =
                 myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sString=" + editTextTextPersonName.text
-            access(apiUrl, timelineRecycl)
+            access(apiUrl, timelineRecycl,recruitText)
         }
 
 
         //初期タイムライン
-        var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId
-        access(apiUrl, timelineRecycl)
+        access(apiUrl, timelineRecycl,recruitText)
         
 
 //        RadioButton(相談)
@@ -94,7 +100,7 @@ class timelineActivity : AppCompatActivity() {
 //          新着順に並び替える
                 Log.v("newpost", "新着順")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=1"
-                access(apiUrl, timelineRecycl)
+                access(apiUrl, timelineRecycl,recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -102,7 +108,7 @@ class timelineActivity : AppCompatActivity() {
 //          投稿順に並び替える
                 Log.v("newpost", "投稿順")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=2"
-                access(apiUrl, timelineRecycl)
+                access(apiUrl, timelineRecycl,recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -110,7 +116,7 @@ class timelineActivity : AppCompatActivity() {
 //          締め切り近いに並び替える
                 Log.v("newpost", "締め切り近い")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=3"
-                access(apiUrl, timelineRecycl)
+                access(apiUrl, timelineRecycl,recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -132,16 +138,16 @@ class timelineActivity : AppCompatActivity() {
 //          絞り込みー料理グルメ
                 Log.v("newpost", "食べ物")
                 var apiUrl =
-                    myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=居酒屋"
-                access(apiUrl, timelineRecycl)
+                    myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=食べ物"
+                access(apiUrl, timelineRecycl,recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
             tunebottomSheetView.findViewById<View>(R.id.textView23).setOnClickListener {
 //          絞り込みーお酒
                 Log.v("newpost", "イベント")
-                var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=お酒"
-                access(apiUrl, timelineRecycl)
+                var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=イベント"
+                access(apiUrl, timelineRecycl,recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -149,8 +155,8 @@ class timelineActivity : AppCompatActivity() {
 //          絞り込みースポーツ
                 Log.v("newpost", "エンタメ")
                 var apiUrl =
-                    myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=スポーツ"
-                access(apiUrl, timelineRecycl)
+                    myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=エンタメ"
+                access(apiUrl, timelineRecycl,recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -158,8 +164,8 @@ class timelineActivity : AppCompatActivity() {
 //          絞り込みーゲーム
                 Log.v("newpost", "暮らし")
                 var apiUrl =
-                    myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=ゲーム"
-                access(apiUrl, timelineRecycl)
+                    myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=暮らし"
+                access(apiUrl, timelineRecycl,recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -169,10 +175,11 @@ class timelineActivity : AppCompatActivity() {
     }
 
 
-    fun access(apiUrl: String, timelineRecycl: RecyclerView) {
+    fun access(apiUrl: String, timelineRecycl: RecyclerView,rec:String) {
 
         //初期のタイムライン
-        val countList = mutableListOf<timelinedata>()
+        val DouhanList = mutableListOf<timelinedata>()
+        val SoudanList = mutableListOf<timelinedata>()
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
         Log.v("blockurl", apiUrl)
@@ -208,24 +215,22 @@ class timelineActivity : AppCompatActivity() {
                             var applyNum = json.getString("applyNum")
                             var status = json.getString("status")
                             var recFlag = json.getString("recFlag")
-                            countList.add(
-                                timelinedata(
-                                    "カテゴリー：",
-                                    category,
-                                    status.toInt(),
-                                    title,
-                                    content,
-                                    commentNum,
-                                    applyNum,
-                                    postNo,
-                                    recFlag,
-                                    postDate
-                                )
-                            )
+
+                            if(recFlag == "同伴"){
+                                DouhanList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content, commentNum, applyNum, postNo, recFlag, postDate ))
+                            }else if (recFlag == "相談"){
+                                SoudanList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content, commentNum, applyNum, postNo, recFlag, postDate ))
+                            }
+
                         }
                         //recycleview
                         timelineRecycl.layoutManager = LinearLayoutManager(applicationContext)
-                        val adapter = timelineAdapter(countList, this@timelineActivity)
+                        var adapter = timelineAdapter(SoudanList, this@timelineActivity)
+                        if(rec == "相談"){
+                            adapter = timelineAdapter(SoudanList, this@timelineActivity)
+                        }else if(rec == "同伴"){
+                            adapter = timelineAdapter(DouhanList, this@timelineActivity)
+                        }
                         timelineRecycl.adapter = adapter
 
                     }

@@ -27,7 +27,7 @@
             android:layout_width="34dp"
             android:layout_height="25dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_fastfood_24" />
+            android:src="@drawable/user_6" />
 
         <TextView
             android:id="@+id/textView22"
@@ -47,7 +47,7 @@
             android:layout_width="105dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_wine_bar_24"/>
+            android:src="@drawable/user_7"/>
 
         <TextView
             android:id="@+id/textView23"
@@ -69,7 +69,7 @@
             android:layout_width="39dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_directions_run_24" />
+            android:src="@drawable/user_8" />
 
         <TextView
             android:id="@+id/textView24"
@@ -90,7 +90,7 @@
             android:layout_width="10dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_videogame_asset_24" />
+            android:src="@drawable/user_9" />
 
         <TextView
             android:id="@+id/textView25"

@@ -46,14 +46,7 @@ class applicantListActivity : AppCompatActivity() {
         var applicantListRecyeclerView = findViewById<RecyclerView>(R.id.applicantListRecyeclerView)
         val countList = mutableListOf<applicantDate>()
         var addButton = findViewById<Button>(R.id.groupaddbutton)
-
         var meaddButton = findViewById<Button>(R.id.addButton)
-
-
-
-//        //        val loginuserId = myApp.loginMyId
-////        var postNo = intent.getStringExtra("postNo")
-//        var loginuserId = "2200166@ecc.ac.jp"
 
 
         //recycleviewの処理
@@ -65,6 +58,7 @@ class applicantListActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 this@applicantListActivity.runOnUiThread {
                     Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                    Log.v("blockurl", "error")
                 }
             }
             override fun onResponse(call: Call, response: Response) {
@@ -72,13 +66,14 @@ class applicantListActivity : AppCompatActivity() {
                 val resultError = JSONObject(csvStr)
                 if(resultError.getString("result") == "error") {
                     this@applicantListActivity.runOnUiThread {
+                        Log.v("blockurl", "error1")
                         Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
                             .show()
                     }
                 }else if(resultError.getString("result") == "succes"){
                     this@applicantListActivity.runOnUiThread {
-//                        Log.v("blockurl",apiUrl)
                         roomFlg = resultError.getInt("roomFlg")
+
                         val date =resultError.getJSONArray("applyList")
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {
@@ -92,6 +87,7 @@ class applicantListActivity : AppCompatActivity() {
                             Log.v("kakunin","確認"+userName+"roomFlg"+addFlg)
                             countList.add(applicantDate(0,userName,userId,age,gender,addFlg,postNo,roomFlg))
                         }
+                        Log.v("blockurl",roomFlg.toString())
                         if(roomFlg == 2) {
                             addButton.setText("グループ作成済み")
                         }
@@ -130,8 +126,9 @@ class applicantListActivity : AppCompatActivity() {
                                 Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
                                     .show()
                             }
-                        }else if(resultError.getString("result") == "succes"){
+                        }else if(resultError.getString("result") == "success"){
                             this@applicantListActivity.runOnUiThread {
+                                applicantListActivitysub(myApp,postNo)
                                 Toast.makeText(applicationContext, "成功", Toast.LENGTH_SHORT)
                                     .show()
                             }

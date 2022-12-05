@@ -36,11 +36,10 @@ class postActivity : AppCompatActivity() {
     private lateinit var file: File
     private lateinit var imageFile: File
     private lateinit var uri: Uri
-//    var uri: Uri? = null
+    //    var uri: Uri? = null
     val client = OkHttpClient()
     private val REQUEST_GALLERY_TAKE = 2
     private val TEMP_FILE_NAME = "temp_upload_image"
-    private lateinit var photo: ImageView
     private lateinit var recruitDaySp: TextView
     private lateinit var bitmap: Bitmap
     private lateinit var jpgarr: ByteArray
@@ -68,7 +67,6 @@ class postActivity : AppCompatActivity() {
     fun postsub(myapp:myApplication){
 
         val emptyError = errormsg.emptyError
-        photo = findViewById<ImageView>(R.id.photo)
         recruitDaySp = findViewById<TextView>(R.id.recruitDaySp)
         val titleEdit = findViewById<EditText>(R.id.titleEdit)
         val categrySp = findViewById<Spinner>(R.id.categrySp)
@@ -91,13 +89,6 @@ class postActivity : AppCompatActivity() {
             }
         }
 
-
-        //画像タップ時の処理
-        photo.setOnClickListener {
-            openGalleryForImage()
-        }
-
-
         //スピナー登録
         val categoryarray = arrayOf("食べ物", "イベント","エンタメ","暮らし")
         val syuruiarray = arrayOf( "同伴", "相談")
@@ -113,127 +104,96 @@ class postActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
 
-            //転送用ファイル作成
-//            val projection = arrayOf(MediaStore.MediaColumns.DATA)
-//            val cursor = contentResolver.query(uri, projection, null, null, null)
-//            if (cursor != null) {
-//                var path: String? = null
-//                if (cursor.moveToFirst()) {
-//                    path = cursor.getString(0)
-//                }
-//                cursor.close()
-//                if (path != null) {
-//                    file = File(path)
-//                }
-//            }
-//
-//            val accessKey = "AKIA4QEAAAZWJYAHMEM"
-//            val secKey = "HXpsa8coRXhVPKUROb7KfIK7qRuoZN01HE5AyYg4"
-//            val buchet = "with-me"
-//
-//            // 認証情報の作成
-//            val basicAWSCredentials = BasicAWSCredentials(accessKey, secKey)
-//
-//            // 作成した認証情報でクライアント接続用オブジェクトを作成
-//            val s3Client = AmazonS3Client(basicAWSCredentials)
-//            val transferUtility = TransferUtility(s3Client, applicationContext)
-//
-//            // ファイルを指定してアップロードを行う
-//            val observer = transferUtility.upload(buchet, "test.png", file)
-//
-//            //log出力用
-//            observer.setTransferListener(object : TransferListener {
-//                override fun onStateChanged(id: Int, state: TransferState) {
-//                    Log.d("AwsSample", "status: $state")
-//                }//完了時(COMPLETED)
-//                override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
-//                    Log.d(
-//                        "AwsSample",
-//                        "progress: $id bytesCurrent:$bytesCurrent bytesTotal:$bytesTotal"
-//                    )
-//                }//転送時
-//                override fun onError(id: Int, ex: Exception) {
-//                    ex.printStackTrace()
-//                }//失敗時
-//            })
-
-
-////            入力値チェック
+//            入力値チェック
             if ((titleEdit.text.toString().isEmpty())) {
                 titleEdit.error = emptyError
+            }
+            if (contentEdit.text.toString().isEmpty()) {
+                contentEdit.error = emptyError
+            }
+            if(recruitDaySp.text.toString()=="タップしてください"){
+                Toast.makeText(this , "募集期間を入力してください", Toast.LENGTH_LONG).show()
                 flag = 0
             }else{
                 flag = 1
             }
-            if (contentEdit.text.toString().isEmpty()) {
-                contentEdit.error = emptyError
-                flag2 = 0
-            }else{
-                flag2 = 1
-            }
-            if(recruitDaySp.text.toString()=="タップしてください"){
-                Toast.makeText(this , "募集期間を入力してください", Toast.LENGTH_LONG).show();
-                flag3 = 0
-            }else{
-                flag3 = 1
-            }
 
- //           if((flag == 1)&&(flag2 == 1)&&(flag3 == 1)){
-
+            if(flag == 1) {
 //             　選択されているアイテム取得
                 val categrySpitem = categrySp.selectedItem.toString()
                 val syuruiSpitem = syuruiSp.selectedItem.toString()
 
-//           　　 送るようにdata型に変更する
-                if (mon.length == 1){ mon = "0"+mon }
-                if(day.length == 1){ day = "0"+day }
-                val bosyudata = ye+"-"+mon+"-"+day
+//          送るようにdata型に変更する
+                if (mon.length == 1) {
+                    mon = "0" + mon
+                }
+                if (day.length == 1) {
+                    day = "0" + day
+                }
+                val bosyudata = ye + "-" + mon + "-" + day
 
-//                条件選択が指定なし簿場合空白にする
+//          条件選択が指定なし簿場合空白にする
                 for (cnt in 1..3) {
-                    if(test[cnt] == "指定なし"){
-                        test[cnt] =""}
+                    if (test[cnt] == "指定なし") {
+                        test[cnt] = ""
+                    }
                 }
 
 //            入力データ確認
 //            var test = arrayListOf("性別","開始年代","終了年代","定員")
-                Log.v("alldata","タイトル-"+titleEdit.text.toString()+"種類-"+syuruiSpitem+"カテゴリ-"+categrySpitem+"日時-"+
-                        bosyudata+"内容-"+contentEdit.text.toString()+"性別-"+test[0]+"募集年代-"+test[1]+"~"+test[2]+"定員-"+test[3])
+                Log.v(
+                    "alldata",
+                    "タイトル-" + titleEdit.text.toString() + "種類-" + syuruiSpitem + "カテゴリ-" + categrySpitem + "日時-" +
+                            bosyudata + "内容-" + contentEdit.text.toString() + "性別-" + test[0] + "募集年代-" + test[1] + "~" + test[2] + "定員-" + test[3]
+                )
 
-            if(test[1].isEmpty()){
-                test[1]="0"
-            }
-            if(test[2].isEmpty()){
-                test[2]="120"
-            }
-            //画像以外のデータアップロード
-            var apiUrl = myApp.apiUrl+"postAdd.php?userId="+myapp.loginMyId+"&category="+categrySpitem+"&title="+titleEdit.text+"&content="+contentEdit.text+"&term="+bosyudata+"&capacity="+test[3]+"&hopeGender="+test[0]+"&lowLimit="+test[1]+"&highLimit="+test[2]+"&recFlag="+syuruiSpitem
-            Log.v("確認",apiUrl)
-            Log.v("alldata",apiUrl)
-            Log.v("alldata",categrySpitem)
-            val request = Request.Builder().url(apiUrl).build()
-            val errorText = "エラー"
-            Log.v("blockurl", apiUrl.toString())
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    this@postActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                    }
+                if (test[1].isEmpty()) {
+                    test[1] = "0"
                 }
-                override fun onResponse(call: Call, response: Response) {
-                    val csvStr = response.body!!.string()
-                    val resultError = JSONObject(csvStr)
-                    if(resultError.getString("result") == "error") {
+                if (test[2].isEmpty()) {
+                    test[2] = "120"
+                }
+                var apiUrl =
+                    myApp.apiUrl + "postAdd.php?userId=" + myapp.loginMyId + "&category=" + categrySpitem + "&title=" + titleEdit.text + "&content=" + contentEdit.text + "&term=" + bosyudata + "&capacity=" + test[3] + "&hopeGender=" + test[0] + "&lowLimit=" + test[1] + "&highLimit=" + test[2] + "&recFlag=" + syuruiSpitem
+
+                if (test[3].isEmpty()) {
+                    apiUrl =
+                        myApp.apiUrl + "postAdd.php?userId=" + myapp.loginMyId + "&category=" + categrySpitem + "&title=" + titleEdit.text + "&content=" + contentEdit.text + "&term=" + bosyudata + "&hopeGender=" + test[0] + "&lowLimit=" + test[1] + "&highLimit=" + test[2] + "&recFlag=" + syuruiSpitem
+                }
+
+                Log.v("確認", apiUrl)
+                Log.v("alldata", apiUrl)
+                Log.v("alldata", categrySpitem)
+                val request = Request.Builder().url(apiUrl).build()
+                val errorText = "エラー"
+                Log.v("blockurl", apiUrl.toString())
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
                         this@postActivity.runOnUiThread {
-                        }
-                    }else if(resultError.getString("result") == "success"){
-                        this@postActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, "投稿しました", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
                         }
                     }
-                }
-            })
 
+                    override fun onResponse(call: Call, response: Response) {
+                        val csvStr = response.body!!.string()
+                        val resultError = JSONObject(csvStr)
+                        if (resultError.getString("result") == "error") {
+                            this@postActivity.runOnUiThread {
+                            }
+                        } else if (resultError.getString("result") == "success") {
+                            this@postActivity.runOnUiThread {
+                                Toast.makeText(applicationContext, "投稿しました", Toast.LENGTH_SHORT)
+                                    .show()
+                                //マイページ画面へ遷移
+                                var intent =
+                                    Intent(applicationContext, timelineActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                        }
+                    }
+                })
+            }
         }
     }
 
@@ -242,7 +202,6 @@ class postActivity : AppCompatActivity() {
         val dialogFragment: DialogFragment = myDialogFragment(test,this@postActivity)
         dialogFragment.show(supportFragmentManager, "my_dialog")
     }
-
 
     private fun showDatePicker() {
         val datePickerDialog = DatePickerDialog(
@@ -259,47 +218,44 @@ class postActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    //ギャラリーを開くためのメソッド
-    private fun openGalleryForImage() {
-
-        //ギャラリーに画面を遷移するためのIntent
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_GALLERY_TAKE)
-
-    }
-
-    override fun onActivityResult(
-        requestCode: Int, resultCode: Int,
-        resultData: Intent?
-    ) {
-        super.onActivityResult(requestCode, resultCode, resultData)
-        if (requestCode == REQUEST_GALLERY_TAKE && resultCode == RESULT_OK) {
-            if (resultData != null) {
-                uri = resultData.data!!
-
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
-                    photo.setImageURI(uri)
-                    Log.v("uri",uri.toString())
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-
-        //var baos = ByteArrayOutputStream()
-        file = File(File(java.lang.String.valueOf(this@postActivity.getExternalCacheDir())), TEMP_FILE_NAME)
-        var fos: FileOutputStream? = null
-        file.createNewFile()
-        fos = FileOutputStream(file);
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+//    //ギャラリーを開くためのメソッド
+//    private fun openGalleryForImage() {
+//
+//        //ギャラリーに画面を遷移するためのIntent
+//        val intent = Intent(Intent.ACTION_PICK)
+//        intent.type = "image/*"
+//        startActivityForResult(intent, REQUEST_GALLERY_TAKE)
+//
+//    }
+//    override fun onActivityResult(
+//        requestCode: Int, resultCode: Int,
+//        resultData: Intent?
+//    ) {
+//        super.onActivityResult(requestCode, resultCode, resultData)
+//        if (requestCode == REQUEST_GALLERY_TAKE && resultCode == RESULT_OK) {
+//            if (resultData != null) {
+//                uri = resultData.data!!
+//
+//                try {
+//                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+//                    bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+//                    photo.setImageURI(uri)
+//                    Log.v("uri",uri.toString())
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
+//            }
+//        }
+//        //var baos = ByteArrayOutputStream()
+//        file = File(File(java.lang.String.valueOf(this@postActivity.getExternalCacheDir())), TEMP_FILE_NAME)
+//        var fos: FileOutputStream? = null
+//        file.createNewFile()
+//        fos = FileOutputStream(file);
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
         //jpgarr = baos.toByteArray()
         //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
         //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
-
-    }
+//    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -26,10 +26,16 @@ class editprofileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editprofile)
 
-        userImage = findViewById<ImageView>(R.id.userImage)
+
         var nameEdit = findViewById<EditText>(R.id.nameEdit)
         var profileEdit = findViewById<EditText>(R.id.profileEdit)
         var saveButton = findViewById<Button>(R.id.saveButton)
+
+
+
+
+
+
 
         //データ保存処理
         saveButton.setOnClickListener {
@@ -63,34 +69,8 @@ class editprofileActivity : AppCompatActivity() {
                 }
             })
         }
-
-        userImage.setOnClickListener {
-            //ギャラリーを開きイメージに定義
-            openGalleryForImage()
-        }
     }
 
-    //ギャラリーを開くためのメソッド
-    private fun openGalleryForImage() {
-        //ギャラリーに画面を遷移するためのIntent
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_GALLERY_TAKE)
-    }
-
-
-    // onActivityResultにイメージ設定
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode){
-            2 -> {
-                if (resultCode == RESULT_OK && requestCode == REQUEST_GALLERY_TAKE){
-                    //選択された写真にImageViewを変更
-                    userImage.setImageURI(data?.data) // handle chosen image
-                }
-            }
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)
