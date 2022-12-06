@@ -15,13 +15,13 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
 
     class ViewHoldew(item: View) : RecyclerView.ViewHolder(item) {
         var userImage: ImageView
-        var nameText: TextView
+        var roomName: TextView
         var talkText: TextView
         var talkzentai : LinearLayout
 
         init {
             userImage = item.findViewById(R.id.userImage)
-            nameText = item.findViewById(R.id.contoributorName)
+            roomName = item.findViewById(R.id.roomName)
             talkText = item.findViewById(R.id.titleText)
             talkzentai = item.findViewById(R.id.talkall)
 
@@ -41,8 +41,8 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
     override fun onBindViewHolder(holder: talkAdapter.ViewHoldew, position: Int) {
 
         //仮データ挿入
-        holder.nameText.setText(dateSet[position].userName)
-        holder.talkText.setText(dateSet[position].talkText)
+        holder.roomName.setText(dateSet[position].roomName)
+        holder.talkText.setText(dateSet[position].message)
         if(dateSet[position].categoryText == "食べ物"){
             holder.userImage.setImageResource(R.drawable.user_6)
         }else if(dateSet[position].categoryText == "イベント"){
@@ -54,8 +54,8 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
         }
         holder.talkzentai.setOnClickListener{
             //talk画面へ遷移
-            var intent = Intent(activity.applicationContext, chatActivity::class.java)
-            intent.putExtra("userId",dateSet[position].userId)
+            val intent = Intent(activity.applicationContext, chatActivity::class.java)
+            intent.putExtra("roomNo",dateSet[position].roomNo)
             activity.startActivity(intent)
         }
 

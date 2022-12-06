@@ -52,15 +52,15 @@ class chatlistActivity  : AppCompatActivity() {
                         val date =resultError.getJSONArray("chatList")
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {
-                            var json = date.getJSONObject(i)
-                            var roomNo = json.getString("roomNo")
-                            var userId = json.getString("userId")
-                            var userName = json.getString("userName")
-                            var category = json.getString("category")
-                            var message = json.getString("message")
+                            val json = date.getJSONObject(i)
+                            val roomName = json.getString("roomName")
+                            val roomNo = json.getInt("roomNo")
+                            val category = json.getString("category")
+                            val message = json.getString("message")
                             var image = json.getString("image")
                             var messageDate = json.getString("messageDate")
-                            countList.add(talklinedata(category,userId,message,userName))
+                            Log.v("roomno", roomNo.toString())
+                            countList.add(talklinedata(category,roomNo,roomName,message))
 
                         }
 
