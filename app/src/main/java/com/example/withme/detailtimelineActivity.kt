@@ -1,7 +1,6 @@
 package com.example.withme
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -11,11 +10,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import java.text.SimpleDateFormat
 
 class detailtimelineActivity : AppCompatActivity() {
 
@@ -102,17 +101,26 @@ class detailtimelineActivity : AppCompatActivity() {
                         }else{
                             contributorImage.setImageResource(R.drawable.woman)
                         }
-                        postdayText.setText(postDate)
+                        postDate = term.substring(0, 10)
+                        postdayText.setText("投稿日："+postDate)
                         titleName.setText(title)
                         overviewText.setText(content)
+                        term = term.substring(0, 10)
                         kigen.setText(term)
-                        if(capacity.isEmpty()){
+
+                        if(capacity=="null"){
+                            teiintext.setText("定員："+"指定なし")
+                        }else{
                             teiintext.setText("定員："+capacity)
                         }
                         if(hopeGenger.isEmpty()){
+                            genderText.setText("性別："+"指定なし")
+                        }else{
                             genderText.setText("性別："+hopeGenger)
                         }
-                        if((lowLmit.isEmpty())&&(highLmit.isEmpty())){
+                        if((lowLmit==null)&&(highLmit==null)){
+                            nendaiText.setText("年代："+"指定なし"+"～"+"指定なし")
+                        }else{
                             nendaiText.setText("年代："+lowLmit+"～"+highLmit)
                         }
                         contributorName.setText(userName)

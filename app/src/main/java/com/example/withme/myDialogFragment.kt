@@ -5,11 +5,10 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Spinner
+import android.view.View
+import android.widget.*
 import androidx.fragment.app.DialogFragment
+
 
 class myDialogFragment (var test:ArrayList<String>,con: Context): DialogFragment() {
 
@@ -64,7 +63,19 @@ class myDialogFragment (var test:ArrayList<String>,con: Context): DialogFragment
                 test[1] = spinner.selectedItem as String
                 test[2] = spinner2.selectedItem as String
                 test[3] = spinner3.selectedItem as String
-                Log.v("date", test[1])
+                val sgender = (cont as postActivity).findViewById(R.id.sgender) as TextView
+                val sage = (cont as postActivity).findViewById(R.id.sage) as TextView
+                val stain = (cont as postActivity).findViewById(R.id.stain) as TextView
+                sgender.setVisibility(View.VISIBLE)
+                sage.setVisibility(View.VISIBLE)
+                stain.setVisibility(View.VISIBLE)
+                sgender.setText("性別："+test[0])
+                if(test[0].isEmpty()){
+                    sgender.setText("性別：指定なし")
+                }
+                sage.setText("年代："+test[1]+"～"+test[2]+"")
+                stain.setText("定員："+test[3])
+
             }
         return builder.create()
     }

@@ -18,71 +18,120 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="投稿作成"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <TextView
                 android:id="@+id/titleText"
                 android:layout_width="73dp"
                 android:layout_height="19dp"
+                android:layout_marginStart="30dp"
                 android:text="タイトル" />
 
             <EditText
                 android:id="@+id/titleEdit"
-                android:layout_width="295dp"
-                android:layout_height="44dp"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:layout_width="277dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="top|left"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/syuruiText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:text="同伴・相談" />
 
             <Spinner
                 android:id="@+id/syuruiSp"
                 android:layout_width="292dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="41dp" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/categrytext"
                 android:layout_width="292dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:text="カテゴリー" />
 
             <Spinner
                 android:id="@+id/categrySp"
                 android:layout_width="292dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="41dp" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/recruitDayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:text="募集期限" />
 
             <TextView
                 android:id="@+id/recruitDaySp"
                 android:layout_width="297dp"
                 android:layout_height="38dp"
+                android:layout_marginStart="38dp"
                 android:text="タップしてください"
                 android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/contentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:text="内容" />
 
 
             <EditText
                 android:id="@+id/contentEdit"
-                android:layout_width="297dp"
+                android:layout_width="277dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:gravity="top|left"
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView29"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="337dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:text="希望条件" />
 
             <LinearLayout
@@ -92,29 +141,58 @@
 
                 <RadioGroup
                     android:id="@+id/radioG"
-                    android:layout_width="match_parent"
+                    android:layout_width="267dp"
+                    android:layout_marginStart="30dp"
                     android:layout_height="match_parent"
+                    android:orientation="horizontal"
                     android:layout_weight="1">
 
                     <RadioButton
                         android:id="@+id/radioButton"
-                        android:layout_width="197dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="154dp"
+                        android:layout_height="match_parent"
                         android:onClick="showDialog"
                         android:text="あり" />
 
                     <RadioButton
                         android:id="@+id/radioButton3"
-                        android:layout_width="match_parent"
+                        android:layout_width="195dp"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="なし" />
                 </RadioGroup>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/sgender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="性別：" />
+
+            <TextView
+                android:id="@+id/sage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="年代：" />
+
+            <TextView
+                android:id="@+id/stain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="定員：" />
+
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/postButton"
                 android:layout_width="271dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="49dp"
                 android:text="投稿する" />
 
