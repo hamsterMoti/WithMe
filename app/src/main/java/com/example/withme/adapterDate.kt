@@ -22,9 +22,9 @@ data class timelinedata( //timeLineadapterのデータ情報
 data class talklinedata( //tailadapterのデータ
 
     var categoryText:String,
-    var userId:String,
-    var talkText:String,
-    var userName:String
+    var roomNo:Int,
+    var roomName:String,
+    var message:String
     )
 
 data class gooddata( //goodadapterのデータ

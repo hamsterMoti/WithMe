@@ -31,6 +31,9 @@ class timelineActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timeline)
 
+//        supportActionBar //バーを隠す
+//            ?.hide()
+
 //        RadioButon
         val recruitGroup = findViewById<RadioGroup>(R.id.recruitRadioGroup)
         val douhanRadio = findViewById<RadioButton>(R.id.douhanRadioButton)
@@ -48,6 +51,7 @@ class timelineActivity : AppCompatActivity() {
 //        並び替え
         val tuneImage = findViewById<ImageView>(R.id.tuneImage)
 
+//        val timelinebar = findViewById<Toolbar>(R.id.timelinebar)
 
 
         var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId
@@ -172,6 +176,7 @@ class timelineActivity : AppCompatActivity() {
             bottomSheetDialog.setContentView(tunebottomSheetView)
             bottomSheetDialog.show()
         }
+
     }
 
 
@@ -237,8 +242,8 @@ class timelineActivity : AppCompatActivity() {
                 }
             }
         })
-    }
 
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)

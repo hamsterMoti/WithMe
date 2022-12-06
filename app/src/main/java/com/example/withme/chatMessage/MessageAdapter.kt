@@ -1,6 +1,7 @@
 package com.example.withme
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ class MessageAdapter(val context: Context,val messageList:ArrayList<Message>):
     val ITEM_SENT = 2
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if(viewType == 1){
+            Log.v("viewType", viewType.toString())
 //            receive
             val view: View = LayoutInflater.from(context).inflate(R.layout.receive_msg,parent,false)
             return  ReceiveMegHolder(view)
@@ -30,10 +32,9 @@ class MessageAdapter(val context: Context,val messageList:ArrayList<Message>):
         if(holder.javaClass == SentViewHolder :: class.java){
             val viewHolder = holder as SentViewHolder
             holder.sentMessage.text = currentMessage.message
-        }else{
+        }else if(holder.javaClass == ReceiveMegHolder :: class.java){
             val viewHolder = holder as ReceiveMegHolder
             holder.receiveMessage.text = currentMessage.message
-
         }
     }
 

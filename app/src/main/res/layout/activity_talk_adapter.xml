@@ -27,11 +27,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/contoributorName"
+                android:id="@+id/roomName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="山田花子" />
+                android:text="ケーキは何派？" />
 
             <TextView
                 android:id="@+id/titleText"
