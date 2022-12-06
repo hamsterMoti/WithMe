@@ -76,6 +76,12 @@ class postActivity : AppCompatActivity() {
         var ragiaG = findViewById<RadioGroup>(R.id.radioG)
         val ariButton = findViewById<RadioButton>(R.id.radioButton)
         val nasiButton = findViewById<RadioButton>(R.id.radioButton3)
+        val sgender = findViewById<TextView>(R.id.sgender)
+        val sage = findViewById<TextView>(R.id.sage)
+        val stain = findViewById<TextView>(R.id.stain)
+        sgender.setVisibility(View.GONE)
+        sage.setVisibility(View.GONE)
+        stain.setVisibility(View.GONE)
         var flag = 0
         var flag2 = 0
         var flag3 = 0
@@ -85,7 +91,12 @@ class postActivity : AppCompatActivity() {
         //ラジオボタン処理
         ragiaG.setOnCheckedChangeListener { _, checkedId: Int ->
             when (checkedId) {
-                R.id.radioButton3 -> test = arrayListOf("","0","120","")
+                R.id.radioButton3 -> {//なし
+                    test = arrayListOf("","0","120","")
+                    sgender.setVisibility(View.GONE)
+                    sage.setVisibility(View.GONE)
+                    stain.setVisibility(View.GONE)
+                }
             }
         }
 
