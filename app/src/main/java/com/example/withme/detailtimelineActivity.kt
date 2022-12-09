@@ -193,30 +193,20 @@ class detailtimelineActivity : AppCompatActivity() {
 
 //応募ボタン又は応募一覧表示ボタン処理ーーーーーー
         oubobutton.setOnClickListener {
-            if (oubobutton.text == "応募する") {
                 if (loginuserId == userId) {//投稿一覧画面へ遷移
                     var intent = Intent(applicationContext, applicantListActivity::class.java)
                     intent.putExtra("title", title)
                     intent.putExtra("postNo", postNo)
                     startActivity(intent)
                 } else {//応募処理
-                    var apiUrl =
-                        myApp.apiUrl + "/applyCtl.php?loginUserId=" + myApp.loginMyId + "&postNo=" + postNo + "&appFlag=null"
-                    val request = Request.Builder().url(apiUrl).build()
-                    val errorText = "エラー"
-                    // Log.v("blockurl",apiUrl)
-                    client.newCall(request).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            this@detailtimelineActivity.runOnUiThread {
-                                Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-
-                        override fun onResponse(call: Call, response: Response) {
-                            val csvStr = response.body!!.string()
-                            val resultError = JSONObject(csvStr)
-                            if (resultError.getString("result") == "error") {
+                    if (oubobutton.text == "応募する") {
+                        var apiUrl =
+                            myApp.apiUrl + "/applyCtl.php?loginUserId=" + myApp.loginMyId + "&postNo=" + postNo + "&appFlag=null"
+                        val request = Request.Builder().url(apiUrl).build()
+                        val errorText = "エラー"
+                        // Log.v("blockurl",apiUrl)
+                        client.newCall(request).enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
                                 this@detailtimelineActivity.runOnUiThread {
                                     Toast.makeText(
                                         applicationContext,
@@ -225,20 +215,30 @@ class detailtimelineActivity : AppCompatActivity() {
                                     )
                                         .show()
                                 }
-                            } else if (resultError.getString("result") == "success") {
-                                this@detailtimelineActivity.runOnUiThread {
-                                    Toast.makeText(applicationContext, "応募しました", Toast.LENGTH_SHORT)
-                                        .show()
-                                    oubobutton.setText("応募済み")
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val csvStr = response.body!!.string()
+                                val resultError = JSONObject(csvStr)
+                                if (resultError.getString("result") == "error") {
+                                    this@detailtimelineActivity.runOnUiThread {
+                                        Toast.makeText(
+                                            applicationContext,
+                                            errorText,
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                    }
+                                } else if (resultError.getString("result") == "success") {
+                                    this@detailtimelineActivity.runOnUiThread {
+                                        oubobutton.setText("応募済み")
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
+                    }
                 }
-            }else{
-                Toast.makeText(applicationContext, "応募済みです", Toast.LENGTH_SHORT)
-                    .show()
-            }
+
         }
 //        ーーーーーーーーーーーー
     }
