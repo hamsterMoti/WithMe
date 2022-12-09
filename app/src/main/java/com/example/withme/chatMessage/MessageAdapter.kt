@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -42,8 +43,6 @@ class MessageAdapter(val context: Context,val messageList:ArrayList<Message>):
         val currentMessage = messageList[position]
         if(myApp.loginMyId == currentMessage.senderId){
             return ITEM_SENT
-//        if("aaa@bbb.com" == currentMessage.senderId){
-//            return ITEM_SENT
         }else{
             return  ITEM_RECEIVE
         }
@@ -55,6 +54,9 @@ class MessageAdapter(val context: Context,val messageList:ArrayList<Message>):
     class SentViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val sentMessage = itemView.findViewById<TextView>(R.id.sendText)
     }
+//    class SentViweImageHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+//        val sentImage = itemView.findViewById<ImageView>(R.id.sentImage)
+//    }
     class ReceiveMegHolder(itemView:View):RecyclerView.ViewHolder(itemView){
         val receiveMessage = itemView.findViewById<TextView>(R.id.receiveText)
 

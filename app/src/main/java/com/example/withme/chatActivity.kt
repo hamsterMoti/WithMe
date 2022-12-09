@@ -48,7 +48,7 @@ class chatActivity : AppCompatActivity() {
         val backButton = findViewById<ImageView>(R.id.backButton)
 
 
-        val initialURL = myApp.apiUrl+"chat.php?roomNo=$roomNo"
+        val initialURL = "${myApp.apiUrl}chat.php?roomNo=$roomNo"
         Log.v("初期更新",initialURL)
         // 画面を開いた瞬間にhttp接続開始
         httpAccess(initialURL)
@@ -56,7 +56,7 @@ class chatActivity : AppCompatActivity() {
         sendButton.setOnClickListener{
             val message = messageBox.text.toString()
 
-            val messageURL = myApp.apiUrl+"chatPost.php?userId=$userId&roomNo=$roomNo&message=$message"
+            val messageURL = "${myApp.apiUrl}chatPost.php?userId=$userId&roomNo=$roomNo&message=$message"
             Log.v("送信メッセージ",messageURL)
 //            http通信開始
             httpAccess(messageURL)
@@ -68,6 +68,8 @@ class chatActivity : AppCompatActivity() {
         }
 
     }
+
+//    http通信メソッド
     private  fun httpAccess(apiUrl:String){
         messageAdapter = MessageAdapter(this,messageList)
         val request = Request.Builder().url(apiUrl).build()
