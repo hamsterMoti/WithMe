@@ -221,10 +221,12 @@ class timelineActivity : AppCompatActivity() {
                             var status = json.getString("status")
                             var recFlag = json.getString("recFlag")
 
+                            term = term.substring(0, 10)
+
                             if(recFlag == "同伴"){
-                                DouhanList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content, commentNum, applyNum, postNo, recFlag, postDate ))
+                                DouhanList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content, commentNum, applyNum, postNo, recFlag, term ))
                             }else if (recFlag == "相談"){
-                                SoudanList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content, commentNum, applyNum, postNo, recFlag, postDate ))
+                                SoudanList.add(timelinedata("カテゴリー：", category, status.toInt(), title, content, commentNum, applyNum, postNo, recFlag, term ))
                             }
 
                         }
