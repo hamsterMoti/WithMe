@@ -10,11 +10,20 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="89dp"
+        android:layout_width="385dp"
+        android:layout_height="49dp"
         android:text="投稿を削除する"
         android:textAlignment="center"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="385dp"
+        android:layout_height="49dp"
+        android:text="ステイタスを変更する"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
 
 
 </LinearLayout>

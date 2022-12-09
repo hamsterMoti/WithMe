@@ -16,7 +16,6 @@ data class timelinedata( //timeLineadapterのデータ情報
     var postNo: String,
     var recFlag:String,
     var postTime:String
-
     )
 
 data class talklinedata( //tailadapterのデータ
@@ -36,8 +35,8 @@ data class gooddata( //goodadapterのデータ
     var statusImage:Int,
     var postNo:String,
     var youid:String,
-    var saFlag:Int
-
+    var saFlag:Int,
+    var userId:String
     )
 
 data class notificationDate( //notificationのデータ

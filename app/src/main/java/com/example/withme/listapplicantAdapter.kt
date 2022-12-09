@@ -55,15 +55,44 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
 
         if(dateSet[position].addFlg == 2){//既にグループに追加済みの場合
             holder.rejectionButton.setVisibility(View.INVISIBLE)
-            holder.addButton.setText("追加済み")
+            holder.addButton.setText("追加済")
         }
 
             //追加ボタンタップ処理
             holder.addButton.setOnClickListener {
                 Log.v("kakunin","ボタン押された")
                 if(dateSet[position].roomFlg==1){
-                    Toast.makeText(activity.applicationContext, "部屋がありません", Toast.LENGTH_SHORT).show()
-                }else if(dateSet[position].addFlg == 2) {
+//                    Toast.makeText(activity.applicationContext, "部屋がありません", Toast.LENGTH_SHORT).show()
+                    var apiUrl = myApp.apiUrl+"roomCreate.php?postNo="+dateSet[position].postNo+"&userId="+myApp.loginMyId
+                    val request = Request.Builder().url(apiUrl).build()
+                    val errorText = "エラー"
+                    Log.v("blockurl", apiUrl.toString())
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            activity.runOnUiThread {
+                                Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        override fun onResponse(call: Call, response: Response) {
+                            val csvStr = response.body!!.string()
+                            val resultError = JSONObject(csvStr)
+                            if(resultError.getString("result") == "error") {
+                                activity.runOnUiThread {
+                                    Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }else if(resultError.getString("result") == "success"){
+                                activity.runOnUiThread {
+//                                    applicantListActivitysub(myApp,postNo)
+                                    Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                        }
+                    })
+
+                }
+                if(dateSet[position].addFlg == 2) {
                     Toast.makeText(activity.applicationContext, "追加済みです", Toast.LENGTH_SHORT).show()
                 }else{
                     //あとで可能なら変更する

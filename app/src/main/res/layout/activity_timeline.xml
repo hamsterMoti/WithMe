@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFEFC"
     app:showAsAction="ifRoom"
     tools:context=".timelineActivity">
 
@@ -91,9 +92,9 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/radio_left"
                 android:button="@null"
+                android:checked="true"
                 android:gravity="center"
                 android:text="同伴"
-                android:checked="true"
                 android:textColor="@drawable/radio_fontcolor" />
 
             <RadioButton
@@ -111,8 +112,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profileRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="603dp"
+            android:layout_width="wrap_content"
+            android:layout_height="534dp"
             tools:listitem="@layout/activity_timeline_adapter">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -130,8 +131,6 @@
         app:backgroundTint="#BAA4C4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

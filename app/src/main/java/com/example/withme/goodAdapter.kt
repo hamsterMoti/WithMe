@@ -23,7 +23,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         var contoributorName:TextView
         var titleText:TextView
         var moreimage:ImageView
-        var statusImage:Button
+        var statusImage:ImageView
 
 
         init {
@@ -31,7 +31,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
             contoributorName = item.findViewById(R.id.contoributorName)
             titleText = item.findViewById(R.id.titleText)
             moreimage = item.findViewById(R.id.moreImage)
-            statusImage = item.findViewById(R.id.statusImage)
+            statusImage = item.findViewById(R.id.imageView16)
 
         }
 
@@ -53,9 +53,12 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         holder.contoributorName.setText(dateSet[position].contoributorName)
         holder.titleText.setText(dateSet[position].titleText)
         if(dateSet[position].statusImage==1){
-            holder.statusImage.setText("募集中")
+//            holder.statusImage.setText("募集中")
+            holder.statusImage.setVisibility(View.GONE);
+
         }else{
-            holder.statusImage.setText("締切")
+//            holder.statusImage.setText("締切")
+            holder.statusImage.setVisibility(View.VISIBLE);
         }
         if(dateSet[position].category == "食べ物"){
             holder.userImage.setImageResource(R.drawable.user_6)
@@ -112,6 +115,15 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                         //bottomシートclause
                         bottomSheetDialog.dismiss()
                     }
+                    bottomSheetView.findViewById<View>(R.id.textView6).setOnClickListener {
+                        Log.v("newpost", "status変更")
+                        if((myApp.loginMyId==dateSet[position].userId)&&(dateSet[position].moreimage=="投稿一覧")){
+                            var apiUrl = myApp.apiUrl+"statusCtl.php?userId="+myApp.loginMyId+"&postNo="+dateSet[position].postNo+"&statusFlg="+dateSet[position].statusImage
+                            okituusinn(apiUrl, activity)
+                        }
+                        //bottomシートclause
+                        bottomSheetDialog.dismiss()
+                    }
                     bottomSheetDialog.setContentView(bottomSheetView)
                     bottomSheetDialog.show()
                 }
@@ -142,8 +154,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         }
         //ステイタスボタンをタップしたときの処理
         holder.statusImage.setOnClickListener {
-
-          if((myApp.loginMyId==myApp.checkId)&&(dateSet[position].moreimage=="投稿一覧")){
+          if((myApp.loginMyId==dateSet[position].userId)&&(dateSet[position].moreimage=="投稿一覧")){
               var apiUrl = myApp.apiUrl+"statusCtl.php?userId="+myApp.loginMyId+"&postNo="+dateSet[position].postNo+"&statusFlg="+dateSet[position].statusImage
               val request = Request.Builder().url(apiUrl).build()
               val errorText = "エラー"
@@ -163,7 +174,6 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                           }
                       }else if(resultError.getString("result") == "success"){
                           activity.runOnUiThread {
-                              holder.statusImage.setText("")
                               var mypageActivity = activity as mypageActivity
                               val myApp = myApplication.getInstance()
                               mypageActivity.mypageActivitysub(myApp)

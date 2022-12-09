@@ -50,23 +50,34 @@
 
             <ImageView
                 android:id="@+id/moreImage"
-                android:layout_width="28dp"
-                android:layout_height="30dp"
+                android:layout_width="42dp"
+                android:layout_height="55dp"
                 android:layout_gravity="right"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 
-            <Button
-                android:id="@+id/statusImage"
+            <TextView
+                android:id="@+id/textView4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="募集中"
-                android:textSize="10sp" />
+                android:layout_height="56dp"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/sime" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.cardview.widget.CardView>

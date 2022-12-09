@@ -1,7 +1,6 @@
 package com.example.withme
 
 import android.content.Intent
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +11,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.example.withme.databinding.ActivityMainBinding
+import com.example.withme.databinding.ActivityMyApplicationBinding
+import com.example.withme.databinding.ActivityMypageBinding
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -42,21 +48,10 @@ class mypageActivity : AppCompatActivity() {
     var apply_title = ""
     var apply_status = ""
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage)
-
-        val goodRecycle = findViewById<RecyclerView>(R.id.profileRecyclerView)
-        val goodButton = findViewById<ImageView>(R.id.goodButton)
-        val postButton = findViewById<ImageView>(R.id.postButton)
-        val editprofileButton = findViewById<Button>(R.id.editprofileButton)
-
-
-       //editprofileボタンタップ時の処理
-        editprofileButton.setOnClickListener {
-            var intent = Intent(applicationContext, editprofileActivity::class.java)
-            startActivity(intent)
-        }
 
         mypageActivitysub(myApp)
     }
@@ -73,7 +68,6 @@ class mypageActivity : AppCompatActivity() {
         var saFlag = 0
 
 
-
         val userImage = findViewById<ImageView>(R.id.userImage)
         val addressText = findViewById<TextView>(R.id.addressText)
         val nameText = findViewById<TextView>(R.id.nameText)
@@ -86,6 +80,15 @@ class mypageActivity : AppCompatActivity() {
         var postList = mutableListOf<gooddata>()
         var goodList = mutableListOf<gooddata>()
 
+        //editprofileボタンタップ時の処理
+        editprofileButton.setOnClickListener {
+            if(loginUserId == userId){
+                var intent = Intent(applicationContext, editprofileActivity::class.java)
+                intent.putExtra("userName",userName)
+                intent.putExtra("profile",profile)
+                startActivity(intent)
+            }
+        }
 
         //データ取得
         var apiUrl = myApp.apiUrl+"userPage.php?userId="+userId+"&loginUserId="+loginUserId
@@ -116,22 +119,26 @@ class mypageActivity : AppCompatActivity() {
 
                         //データ表示
                         if(userId == loginUserId){
-                            addressText.setText(addresId)
+//                            addressText.setText(addresId)
                             saFlag = 1
                         }else{
-                            addressText.setText("")
+//                            addressText.setText("")
                             editprofileButton.setVisibility(View.INVISIBLE)
                             saFlag = 2
                         }
                         nameText.setText(userName)
-                        profileText.setText(profile)
-                        ageText.setText(age)
+                        if (profile == "null"){
+                            profileText.setText("未設定")
+                        }else{
+                            profileText.setText(profile)
+                        }
+
+                        ageText.setText(age+"歳")
                         if(gender == "男性"){
                             userImage.setImageResource(R.drawable.men)
                         }else{
                             userImage.setImageResource(R.drawable.woman)
                         }
-
 
                         var date =resultError.getJSONArray("postList")
                         for (i in 0 until date.length()) {
@@ -142,7 +149,7 @@ class mypageActivity : AppCompatActivity() {
                             post_category = json.getString("category")
                             post_content = json.getString("content")
                             post_status = json.getString("status")
-                            postList.add(gooddata(post_category,post_title1,post_content,"投稿一覧",post_status.toInt(),post_postNo,"",saFlag))
+                            postList.add(gooddata(post_category,post_title1,post_content,"投稿一覧",post_status.toInt(),post_postNo,"",saFlag,userId))
                         }
                         date =resultError.getJSONArray("applyList")
                         for (i in 0 until date.length()) {
@@ -155,9 +162,11 @@ class mypageActivity : AppCompatActivity() {
                             apply_status = json.getString("status")
                             var apply_userId = json.getString("userId")
                             Log.v("alldata",apply_postNo)
-                            goodList.add(gooddata(apply_category,apply_title,apply_content,"参加一覧",apply_status.toInt(),apply_postNo,apply_userId,saFlag))
+                            goodList.add(gooddata(apply_category,apply_title,apply_content,"参加一覧",apply_status.toInt(),apply_postNo,apply_userId,saFlag,userId))
                         }
-                        //初期リスト
+
+//                        mainfragment.createList(postList,this@mypageActivity)
+                        //adapter呼び出し
                         profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = goodAdapter(postList,this@mypageActivity)
                         profileRecyclerView.adapter = adapter
@@ -170,16 +179,20 @@ class mypageActivity : AppCompatActivity() {
 
         //投稿一覧
         postButton.setOnClickListener {
+//            mainfragment.createList(postList,this@mypageActivity)
             profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
             val adapter = goodAdapter(postList,this@mypageActivity)
             profileRecyclerView.adapter = adapter
+
         }
         //応募一覧表
         goodButton.setOnClickListener {
+//            mainfragment.createList(goodList,this@mypageActivity)
             profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
             val adapter = goodAdapter(goodList,this@mypageActivity)
             profileRecyclerView.adapter = adapter
         }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -206,3 +219,4 @@ class mypageActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 }
+
