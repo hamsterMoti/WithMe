@@ -3,12 +3,16 @@ package com.example.withme
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import okhttp3.OkHttpClient
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 class withdrawalActivity : AppCompatActivity() {
     val client = OkHttpClient()
@@ -29,6 +33,34 @@ class withdrawalActivity : AppCompatActivity() {
             if(nowpasswordEdit.text.toString().isEmpty() ){
                 nowpasswordEdit.error = emptyError
             }else{
+
+                //データ取得
+                var apiUrl = myApp.apiUrl+"userDelete.php?userId="+myApp.loginMyId+"&password="+nowpasswordEdit.text
+                Log.v("urldata",apiUrl)
+                val request = Request.Builder().url(apiUrl).build()
+                val errorText = "エラー"
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        this@withdrawalActivity.runOnUiThread {
+                            Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onResponse(call: Call, response: Response) {
+                        val csvStr = response.body!!.string()
+                        val resultError = JSONObject(csvStr)
+                        if(resultError.getString("result") == "error") {
+                            this@withdrawalActivity.runOnUiThread {
+                            }
+                        }else if(resultError.getString("result") == "success"){
+                            this@withdrawalActivity.runOnUiThread {
+                                Toast.makeText(applicationContext, "退会成功しました", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(applicationContext, loginActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                })
+
 
             }
         }
