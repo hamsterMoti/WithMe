@@ -169,6 +169,15 @@ class timelineActivity : AppCompatActivity() {
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
+            tunebottomSheetView.findViewById<View>(R.id.textView31).setOnClickListener {
+//          絞り込みーゲーム
+                Log.v("newpost", "絞り込み無")
+                var apiUrl =
+                    myApp.apiUrl + "search.php?userId=" + myApp.loginMyId +
+                access(apiUrl, timelineRecycl,recruitText)
+                //bottomシートclause
+                bottomSheetDialog.dismiss()
+            }
             bottomSheetDialog.setContentView(tunebottomSheetView)
             bottomSheetDialog.show()
         }

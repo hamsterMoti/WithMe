@@ -45,9 +45,7 @@ class applicantListActivity : AppCompatActivity() {
 
         var applicantListRecyeclerView = findViewById<RecyclerView>(R.id.applicantListRecyeclerView)
         val countList = mutableListOf<applicantDate>()
-        var addButton = findViewById<Button>(R.id.groupaddbutton)
         var meaddButton = findViewById<Button>(R.id.addButton)
-
 
         //recycleviewの処理
         var apiUrl = myApp.apiUrl+"applyList.php?postNo="+postNo
@@ -73,7 +71,6 @@ class applicantListActivity : AppCompatActivity() {
                 }else if(resultError.getString("result") == "succes"){
                     this@applicantListActivity.runOnUiThread {
                         roomFlg = resultError.getInt("roomFlg")
-
                         val date =resultError.getJSONArray("applyList")
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {
@@ -88,9 +85,6 @@ class applicantListActivity : AppCompatActivity() {
                             countList.add(applicantDate(0,userName,userId,age,gender,addFlg,postNo,roomFlg))
                         }
                         Log.v("blockurl",roomFlg.toString())
-                        if(roomFlg == 2) {
-                            addButton.setText("グループ作成済み")
-                        }
                         Thread.sleep(500)
                         applicantListRecyeclerView.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = listapplicantAdapter(countList,this@applicantListActivity)
@@ -100,43 +94,6 @@ class applicantListActivity : AppCompatActivity() {
                 }
             }
         })
-
-        //グループ作成処理
-        addButton.setOnClickListener {
-            if(roomFlg==2){
-                Toast.makeText(applicationContext, "作成済みです", Toast.LENGTH_SHORT)
-                    .show()
-            }else{
-                //グループ作成の処理
-                var apiUrl = myApp.apiUrl+"roomCreate.php?postNo="+postNo+"&userId="+myApp.loginMyId
-                val request = Request.Builder().url(apiUrl).build()
-                val errorText = "エラー"
-                Log.v("blockurl", apiUrl.toString())
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        this@applicantListActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    override fun onResponse(call: Call, response: Response) {
-                        val csvStr = response.body!!.string()
-                        val resultError = JSONObject(csvStr)
-                        if(resultError.getString("result") == "error") {
-                            this@applicantListActivity.runOnUiThread {
-                                Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }else if(resultError.getString("result") == "success"){
-                            this@applicantListActivity.runOnUiThread {
-                                applicantListActivitysub(myApp,postNo)
-                                Toast.makeText(applicationContext, "成功", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-                    }
-                })
-            }
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

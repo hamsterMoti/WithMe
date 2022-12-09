@@ -26,19 +26,27 @@ class editprofileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editprofile)
 
-
         var nameEdit = findViewById<EditText>(R.id.nameEdit)
         var profileEdit = findViewById<EditText>(R.id.profileEdit)
         var saveButton = findViewById<Button>(R.id.saveButton)
 
+        var userName = intent.getStringExtra("userName")
+        var profile = intent.getStringExtra("profile")
 
-
-
-
-
-
+        nameEdit.setHint(userName)
+        if(profile == "null"){
+            profileEdit.setHint("未設定")
+        }else{
+            profileEdit.setHint(profile)
+        }
+        val errormsg = errorApplication.getInstance()
+        val emptyError = errormsg.emptyError
         //データ保存処理
         saveButton.setOnClickListener {
+            if (nameEdit.text.toString().isEmpty()) {
+                nameEdit.error = emptyError
+            }
+
             var apiUrl = myApp.apiUrl+"userUpd.php?userId="+myApp.loginMyId+"&userName="+nameEdit.text.toString()+"&profile="+profileEdit.text.toString()
             val request = Request.Builder().url(apiUrl).build()
             val errorText = "エラー"
