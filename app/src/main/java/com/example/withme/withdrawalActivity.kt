@@ -30,39 +30,13 @@ class withdrawalActivity : AppCompatActivity() {
         //退会ボタンが押された時の処理
         withdrawalButton.setOnClickListener {
 
-            if(nowpasswordEdit.text.toString().isEmpty() ){
+            if (nowpasswordEdit.text.toString().isEmpty()) {
                 nowpasswordEdit.error = emptyError
-            }else{
-
-                //データ取得
-                var apiUrl = myApp.apiUrl+"userDelete.php?userId="+myApp.loginMyId+"&password="+nowpasswordEdit.text
-                Log.v("urldata",apiUrl)
-                val request = Request.Builder().url(apiUrl).build()
-                val errorText = "エラー"
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        this@withdrawalActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    override fun onResponse(call: Call, response: Response) {
-                        val csvStr = response.body!!.string()
-                        val resultError = JSONObject(csvStr)
-                        if(resultError.getString("result") == "error") {
-                            this@withdrawalActivity.runOnUiThread {
-                            }
-                        }else if(resultError.getString("result") == "success"){
-                            this@withdrawalActivity.runOnUiThread {
-                                Toast.makeText(applicationContext, "退会成功しました", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(applicationContext, loginActivity::class.java)
-                                startActivity(intent)
-                            }
-                        }
-                    }
-                })
-
-
+            }else {
+                val dialog = dialogWithdrawal(this@withdrawalActivity, nowpasswordEdit.text.toString())
+                dialog.show(supportFragmentManager, "simple")
             }
+
         }
 
 
