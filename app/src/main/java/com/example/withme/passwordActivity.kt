@@ -32,18 +32,14 @@ class passwordActivity : AppCompatActivity() {
         var birthday = intent.getStringExtra("birthday")
         val gender = intent.getStringExtra("gender")
 
-
 //        val formatter = DateTimeFormatter.ofPattern("yyyy/[]M/[]d")
 //        birthday = LocalDate.parse(birthday, formatter).toString()
 //        Log.v("date",birthday.toString())
         nextButton.setOnClickListener {
             if (passwordEdit.text.toString().isEmpty()) {
                 passwordEdit.error = emptyError
-            } else if (repasswordEdit.text.isEmpty()) {
+            } else if (repasswordEdit.text.toString().isEmpty()) {
                 repasswordEdit.error = emptyError
-            }else if(passwordEdit.text.toString() != repasswordEdit.text.toString()){
-                passwordEdit.error = errormsg.notMatch
-                repasswordEdit.error = errormsg.notMatch
             } else {
                 if(myId != null) {
                     val pass = passwordEdit.text.toString()

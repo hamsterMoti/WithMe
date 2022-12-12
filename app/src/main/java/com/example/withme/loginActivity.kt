@@ -42,15 +42,10 @@ class loginActivity : AppCompatActivity() {
             val myId = userEdit.text.toString()
             val pass = passEdit.text.toString()
 //                URLを変更
-
             Log.v("ID", myId)
             Log.v("pass", pass)
 
-            val URL = myApp.apiUrl + "loginAuth.php?userId=$myId&password=$pass"
-//            val URL = myApp.apiUrl + "loginAuth.php?userId=aaa@bbb.com&password=Tanaka"
-//                val URL = "http://34.229.155.198/with_me/loginAuth.php?userId=ecc@gmail.com&password=Katumura"
-//            val URL = "http://click.ecc.ac.jp/ecc/whisper_e/loginAuth.php?userId=00&password=00"
-
+            val URL = "${myApp.apiUrl}loginAuth.php?userId=$myId&password=$pass"
 
             val request = Request.Builder().url(URL).build()
             client.newCall(request).enqueue(object : Callback {
@@ -75,6 +70,7 @@ class loginActivity : AppCompatActivity() {
                         this@loginActivity.runOnUiThread {
                             val myApp = myApplication.getInstance()
                             myApp.loginMyId = myId
+                            Log.v("myId",URL)
                             val intent = Intent(applicationContext, timelineActivity::class.java)
                             startActivity(intent)
                         }
@@ -89,7 +85,7 @@ class loginActivity : AppCompatActivity() {
             startActivity(intent)
         }
         passForgetText.setOnClickListener {
-            val intent = Intent(this, editpasswordActivity::class.java)
+            val intent = Intent(this, passwordActivity::class.java)
             startActivity(intent)
 
         }
