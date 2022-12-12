@@ -63,6 +63,8 @@ class createaccountActivity : AppCompatActivity() {
                 nicknameEdit.error = emptyError
             } else if (mailaddressEdit.text.toString().isEmpty()) {
                 mailaddressEdit.error = emptyError
+            }else if(birthday.text.toString().isEmpty()){
+                Toast.makeText(applicationContext, "入力値がありません", Toast.LENGTH_SHORT).show()
 
             } else {
                 val nickname = nicknameEdit.text.toString()

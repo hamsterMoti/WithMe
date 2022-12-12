@@ -34,7 +34,7 @@ class termsServiceActivity : AppCompatActivity() {
                 Log.v("tagagree", "check")
 
                 if (userAddURL != null) {
-                    Log.v("tag", userAddURL)
+                    Log.v("tag1", userAddURL)
 
                     // http接続開始
                     val request = Request.Builder().url(userAddURL).build()

@@ -9,7 +9,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="#A16103"
+        android:background="@color/withmecolor"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         android:layout_width="match_parent"
@@ -109,7 +109,7 @@
                     android:paddingLeft="3dp"
                     android:layout_margin="5dp"
                     app:srcCompat="@drawable/ic_baseline_near_me_24"
-                    app:tint="#2A3B9A" />
+                    app:tint="@color/withmecolor" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
