@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -20,13 +22,33 @@ class chatlistActivity  : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatlist)
 
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
+        val chatlistRecycle = findViewById<RecyclerView>(R.id.chatlistRecycle)
         chatlistActivitysub(myApp)
+        swipeRefreshLayout.setOnRefreshListener {
+            chatlistActivitysub(myApp)
+        }
+
+        swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
+            object : ViewTreeObserver.OnScrollChangedListener {
+                /// notificationRecycleの一番上でスクロールされた時のみ、SwipeRefreshを有効にする。
+                override fun onScrollChanged() {
+                    if (chatlistRecycle.getScrollY() == 0)
+                        swipeRefreshLayout.setEnabled(true)
+                    else
+                        swipeRefreshLayout.setEnabled(false)
+                }
+            }
+        )
+
+
 
     }
 
     fun chatlistActivitysub(myapp:myApplication){
 
         val chatlistRecycle = findViewById<RecyclerView>(R.id.chatlistRecycle)
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         val countList = mutableListOf<talklinedata>()
         //recycleviewの処理
         var apiUrl = myApp.apiUrl+"chatList.php?userId="+myApp.loginMyId
@@ -46,9 +68,13 @@ class chatlistActivity  : AppCompatActivity() {
                     this@chatlistActivity.runOnUiThread {
                         Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
                             .show()
+                        //ぐるぐる消す
+                        swipeRefreshLayout.isRefreshing = false
                     }
                 }else if(resultError.getString("result") == "success"){
                     this@chatlistActivity.runOnUiThread {
+                        //ぐるぐる消す
+                        swipeRefreshLayout.isRefreshing = false
                         val date =resultError.getJSONArray("chatList")
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {

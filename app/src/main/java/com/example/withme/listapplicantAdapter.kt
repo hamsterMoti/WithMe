@@ -1,13 +1,11 @@
 package com.example.withme
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import okhttp3.*
@@ -26,6 +24,7 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
         var agegender:TextView
         var addButton:Button
         var rejectionButton	:Button
+        var name:LinearLayout
 
         init {
             userImage = item.findViewById(R.id.userImage)
@@ -33,6 +32,7 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
             agegender = item.findViewById(R.id.agegender)
             addButton = item.findViewById(R.id.addButton)
             rejectionButton = item.findViewById(R.id.rejectionButton)
+            name = item.findViewById(R.id.name)
 
         }
     }
@@ -52,6 +52,18 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
         holder.userText.setText(dateSet[position].userText)
         holder.agegender.setText(dateSet[position].age+"歳　"+dateSet[position].gender)
         Log.v("kakunin","adapterstart"+dateSet[position].userText)
+
+        //プロフィール写真タップ時
+        holder.userImage.setOnClickListener {
+            var intent = Intent(activity.applicationContext, mypageActivity::class.java)
+            intent.putExtra("targetId",dateSet[position].userId)
+            activity.startActivity(intent)
+        }
+        holder.name.setOnClickListener {
+            var intent = Intent(activity.applicationContext, mypageActivity::class.java)
+            intent.putExtra("targetId", dateSet[position].userId)
+            activity.startActivity(intent)
+        }
 
         if(dateSet[position].addFlg == 2){//既にグループに追加済みの場合
             holder.rejectionButton.setVisibility(View.INVISIBLE)

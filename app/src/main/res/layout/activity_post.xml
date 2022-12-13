@@ -93,13 +93,32 @@
                 android:layout_marginStart="30dp"
                 android:text="募集期限" />
 
-            <TextView
-                android:id="@+id/recruitDaySp"
-                android:layout_width="297dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="38dp"
-                android:text="タップしてください"
-                android:textSize="20sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/recruitDaySp"
+                    android:layout_width="265dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="38dp"
+                    android:text="タップしてください"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/sankaku" />
+
+                <TextView
+                    android:id="@+id/textView33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView28"
