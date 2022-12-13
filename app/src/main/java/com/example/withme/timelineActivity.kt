@@ -1,13 +1,12 @@
 package com.example.withme
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +21,8 @@ class timelineActivity : AppCompatActivity() {
     val client = OkHttpClient()
     val myApp = myApplication.getInstance()
     val errormsg = errorApplication.getInstance()
+    var sizecount_new = 0
+    var sizecount_old = 0
 
     private var inputMethodManager: InputMethodManager? = null
 
@@ -49,8 +50,6 @@ class timelineActivity : AppCompatActivity() {
 //        並び替え
         val tuneImage = findViewById<ImageView>(R.id.tuneImage)
 
-//        val timelinebar = findViewById<Toolbar>(R.id.timelinebar)
-
 
         var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId
 
@@ -61,13 +60,13 @@ class timelineActivity : AppCompatActivity() {
             when (checkedId) {
                 R.id.douhanRadioButton -> {
                     recruitText = "同伴"
-                    Log.v("flogaa",recruitText)
-                    access(apiUrl, timelineRecycl,recruitText)
+                    Log.v("flogaa", recruitText)
+                    access(apiUrl, timelineRecycl, recruitText)
                 }
                 R.id.soudanRadioButton -> {
                     recruitText = "相談"
-                    Log.v("flogaa",recruitText)
-                    access(apiUrl, timelineRecycl,recruitText)
+                    Log.v("flogaa", recruitText)
+                    access(apiUrl, timelineRecycl, recruitText)
                 }
             }
         }
@@ -81,15 +80,15 @@ class timelineActivity : AppCompatActivity() {
         searchbutton.setOnClickListener {
             var apiUrl =
                 myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sString=" + editTextTextPersonName.text
-            access(apiUrl, timelineRecycl,recruitText)
+            access(apiUrl, timelineRecycl, recruitText)
         }
 
 
         //初期タイムライン
-        access(apiUrl, timelineRecycl,recruitText)
+        access(apiUrl, timelineRecycl, recruitText)
         //下にひぱって更新
         swipeRefreshLayout.setOnRefreshListener {
-            access(apiUrl, timelineRecycl,recruitText)
+            access(apiUrl, timelineRecycl, recruitText)
         }
         swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
             object : ViewTreeObserver.OnScrollChangedListener {
@@ -102,7 +101,7 @@ class timelineActivity : AppCompatActivity() {
                 }
             }
         )
-        
+
 
 //        RadioButton(相談)
         adjustImage.setOnClickListener {
@@ -117,7 +116,7 @@ class timelineActivity : AppCompatActivity() {
 //          新着順に並び替える
                 Log.v("newpost", "新着順")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=1"
-                access(apiUrl, timelineRecycl,recruitText)
+                access(apiUrl, timelineRecycl, recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -125,7 +124,7 @@ class timelineActivity : AppCompatActivity() {
 //          投稿順に並び替える
                 Log.v("newpost", "投稿順")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=2"
-                access(apiUrl, timelineRecycl,recruitText)
+                access(apiUrl, timelineRecycl, recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -133,7 +132,7 @@ class timelineActivity : AppCompatActivity() {
 //          締め切り近いに並び替える
                 Log.v("newpost", "締め切り近い")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=3"
-                access(apiUrl, timelineRecycl,recruitText)
+                access(apiUrl, timelineRecycl, recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -156,15 +155,16 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "食べ物")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=食べ物"
-                access(apiUrl, timelineRecycl,recruitText)
+                access(apiUrl, timelineRecycl, recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
             tunebottomSheetView.findViewById<View>(R.id.textView23).setOnClickListener {
 //          絞り込みーお酒
                 Log.v("newpost", "イベント")
-                var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=イベント"
-                access(apiUrl, timelineRecycl,recruitText)
+                var apiUrl =
+                    myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=イベント"
+                access(apiUrl, timelineRecycl, recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -173,7 +173,7 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "エンタメ")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=エンタメ"
-                access(apiUrl, timelineRecycl,recruitText)
+                access(apiUrl, timelineRecycl, recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -182,7 +182,7 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "暮らし")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=暮らし"
-                access(apiUrl, timelineRecycl,recruitText)
+                access(apiUrl, timelineRecycl, recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -191,7 +191,7 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "絞り込み無")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId +
-                access(apiUrl, timelineRecycl,recruitText)
+                            access(apiUrl, timelineRecycl, recruitText)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -199,8 +199,16 @@ class timelineActivity : AppCompatActivity() {
             bottomSheetDialog.show()
         }
 
-    }
+        //エンターで検索
+        editTextTextPersonName.setOnEditorActionListener(OnEditorActionListener { v, actionId, event -> // TODO Auto-generated method stub
+            Log.d("onEditorAction", "actionId = " + actionId + " event = " + (event ?: "null"))
+            var apiUrl =
+                myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sString=" + editTextTextPersonName.text
+            access(apiUrl, timelineRecycl, recruitText)
+            false
+        })
 
+    }
 
     fun access(apiUrl: String, timelineRecycl: RecyclerView,rec:String) {
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
