@@ -74,6 +74,7 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
             holder.addButton.setOnClickListener {
                 Log.v("kakunin","ボタン押された")
                 if(dateSet[position].roomFlg==1){
+                    Log.v("kakunin","部屋なし")
 //                    Toast.makeText(activity.applicationContext, "部屋がありません", Toast.LENGTH_SHORT).show()
                     var apiUrl = myApp.apiUrl+"roomCreate.php?postNo="+dateSet[position].postNo+"&userId="+myApp.loginMyId
                     val request = Request.Builder().url(apiUrl).build()
@@ -98,88 +99,60 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
 //                                    applicantListActivitysub(myApp,postNo)
                                     Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT)
                                         .show()
+                                    var apiUrl = myApp.apiUrl+"memberAdd.php?userId="+dateSet[position].userId+"&roomNo="+dateSet[position].postNo
+                                    url(apiUrl,dateSet[position].postNo)
                                 }
                             }
                         }
                     })
-
+                }else{
+                    Log.v("kakunin","部屋あり")
                 }
+
                 if(dateSet[position].addFlg == 2) {
                     Toast.makeText(activity.applicationContext, "追加済みです", Toast.LENGTH_SHORT).show()
-                }else{
-                    //あとで可能なら変更する
-//                    holder.rejectionButton.setVisibility(View.INVISIBLE)
-//                    holder.addButton.setText("追加済み")
-                    //ユーザ追加処理
-                    var apiUrl = myApp.apiUrl+"memberAdd.php?userId="+dateSet[position].userId+"&roomNo="+dateSet[position].postNo
-                    val request = Request.Builder().url(apiUrl).build()
-                    val errorText = "エラー"
-                    Log.v("blockurl", apiUrl.toString())
-                    client.newCall(request).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            activity.runOnUiThread {
-                                Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                        override fun onResponse(call: Call, response: Response) {
-                            val csvStr = response.body!!.string()
-                            val resultError = JSONObject(csvStr)
-                            if(resultError.getString("result") == "error") {
-                                activity.runOnUiThread {
-                                    Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                                }
-                            }else if(resultError.getString("result") == "success"){
-                                activity.runOnUiThread {
-                                    var applicantListActivity = activity as applicantListActivity
-                                    val myApp = myApplication.getInstance()
-                                    applicantListActivity.applicantListActivitysub(myApp,dateSet[position].postNo)
-                                }
-                            }
-                        }
-                    })
-
-            }
-
+                }
         }
 
         //拒否ボタンタップ処理
         holder.rejectionButton.setOnClickListener {
-
             var apiUrl = myApp.apiUrl+"applyDeny.php?userId="+dateSet[position].userId+"&postNo="+dateSet[position].postNo
-            val request = Request.Builder().url(apiUrl).build()
-            val errorText = "エラー"
-            Log.v("blockurl", apiUrl.toString())
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    activity.runOnUiThread {
-                        Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                    }
-                }
-                override fun onResponse(call: Call, response: Response) {
-                    val csvStr = response.body!!.string()
-                    val resultError = JSONObject(csvStr)
-                    if(resultError.getString("result") == "error") {
-                        activity.runOnUiThread {
-                            Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                        }
-                    }else if(resultError.getString("result") == "success"){
-                        activity.runOnUiThread {
-                            var applicantListActivity = activity as applicantListActivity
-                            val myApp = myApplication.getInstance()
-                            applicantListActivity.applicantListActivitysub(myApp,dateSet[position].postNo)
-                        }
-                    }
-                }
-            })
-
-
+            url(apiUrl,dateSet[position].postNo)
         }
-
     }
 
     override fun getItemCount(): Int {
         return dateSet.size
     }
+
+    fun url(apiUrl:String,postNo:String){
+        val request = Request.Builder().url(apiUrl).build()
+        val errorText = "エラー"
+        Log.v("blockurl", apiUrl.toString())
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                activity.runOnUiThread {
+                    Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val csvStr = response.body!!.string()
+                val resultError = JSONObject(csvStr)
+                if(resultError.getString("result") == "error") {
+                    activity.runOnUiThread {
+                        Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                    }
+                }else if(resultError.getString("result") == "success"){
+                    activity.runOnUiThread {
+                        var applicantListActivity = activity as applicantListActivity
+                        val myApp = myApplication.getInstance()
+                        applicantListActivity.applicantListActivitysub(myApp,postNo)
+                    }
+                }
+            }
+        })
+    }
+
 
 }
 

@@ -80,6 +80,7 @@ class blocAdapter  (private  val dateSet:MutableList<blockDate>,private val acti
         //ボタン以外タップの場合
         holder.sonota.setOnClickListener {
             var intent = Intent(activity.applicationContext, mypageActivity::class.java)
+            intent.putExtra("targetId",dateSet[position].userId)
             activity.startActivity(intent)
         }
 

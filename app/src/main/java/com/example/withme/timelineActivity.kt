@@ -23,6 +23,7 @@ class timelineActivity : AppCompatActivity() {
     val errormsg = errorApplication.getInstance()
     var sizecount_new = 0
     var sizecount_old = 0
+    var sString  =""
 
     private var inputMethodManager: InputMethodManager? = null
 
@@ -202,8 +203,7 @@ class timelineActivity : AppCompatActivity() {
         //エンターで検索
         editTextTextPersonName.setOnEditorActionListener(OnEditorActionListener { v, actionId, event -> // TODO Auto-generated method stub
             Log.d("onEditorAction", "actionId = " + actionId + " event = " + (event ?: "null"))
-            var apiUrl =
-                myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sString=" + editTextTextPersonName.text
+            sString = "&sString=" + editTextTextPersonName.text
             access(apiUrl, timelineRecycl, recruitText)
             false
         })
@@ -215,9 +215,9 @@ class timelineActivity : AppCompatActivity() {
         //初期のタイムライン
         val DouhanList = mutableListOf<timelinedata>()
         val SoudanList = mutableListOf<timelinedata>()
-        val request = Request.Builder().url(apiUrl).build()
+        val request = Request.Builder().url(apiUrl+sString).build()
         val errorText = "エラー"
-        Log.v("blockurl", apiUrl)
+        Log.v("blockurl", apiUrl+sString)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 this@timelineActivity.runOnUiThread {
