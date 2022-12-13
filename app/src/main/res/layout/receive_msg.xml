@@ -2,30 +2,48 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="start"
     android:layout_gravity="start">
 
+    <TextView
+        android:id="@+id/receiveName"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textSize="13sp"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        android:text="TextView"
+        tools:ignore="RtlSymmetry" />
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="5dp"
         android:background="@drawable/receive_drawable"
         android:orientation="horizontal"
         android:padding="15dp">
 
-        <TextView
-            android:id="@+id/receiveText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="message1"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/receiveText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="message1"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
-<!--    <ImageView-->
+    <!--    <ImageView-->
 <!--        android:id="@+id/imageView12"-->
 <!--        android:layout_width="150dp"-->
 <!--        android:layout_height="94dp"-->

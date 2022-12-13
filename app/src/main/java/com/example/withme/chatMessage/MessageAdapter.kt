@@ -29,13 +29,16 @@ class MessageAdapter(val context: Context,val messageList:ArrayList<Message>):
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentMessage = messageList[position]
-
-        if(holder.javaClass == SentViewHolder :: class.java){
+        if(holder.javaClass == SentViewHolder :: class.java) {
             val viewHolder = holder as SentViewHolder
             holder.sentMessage.text = currentMessage.message
-        }else if(holder.javaClass == ReceiveMegHolder :: class.java){
+            holder.sentName.text = currentMessage.name
+
+        }else if(holder.javaClass == ReceiveMegHolder :: class.java) {
             val viewHolder = holder as ReceiveMegHolder
             holder.receiveMessage.text = currentMessage.message
+            holder.receiveName.text = currentMessage.name
+
         }
     }
 
@@ -53,13 +56,23 @@ class MessageAdapter(val context: Context,val messageList:ArrayList<Message>):
     }
     class SentViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val sentMessage = itemView.findViewById<TextView>(R.id.sendText)
-    }
-//    class SentViweImageHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-//        val sentImage = itemView.findViewById<ImageView>(R.id.sentImage)
-//    }
-    class ReceiveMegHolder(itemView:View):RecyclerView.ViewHolder(itemView){
-        val receiveMessage = itemView.findViewById<TextView>(R.id.receiveText)
+        val sentName = itemView.findViewById<TextView>(R.id.sendName)
 
     }
+//    class SentNameHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+//        val sentName = itemView.findViewById<TextView>(R.id.sendName)
+//    }
+    class ReceiveMegHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+    val receiveMessage = itemView.findViewById<TextView>(R.id.receiveText)
+    val receiveName = itemView.findViewById<TextView>(R.id.receiveName)
+}
+//}
+//    class ReciveMegNameHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+//        val receiveName = itemView.findViewById<TextView>(R.id.receiveName)
+//    }
+    //    class SentViweImageHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+//        val sentImage = itemView.findViewById<ImageView>(R.id.sentImage)
+//    }
+
 
 }
