@@ -176,10 +176,17 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chatRecycle"
+                android:layout_width="match_parent"
+                android:layout_height="574dp"
+                android:visibility="visible" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
+
+
 
                 <EditText
                     android:id="@+id/profileEdit"
