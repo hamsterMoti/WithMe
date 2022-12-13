@@ -123,8 +123,8 @@ class detailtimelineActivity : AppCompatActivity() {
                         }else{
                             genderText.setText("性別："+hopeGenger)
                         }
-                        if((lowLmit==null)&&(highLmit==null)){
-                            nendaiText.setText("年代："+"指定なし"+"～"+"指定なし")
+                        if(((lowLmit==null)&&(highLmit==null))||((lowLmit=="0")&&(highLmit=="120"))){
+                            nendaiText.setText("年代："+"指定なし")
                         }else{
                             nendaiText.setText("年代："+lowLmit+"～"+highLmit)
                         }
