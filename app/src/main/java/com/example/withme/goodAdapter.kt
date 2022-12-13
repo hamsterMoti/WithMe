@@ -50,8 +50,27 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
 
     override fun onBindViewHolder(holder: goodAdapter.ViewHoldew, position: Int) {
         //データ挿入
-        holder.contoributorName.setText(dateSet[position].contoributorName)
-        holder.titleText.setText(dateSet[position].titleText)
+        var sbc = StringBuilder()
+
+        if(dateSet[position].contoributorName.length >= 14){
+            var overview = dateSet[position].contoributorName.substring(0, 13)
+            sbc.append(overview)
+            sbc.append("…")
+        }else{
+            sbc.append(dateSet[position].contoributorName)
+        }
+        holder.contoributorName.setText(sbc)
+
+        sbc = StringBuilder()
+        if(dateSet[position].titleText.length >= 57){
+            var setume = dateSet[position].titleText.substring(0, 56)
+            sbc.append(setume)
+            sbc.append("…")
+        }else{
+            sbc.append(dateSet[position].titleText)
+        }
+        holder.titleText.setText(sbc)
+
         if(dateSet[position].statusImage==1){
 //            holder.statusImage.setText("募集中")
             holder.statusImage.setVisibility(View.GONE);
@@ -111,7 +130,8 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                         Log.v("newpost", "投稿削除")
                         var apiUrl =
                             myApp.apiUrl + "postDelete.php?postNo=" + dateSet[position].postNo
-                        okituusinn(apiUrl, activity)
+                        Log.v("blockurl", apiUrl.toString())
+                        okituusinn(apiUrl, activity,"投稿一覧")
                         //bottomシートclause
                         bottomSheetDialog.dismiss()
                     }
@@ -119,7 +139,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                         Log.v("newpost", "status変更")
                         if((myApp.loginMyId==dateSet[position].userId)&&(dateSet[position].moreimage=="投稿一覧")){
                             var apiUrl = myApp.apiUrl+"statusCtl.php?userId="+myApp.loginMyId+"&postNo="+dateSet[position].postNo+"&statusFlg="+dateSet[position].statusImage
-                            okituusinn(apiUrl, activity)
+                            okituusinn(apiUrl, activity,"投稿一覧")
                         }
                         //bottomシートclause
                         bottomSheetDialog.dismiss()
@@ -138,7 +158,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                 bottomSheetView.findViewById<View>(R.id.textView5).setOnClickListener {
                     Log.v("newpost","ブロック")
                     var apiUrl = myApp.apiUrl + "blockCtl.php?userId=" + myApp.loginMyId + "&blockUserId=" + dateSet[position].youid + "&blockFlg=1"
-                    okituusinn(apiUrl,activity)
+                    okituusinn(apiUrl,activity,"参加一覧")
                     //bottomシートclause
                     bottomSheetDialog.dismiss()
                 }
@@ -192,7 +212,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
     }
 }
 
-fun okituusinn(url:String,activity:AppCompatActivity){
+fun okituusinn(url:String,activity:AppCompatActivity,kind:String){
     val client = OkHttpClient()
     val request = Request.Builder().url(url).build()
     val errorText = "エラー"
@@ -208,13 +228,16 @@ fun okituusinn(url:String,activity:AppCompatActivity){
             val resultError = JSONObject(csvStr)
             if (resultError.getString("result") == "error") {
                 activity.runOnUiThread {
-                    Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity.applicationContext, "ブロック済みです", Toast.LENGTH_SHORT).show()
                 }
             } else if (resultError.getString("result") == "success") {
                 activity.runOnUiThread {
-                    var mypageActivity = activity as mypageActivity
-                    val myApp = myApplication.getInstance()
-                    mypageActivity.mypageActivitysub(myApp)
+                    Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT).show()
+                    if(kind == "投稿一覧") {
+                        var mypageActivity = activity as mypageActivity
+                        val myApp = myApplication.getInstance()
+                        mypageActivity.mypageActivitysub(myApp)
+                    }
                 }
             }
         }

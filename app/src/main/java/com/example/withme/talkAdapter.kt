@@ -40,9 +40,24 @@ class talkAdapter  (private  val dateSet:MutableList<talklinedata>,private val a
     }
     override fun onBindViewHolder(holder: talkAdapter.ViewHoldew, position: Int) {
 
-        //仮データ挿入
-        holder.roomName.setText(dateSet[position].roomName)
-        holder.talkText.setText(dateSet[position].message)
+        var sbc = StringBuilder()
+        if(dateSet[position].roomName.length >= 15){
+            var overview = dateSet[position].roomName.substring(0, 14)
+            sbc.append(overview)
+            sbc.append("…")
+        }else{
+            sbc.append(dateSet[position].roomName)
+        }
+        holder.roomName.setText(sbc)
+        sbc = StringBuilder()
+        if(dateSet[position].message.length >= 42){
+            var overview = dateSet[position].message.substring(0, 41)
+            sbc.append(overview)
+            sbc.append("…")
+        }else{
+            sbc.append(dateSet[position].message)
+        }
+        holder.talkText.setText(sbc)
         if(dateSet[position].categoryText == "食べ物"){
             holder.userImage.setImageResource(R.drawable.user_6)
         }else if(dateSet[position].categoryText == "イベント"){

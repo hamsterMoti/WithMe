@@ -28,7 +28,6 @@ class applicantListActivity : AppCompatActivity() {
 
         var titleText = findViewById<TextView>(R.id.textView14)
 
-
         //投稿詳細画面からのインテント取得
         var postNo = intent.getStringExtra("postNo")
         var title = intent.getStringExtra("title")

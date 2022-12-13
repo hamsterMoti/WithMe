@@ -51,10 +51,25 @@ class timelineAdapter  (private  val dateSet:MutableList<timelinedata>,private v
     }
 
     override fun onBindViewHolder(holder: timelineAdapter.ViewHoldew, position: Int) {
-
+        var sb = StringBuilder()
+        var sbc = StringBuilder()
         //データ挿入
-        holder.titleText.setText(dateSet[position].titleText)
-        holder.overviewText.setText(dateSet[position].overviewText)
+        if(dateSet[position].titleText.length >= 10){
+            var titlena = dateSet[position].titleText.substring(0, 9)
+            sb.append(titlena)
+            sb.append("…")
+        }else{
+            sb.append(dateSet[position].titleText)
+        }
+        if(dateSet[position].overviewText.length >= 36){
+            var overview = dateSet[position].overviewText.substring(0, 35)
+            sbc.append(overview)
+            sbc.append("…")
+        }else{
+            sbc.append(dateSet[position].overviewText)
+        }
+        holder.titleText.setText(sb)
+        holder.overviewText.setText(sbc)
         holder.commentNumText.setText(dateSet[position].commentNum)
         holder.ouboNumText.setText(dateSet[position].answerText)
         holder.ouboNumText.setText(dateSet[position].answerText)
