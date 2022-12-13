@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -20,12 +22,39 @@ class notificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification2)
 
+        url()
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
+        swipeRefreshLayout.setOnRefreshListener {
+            url()
+        }
+
         val notificationRecycle = findViewById<RecyclerView>(R.id.notificationRecycle)
 
+        swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
+            object : ViewTreeObserver.OnScrollChangedListener {
+                /// notificationRecycleの一番上でスクロールされた時のみ、SwipeRefreshを有効にする。
+                override fun onScrollChanged() {
+                    if (notificationRecycle.getScrollY() == 0)
+                        swipeRefreshLayout.setEnabled(true)
+                    else
+                        swipeRefreshLayout.setEnabled(false)
+                }
+            }
+        )
+
+
+    }
+
+    fun url(){
+
+        val client = OkHttpClient()
+        val myApp = myApplication.getInstance()
+        val notificationRecycle = findViewById<RecyclerView>(R.id.notificationRecycle)
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         var apiUrl = myApp.apiUrl+"notifyList.php?userId="+myApp.loginMyId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
-         Log.v("blockurl",apiUrl)
+        Log.v("blockurl",apiUrl)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 this@notificationActivity.runOnUiThread {
@@ -39,9 +68,13 @@ class notificationActivity : AppCompatActivity() {
                     this@notificationActivity.runOnUiThread {
                         Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
                             .show()
+                        //ぐるぐる消す
+                        swipeRefreshLayout.isRefreshing = false
                     }
                 }else if(resultError.getString("result") == "success"){
                     this@notificationActivity.runOnUiThread {
+                        //ぐるぐる消す
+                        swipeRefreshLayout.isRefreshing = false
                         Log.v("blockurl",apiUrl)
                         val date =resultError.getJSONArray("notifyList")
                         val listlisrt = mutableListOf<notificationDate>()
@@ -56,7 +89,6 @@ class notificationActivity : AppCompatActivity() {
                         }
 //                        リストを逆にする
                         val result = listlisrt.asReversed()
-
                         notificationRecycle.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = notificationAdapter(result,this@notificationActivity)
                         notificationRecycle.adapter = adapter
@@ -65,11 +97,6 @@ class notificationActivity : AppCompatActivity() {
                 }
             }
         })
-
-
-
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -4,16 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import okhttp3.*
 import org.json.JSONObject
@@ -38,8 +36,8 @@ class timelineActivity : AppCompatActivity() {
         val recruitGroup = findViewById<RadioGroup>(R.id.recruitRadioGroup)
         val douhanRadio = findViewById<RadioButton>(R.id.douhanRadioButton)
         val soudanRadioButton = findViewById<RadioButton>(R.id.soudanRadioButton)
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         val id = recruitGroup.checkedRadioButtonId
-
 
         val timelineRecycl = findViewById<RecyclerView>(R.id.profileRecyclerView)
         val editTextTextPersonName = findViewById<EditText>(R.id.editTextTextPersonName)
@@ -89,6 +87,21 @@ class timelineActivity : AppCompatActivity() {
 
         //初期タイムライン
         access(apiUrl, timelineRecycl,recruitText)
+        //下にひぱって更新
+        swipeRefreshLayout.setOnRefreshListener {
+            access(apiUrl, timelineRecycl,recruitText)
+        }
+        swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
+            object : ViewTreeObserver.OnScrollChangedListener {
+                /// notificationRecycleの一番上でスクロールされた時のみ、SwipeRefreshを有効にする。
+                override fun onScrollChanged() {
+                    if (timelineRecycl.getScrollY() == 0)
+                        swipeRefreshLayout.setEnabled(true)
+                    else
+                        swipeRefreshLayout.setEnabled(false)
+                }
+            }
+        )
         
 
 //        RadioButton(相談)
@@ -190,7 +203,7 @@ class timelineActivity : AppCompatActivity() {
 
 
     fun access(apiUrl: String, timelineRecycl: RecyclerView,rec:String) {
-
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         //初期のタイムライン
         val DouhanList = mutableListOf<timelinedata>()
         val SoudanList = mutableListOf<timelinedata>()
@@ -211,11 +224,14 @@ class timelineActivity : AppCompatActivity() {
                     this@timelineActivity.runOnUiThread {
                         Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
                             .show()
+                        //ぐるぐる消す
+                        swipeRefreshLayout.isRefreshing = false
                     }
                 } else if (resultError.getString("result") == "success") {
                     this@timelineActivity.runOnUiThread {
                         val date = resultError.getJSONArray("postList")
-
+                        //ぐるぐる消す
+                        swipeRefreshLayout.isRefreshing = false
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {
                             var json = date.getJSONObject(i)

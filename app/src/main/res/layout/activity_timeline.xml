@@ -109,14 +109,21 @@
 
         </RadioGroup>
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiper_for_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profileRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="534dp"
+                tools:listitem="@layout/activity_timeline_adapter">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/profileRecyclerView"
-            android:layout_width="wrap_content"
-            android:layout_height="534dp"
-            tools:listitem="@layout/activity_timeline_adapter">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
