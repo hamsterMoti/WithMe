@@ -2,19 +2,31 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="end"
     android:layout_gravity="end">
 
-    <LinearLayout
 
+    <TextView
+        android:id="@+id/sendName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="2dp"
+        android:textSize="13sp"
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        tools:ignore="SmallSp" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         android:background="@drawable/send_drawble"
         android:orientation="horizontal"
+        android:layout_margin="5dp"
         android:padding="15dp">
 
         <TextView

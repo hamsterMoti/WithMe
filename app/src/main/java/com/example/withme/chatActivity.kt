@@ -42,7 +42,7 @@ class chatActivity : AppCompatActivity() {
         messageRecyclerView = findViewById(R.id.chatRecycle)
         messageBox = findViewById(R.id.chatEditText)
         sendButton = findViewById(R.id.sendImage)
-        messageList = ArrayList()
+        messageList = ArrayList() //配列を初期化
         messageAdapter = MessageAdapter(this,messageList)
 
         val backButton = findViewById<ImageView>(R.id.backButton)
@@ -69,8 +69,10 @@ class chatActivity : AppCompatActivity() {
 
     }
 
+
 //    http通信メソッド
     private  fun httpAccess(apiUrl:String){
+        messageList = ArrayList()
         messageAdapter = MessageAdapter(this,messageList)
         val request = Request.Builder().url(apiUrl).build()
         client.newCall(request).enqueue(object : Callback {
@@ -106,7 +108,7 @@ class chatActivity : AppCompatActivity() {
                             var image = json.getString("image")
                             var messageDate = json.getString("messageDate")
 
-                            messageList.add(Message(message,myId))
+                            messageList.add(Message(message,myId,userName))
                         }
 
                         messageRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
