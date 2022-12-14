@@ -103,8 +103,8 @@ class notificationActivity : AppCompatActivity() {
                             //表示
                             ImageVi.setVisibility(View.VISIBLE)
                         }else{
-                            //非表示
-                            ImageVi.setVisibility(View.INVISIBLE)
+                            //非表示(領域も埋める)
+                            ImageVi.setVisibility(View.GONE)
                         }
 
                     }

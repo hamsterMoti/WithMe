@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +52,7 @@ class chatlistActivity  : AppCompatActivity() {
         val chatlistRecycle = findViewById<RecyclerView>(R.id.chatlistRecycle)
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         val countList = mutableListOf<talklinedata>()
+        val ImageVi = findViewById<ImageView>(R.id.noimage)
         //recycleviewの処理
         var apiUrl = myApp.apiUrl+"chatList.php?userId="+myApp.loginMyId
         val request = Request.Builder().url(apiUrl).build()
@@ -93,6 +96,16 @@ class chatlistActivity  : AppCompatActivity() {
                         chatlistRecycle.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = talkAdapter(countList,this@chatlistActivity)
                         chatlistRecycle.adapter = adapter
+
+                        //リストが空白なら画像表示
+                        Log.v("sizewatch",countList.size.toString())
+                        if(countList.size == 0){
+                            //表示
+                            ImageVi.setVisibility(View.VISIBLE)
+                        }else{
+                            //非表示(領域も埋める)
+                            ImageVi.setVisibility(View.GONE)
+                        }
 
                     }
                 }

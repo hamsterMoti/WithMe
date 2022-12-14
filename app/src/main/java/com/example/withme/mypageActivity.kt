@@ -77,6 +77,7 @@ class mypageActivity : AppCompatActivity() {
         val goodButton = findViewById<ImageView>(R.id.goodButton)
         val profileRecyclerView = findViewById<RecyclerView>(R.id.profileRecyclerView)
         val editprofileButton = findViewById<Button>(R.id.editprofileButton)
+        val ImageVi = findViewById<ImageView>(R.id.noimage)
         var postList = mutableListOf<gooddata>()
         var goodList = mutableListOf<gooddata>()
 
@@ -167,6 +168,7 @@ class mypageActivity : AppCompatActivity() {
 
 //                        mainfragment.createList(postList,this@mypageActivity)
                         //adapter呼び出し
+                        nolist(postList,ImageVi)
                         profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = goodAdapter(postList,this@mypageActivity)
                         profileRecyclerView.adapter = adapter
@@ -180,6 +182,7 @@ class mypageActivity : AppCompatActivity() {
         //投稿一覧
         postButton.setOnClickListener {
 //            mainfragment.createList(postList,this@mypageActivity)
+            nolist(postList,ImageVi)
             profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
             val adapter = goodAdapter(postList,this@mypageActivity)
             profileRecyclerView.adapter = adapter
@@ -187,6 +190,7 @@ class mypageActivity : AppCompatActivity() {
         }
         //応募一覧表
         goodButton.setOnClickListener {
+            nolist(goodList,ImageVi)
 //            mainfragment.createList(goodList,this@mypageActivity)
             profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
             val adapter = goodAdapter(goodList,this@mypageActivity)
@@ -194,6 +198,21 @@ class mypageActivity : AppCompatActivity() {
         }
 
     }
+
+    fun nolist(listlisrt:MutableList<gooddata>,Imagevi: ImageView){//リストがない場合の画像
+        //リストが空白なら画像表示
+        Log.v("sizewatch",listlisrt.size.toString())
+        if(listlisrt.size == 0){
+            //表示
+            Imagevi.setVisibility(View.VISIBLE)
+        }else{
+            //非表示(領域も埋める)
+            Imagevi.setVisibility(View.GONE)
+        }
+    }
+
+
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)

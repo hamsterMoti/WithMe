@@ -1,6 +1,7 @@
 package com.example.withme
 
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -30,17 +31,15 @@ class timelineActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timeline)
-
 //        supportActionBar //バーを隠す
 //            ?.hide()
-
 //        RadioButon
         val recruitGroup = findViewById<RadioGroup>(R.id.recruitRadioGroup)
         val douhanRadio = findViewById<RadioButton>(R.id.douhanRadioButton)
         val soudanRadioButton = findViewById<RadioButton>(R.id.soudanRadioButton)
+        val ImageVi = findViewById<ImageView>(R.id.noimage)
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         val id = recruitGroup.checkedRadioButtonId
-
         val timelineRecycl = findViewById<RecyclerView>(R.id.profileRecyclerView)
         val editTextTextPersonName = findViewById<EditText>(R.id.editTextTextPersonName)
         val searchbutton = findViewById<Button>(R.id.searchbutton)
@@ -62,16 +61,15 @@ class timelineActivity : AppCompatActivity() {
                 R.id.douhanRadioButton -> {
                     recruitText = "同伴"
                     Log.v("flogaa", recruitText)
-                    access(apiUrl, timelineRecycl, recruitText)
+                    access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 }
                 R.id.soudanRadioButton -> {
                     recruitText = "相談"
                     Log.v("flogaa", recruitText)
-                    access(apiUrl, timelineRecycl, recruitText)
+                    access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 }
             }
         }
-
 
         //FABボタンタップ処理
         fab.setOnClickListener { view ->
@@ -81,15 +79,14 @@ class timelineActivity : AppCompatActivity() {
         searchbutton.setOnClickListener {
             var apiUrl =
                 myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sString=" + editTextTextPersonName.text
-            access(apiUrl, timelineRecycl, recruitText)
+            access(apiUrl, timelineRecycl, recruitText,ImageVi)
         }
 
-
         //初期タイムライン
-        access(apiUrl, timelineRecycl, recruitText)
+        access(apiUrl, timelineRecycl, recruitText,ImageVi)
         //下にひぱって更新
         swipeRefreshLayout.setOnRefreshListener {
-            access(apiUrl, timelineRecycl, recruitText)
+            access(apiUrl, timelineRecycl, recruitText,ImageVi)
         }
         swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
             object : ViewTreeObserver.OnScrollChangedListener {
@@ -102,8 +99,6 @@ class timelineActivity : AppCompatActivity() {
                 }
             }
         )
-
-
 //        RadioButton(相談)
         adjustImage.setOnClickListener {
             val bottomSheetDialog = BottomSheetDialog(
@@ -117,7 +112,7 @@ class timelineActivity : AppCompatActivity() {
 //          新着順に並び替える
                 Log.v("newpost", "新着順")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=1"
-                access(apiUrl, timelineRecycl, recruitText)
+                access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -125,7 +120,7 @@ class timelineActivity : AppCompatActivity() {
 //          投稿順に並び替える
                 Log.v("newpost", "投稿順")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=2"
-                access(apiUrl, timelineRecycl, recruitText)
+                access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -133,7 +128,7 @@ class timelineActivity : AppCompatActivity() {
 //          締め切り近いに並び替える
                 Log.v("newpost", "締め切り近い")
                 var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sSort=3"
-                access(apiUrl, timelineRecycl, recruitText)
+                access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -156,7 +151,7 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "食べ物")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=食べ物"
-                access(apiUrl, timelineRecycl, recruitText)
+                access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -165,7 +160,7 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "イベント")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=イベント"
-                access(apiUrl, timelineRecycl, recruitText)
+                access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -174,7 +169,7 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "エンタメ")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=エンタメ"
-                access(apiUrl, timelineRecycl, recruitText)
+                access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -183,7 +178,7 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "暮らし")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId + "&sCategory=暮らし"
-                access(apiUrl, timelineRecycl, recruitText)
+                access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -192,7 +187,7 @@ class timelineActivity : AppCompatActivity() {
                 Log.v("newpost", "絞り込み無")
                 var apiUrl =
                     myApp.apiUrl + "search.php?userId=" + myApp.loginMyId +
-                            access(apiUrl, timelineRecycl, recruitText)
+                            access(apiUrl, timelineRecycl, recruitText,ImageVi)
                 //bottomシートclause
                 bottomSheetDialog.dismiss()
             }
@@ -204,13 +199,13 @@ class timelineActivity : AppCompatActivity() {
         editTextTextPersonName.setOnEditorActionListener(OnEditorActionListener { v, actionId, event -> // TODO Auto-generated method stub
             Log.d("onEditorAction", "actionId = " + actionId + " event = " + (event ?: "null"))
             sString = "&sString=" + editTextTextPersonName.text
-            access(apiUrl, timelineRecycl, recruitText)
+            access(apiUrl, timelineRecycl, recruitText,ImageVi)
             false
         })
 
     }
 
-    fun access(apiUrl: String, timelineRecycl: RecyclerView,rec:String) {
+    fun access(apiUrl: String, timelineRecycl: RecyclerView,rec:String,Imagevi:ImageView) {
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         //初期のタイムライン
         val DouhanList = mutableListOf<timelinedata>()
@@ -268,8 +263,11 @@ class timelineActivity : AppCompatActivity() {
                         var adapter = timelineAdapter(SoudanList, this@timelineActivity)
                         if(rec == "相談"){
                             adapter = timelineAdapter(SoudanList, this@timelineActivity)
+                            nolist(SoudanList,Imagevi)
+
                         }else if(rec == "同伴"){
                             adapter = timelineAdapter(DouhanList, this@timelineActivity)
+                            nolist(DouhanList,Imagevi)
                         }
                         timelineRecycl.adapter = adapter
 
@@ -278,6 +276,18 @@ class timelineActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    fun nolist(listlisrt:MutableList<timelinedata>,Imagevi: ImageView){//リストがない場合の画像
+        //リストが空白なら画像表示
+        Log.v("sizewatch",listlisrt.size.toString())
+        if(listlisrt.size == 0){
+            //表示
+            Imagevi.setVisibility(View.VISIBLE)
+        }else{
+            //非表示(領域も埋める)
+            Imagevi.setVisibility(View.GONE)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

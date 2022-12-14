@@ -113,6 +113,7 @@
             android:id="@+id/swiper_for_webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/profileRecyclerView"
                 android:layout_width="wrap_content"
@@ -121,6 +122,7 @@
 
 
             </androidx.recyclerview.widget.RecyclerView>
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
@@ -138,6 +140,17 @@
         app:backgroundTint="#BAA4C4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/noimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/user_8" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
