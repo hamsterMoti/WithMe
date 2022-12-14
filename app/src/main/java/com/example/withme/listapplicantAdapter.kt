@@ -107,6 +107,8 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
                     })
                 }else{
                     Log.v("kakunin","部屋あり")
+                    var apiUrl = myApp.apiUrl+"memberAdd.php?userId="+dateSet[position].userId+"&roomNo="+dateSet[position].postNo
+                    url(apiUrl,dateSet[position].postNo)
                 }
 
                 if(dateSet[position].addFlg == 2) {
