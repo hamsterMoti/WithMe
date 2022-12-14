@@ -177,9 +177,9 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/chatRecycle"
-                android:layout_width="match_parent"
-                android:layout_height="574dp"
+                android:id="@+id/chatRecycle1"
+                android:layout_width="337dp"
+                android:layout_height="140dp"
                 android:visibility="visible" />
             <LinearLayout
                 android:layout_width="match_parent"
