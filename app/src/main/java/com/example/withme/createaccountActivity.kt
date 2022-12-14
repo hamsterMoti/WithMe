@@ -49,7 +49,7 @@ class createaccountActivity : AppCompatActivity() {
         var year = cal.get(Calendar.YEAR)
         var month = cal.get(Calendar.MONTH) + 1
         var day = cal.get(Calendar.DATE)
-        birthday.text = "$year/$month/$day"
+        birthday.text = "0000-00-00"
 
 
         birthday.setOnClickListener{
@@ -64,7 +64,7 @@ class createaccountActivity : AppCompatActivity() {
             } else if (mailaddressEdit.text.toString().isEmpty()) {
                 mailaddressEdit.error = emptyError
             }else if(birthday.text.toString().isEmpty()){
-                Toast.makeText(applicationContext, "入力値がありません", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, emptyError, Toast.LENGTH_SHORT).show()
 
             } else {
                 val nickname = nicknameEdit.text.toString()
@@ -86,7 +86,6 @@ class createaccountActivity : AppCompatActivity() {
                 //生年月日をフォーマットする
                 val formatter = DateTimeFormatter.ofPattern("yyyy-[]M-[]d")
                 birthGetText = LocalDate.parse(birthGetText, formatter).toString()
-
 
                 val intent = Intent(this, passwordActivity::class.java)
                 intent.putExtra("userId",myId)
@@ -121,28 +120,5 @@ class createaccountActivity : AppCompatActivity() {
             mm,
             dd)
         datePickerDialog.show()
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val timeline = Intent(this, timelineActivity::class.java)
-        val chat = Intent(this, chatlistActivity::class.java)
-        val notification = Intent(this, notificationActivity::class.java)
-        val mypage = Intent(this, mypageActivity::class.java)
-        val settingsettinglist = Intent(this, settinglistActivity::class.java)
-        val login = Intent(this, loginActivity::class.java)
-
-        //連携処理を実施
-        when (item.itemId) {
-            R.id.timeline -> startActivity(timeline)
-            R.id.chat -> startActivity(chat)
-            R.id.notification -> startActivity(notification)
-            R.id.mypage -> startActivity(mypage)
-            R.id.setting -> startActivity(settingsettinglist)
-            else -> startActivity(login)//ログアウト処理を書く
-        }
-        return super.onOptionsItemSelected(item)
-    }
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        getMenuInflater().inflate(R.menu.menu, menu)
-        return super.onCreateOptionsMenu(menu)
     }
 }
