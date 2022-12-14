@@ -51,7 +51,7 @@ class loginActivity : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     this@loginActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, "erorr", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onResponse(call: Call, response: Response) {
@@ -59,11 +59,8 @@ class loginActivity : AppCompatActivity() {
                     val resultError = JSONObject(csvStr)
                     if (resultError.getString("result") == "error") {
                         this@loginActivity.runOnUiThread {
-                            Toast.makeText(
-                                applicationContext,
-                                errormsg.notMatch,
-                                Toast.LENGTH_SHORT
-                            )
+                            val error = resultError.getString("errMsg")
+                            Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT)
                                 .show()
                         }
                     } else if (resultError.getString("result") == "success") {
@@ -85,7 +82,7 @@ class loginActivity : AppCompatActivity() {
             startActivity(intent)
         }
         passForgetText.setOnClickListener {
-            val intent = Intent(this, passwordActivity::class.java)
+            val intent = Intent(this, editpasswordActivity::class.java)
             startActivity(intent)
 
         }

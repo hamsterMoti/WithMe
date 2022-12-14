@@ -16,15 +16,14 @@ import java.io.IOException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
-//パスワード入力画面
+//パスワード変更画面
 class editpasswordActivity : AppCompatActivity() {
     val client = OkHttpClient()
     val myApp = myApplication.getInstance()
     val errormsg = errorApplication.getInstance()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_password)
+        setContentView(R.layout.activity_editpassword)
 
         val userIdEdit = findViewById<EditText>(R.id.userIdEdit)
         val passwordEdit = findViewById<EditText>(R.id.passwordEdit)
@@ -34,9 +33,9 @@ class editpasswordActivity : AppCompatActivity() {
 
 
         changeButton.setOnClickListener {
-            if (userIdEdit.text.toString().isEmpty()) {
+            if(userIdEdit.text.toString().isEmpty()){
                 userIdEdit.error = emptyError
-            } else if (passwordEdit.text.toString().isEmpty()) {
+            }else if (passwordEdit.text.toString().isEmpty()) {
                 passwordEdit.error = emptyError
             } else if (repasswordEdit.text.isEmpty()) {
                 repasswordEdit.error = emptyError
@@ -46,9 +45,9 @@ class editpasswordActivity : AppCompatActivity() {
             } else {
                 val myId = userIdEdit.text.toString()
                 val pass = passwordEdit.text.toString()
-                val UserURL = "${myApp.apiUrl}passUpd.php?userId=$myId&password=$pass"
-                Log.v("UserURL",UserURL)
-                httpAccess(UserURL)
+                val userURL = "${myApp.apiUrl}passUpd.php?userId=$myId&password=$pass"
+                httpAccess(userURL)
+                Log.v("userURL",userURL)
             }
         }
     }
@@ -69,7 +68,8 @@ class editpasswordActivity : AppCompatActivity() {
                 val resultError = JSONObject(csvStr)
                 if (resultError.getString("result") == "error") {
                     this@editpasswordActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, errormsg.notMatch, Toast.LENGTH_SHORT)
+                        val error = resultError.getString("errMsg")
+                        Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT)
                             .show()
                     }
                 } else if (resultError.getString("result") == "success") {
