@@ -40,6 +40,9 @@ class passwordActivity : AppCompatActivity() {
                 passwordEdit.error = emptyError
             } else if (repasswordEdit.text.toString().isEmpty()) {
                 repasswordEdit.error = emptyError
+            }else if(passwordEdit.text.toString() != repasswordEdit.text.toString() ){
+                passwordEdit.error = errormsg.notMatch
+                repasswordEdit.error = errormsg.notMatch
             } else {
                 if(myId != null) {
                     val pass = passwordEdit.text.toString()
