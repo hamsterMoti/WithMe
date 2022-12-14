@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,7 @@ import org.json.JSONObject
 import java.io.IOException
 
 class notificationActivity : AppCompatActivity() {
+    lateinit var listlisrt: MutableList<notificationDate>
     override fun onCreate(savedInstanceState: Bundle?) {
         val client = OkHttpClient()
         val myApp = myApplication.getInstance()
@@ -51,6 +54,7 @@ class notificationActivity : AppCompatActivity() {
         val myApp = myApplication.getInstance()
         val notificationRecycle = findViewById<RecyclerView>(R.id.notificationRecycle)
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
+        val ImageVi = findViewById<ImageView>(R.id.noimage)
         var apiUrl = myApp.apiUrl+"notifyList.php?userId="+myApp.loginMyId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
@@ -77,7 +81,7 @@ class notificationActivity : AppCompatActivity() {
                         swipeRefreshLayout.isRefreshing = false
                         Log.v("blockurl",apiUrl)
                         val date =resultError.getJSONArray("notifyList")
-                        val listlisrt = mutableListOf<notificationDate>()
+                        listlisrt = mutableListOf<notificationDate>()
                         //データが存在する間listにデータを挿入する
                         for (i in 0 until date.length()) {
                             Log.v("kakunin",i.toString())
@@ -92,6 +96,16 @@ class notificationActivity : AppCompatActivity() {
                         notificationRecycle.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = notificationAdapter(result,this@notificationActivity)
                         notificationRecycle.adapter = adapter
+
+                        //リストが空白なら画像表示
+                        Log.v("sizewatch",listlisrt.size.toString())
+                        if(listlisrt.size == 0){
+                            //表示
+                            ImageVi.setVisibility(View.VISIBLE)
+                        }else{
+                            //非表示
+                            ImageVi.setVisibility(View.INVISIBLE)
+                        }
 
                     }
                 }
