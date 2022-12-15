@@ -17,6 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
+
+       
         <activity android:name=".commentActivity" />
         <activity
             android:name=".errorApplication"
