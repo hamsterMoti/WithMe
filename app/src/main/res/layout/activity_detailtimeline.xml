@@ -16,6 +16,8 @@
         android:theme="?attr/actionBarTheme"
         tools:ignore="MissingConstraints" />
 
+
+
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="28dp"
@@ -70,10 +72,17 @@
                 android:layout_marginBottom="2dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/postdayText"
-                    android:layout_width="145dp"
-                    android:layout_height="wrap_content" />
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/swiper_for_webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="21dp"
+                    tools:ignore="MissingConstraints">
+
+                    <TextView
+                        android:id="@+id/postdayText"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content" />
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
                 <ImageView
                     android:id="@+id/postImage"
@@ -239,17 +248,15 @@
 
                 </LinearLayout>
 
-                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                    android:id="@+id/swiper_for_webview"
-                    android:layout_width="match_parent"
-                    android:layout_height="124dp">
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/chatRecycle1"
                         android:layout_width="357dp"
                         android:layout_height="140dp"
                         android:visibility="invisible" />
-                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
