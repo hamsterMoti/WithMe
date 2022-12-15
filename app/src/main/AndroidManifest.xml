@@ -18,7 +18,6 @@
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
         <activity android:name=".commentActivity"></activity>
-        <activity android:name=".comment" />
         <activity
             android:name=".errorApplication"
             tools:ignore="Instantiatable" />
