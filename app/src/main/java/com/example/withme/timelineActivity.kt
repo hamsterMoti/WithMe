@@ -48,6 +48,10 @@ class timelineActivity : AppCompatActivity() {
         val timelineRecycl = findViewById<RecyclerView>(R.id.profileRecyclerView)
         val editTextTextPersonName = findViewById<EditText>(R.id.editTextTextPersonName)
         val fab: View = findViewById(R.id.fab)
+
+        ImageVi.setVisibility(View.GONE)
+        nolist.setVisibility(View.GONE)
+
 //        絞り込み
         val adjustImage = findViewById<ImageView>(R.id.adjustImage)
 //        並び替え
