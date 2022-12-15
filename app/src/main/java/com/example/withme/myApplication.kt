@@ -7,7 +7,7 @@ class myApplication{
     val ipAddress = "3.214.68.105"
     var apiUrl: String = "http://$ipAddress/with_me/"
 //  ID（メールアドレス）
-    var loginMyId: String = "aaa@bbb.com"
+    var loginMyId: String = ""
 //  相手のID
     var checkId:String="aaa@bbb.com"
 

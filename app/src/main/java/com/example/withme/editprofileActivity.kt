@@ -18,6 +18,8 @@ import java.io.IOException
 class editprofileActivity : AppCompatActivity() {
     val client = OkHttpClient()
     val myApp = myApplication.getInstance()
+    val errormsg = errorApplication.getInstance()
+
     private val REQUEST_GALLERY_TAKE = 2
 
     private lateinit var userImage: ImageView
@@ -26,56 +28,57 @@ class editprofileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editprofile)
 
-        var nameEdit = findViewById<EditText>(R.id.nameEdit)
-        var profileEdit = findViewById<EditText>(R.id.profileEdit)
-        var saveButton = findViewById<Button>(R.id.saveButton)
+        val nameEdit = findViewById<EditText>(R.id.nameEdit)
+        val profileEdit = findViewById<EditText>(R.id.profileEdit)
+        val saveButton = findViewById<Button>(R.id.saveButton)
+        val userName = intent.getStringExtra("userName")
+        val profile = intent.getStringExtra("profile")
 
-        var userName = intent.getStringExtra("userName")
-        var profile = intent.getStringExtra("profile")
-
-        nameEdit.setHint(userName)
+        nameEdit.hint = userName
         if(profile == "null"){
-            profileEdit.setHint("未設定")
+            profileEdit.hint = "未設定"
         }else{
-            profileEdit.setHint(profile)
+            profileEdit.hint = profile
         }
         val errormsg = errorApplication.getInstance()
-        val emptyError = errormsg.emptyError
         //データ保存処理
         saveButton.setOnClickListener {
             if (nameEdit.text.toString().isEmpty()) {
-                nameEdit.error = emptyError
-            }
+                nameEdit.error = errormsg.emptyError
+            }else{
+                val apiUrl =
+                    "${myApp.apiUrl}userUpd.php?userId=${myApp.loginMyId}&userName=${nameEdit.text.toString()}&profile=${profileEdit.text.toString()}"
+                val request = Request.Builder().url(apiUrl).build()
+//                var countList = mutableListOf<timelinedata>()
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        this@editprofileActivity.runOnUiThread {
+                            Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
-            var apiUrl = myApp.apiUrl+"userUpd.php?userId="+myApp.loginMyId+"&userName="+nameEdit.text.toString()+"&profile="+profileEdit.text.toString()
-            val request = Request.Builder().url(apiUrl).build()
-            val errorText = "エラー"
-            var countList = mutableListOf<timelinedata>()
-            // Log.v("blockurl",apiUrl)
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    this@editprofileActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                    }
-                }
-                override fun onResponse(call: Call, response: Response) {
-                    val csvStr = response.body!!.string()
-                    val resultError = JSONObject(csvStr)
-                    if(resultError.getString("result") == "error") {
-                        this@editprofileActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                        }
-                    }else if(resultError.getString("result") == "success"){
-                        this@editprofileActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, "保存しました", Toast.LENGTH_SHORT).show()
-                            //マイページ画面へ遷移
-                            var intent = Intent(applicationContext, mypageActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                    override fun onResponse(call: Call, response: Response) {
+                        val csvStr = response.body!!.string()
+                        val resultError = JSONObject(csvStr)
+                        if (resultError.getString("result") == "error") {
+                            this@editprofileActivity.runOnUiThread {
+                                val error = resultError.getString("errMsg")
+                                Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        } else if (resultError.getString("result") == "success") {
+                            this@editprofileActivity.runOnUiThread {
+                                Toast.makeText(applicationContext, "保存しました", Toast.LENGTH_SHORT)
+                                    .show()
+                                //マイページ画面へ遷移
+                                val intent = Intent(applicationContext, mypageActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
                         }
                     }
-                }
-            })
+                })
+            }
         }
     }
 
@@ -103,8 +106,4 @@ class editprofileActivity : AppCompatActivity() {
         getMenuInflater().inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
-//    fun convertImageToBitmap():{
-//
-//    }
 }

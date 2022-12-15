@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WithMe"
         android:usesCleartextTraffic="true">
-        <activity android:name=".commentActivity"></activity>
+
+       
+        <activity android:name=".commentActivity" />
         <activity
             android:name=".errorApplication"
             tools:ignore="Instantiatable" />
@@ -43,7 +45,12 @@
         <activity
             android:name=".chatActivity"
             android:windowSoftInputMode="adjustPan" /> <!-- <activity android:name=".adapterDate"></activity> -->
-        <activity android:name=".loginActivity" />
+        <activity android:name=".loginActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".tagselectactivity" /> <!-- <activity android:name=".notificationSetting" /> -->
         <!-- <activity android:name=".notification" /> -->
         <activity android:name=".chatlistActivity" />
@@ -81,14 +88,7 @@
             tools:ignore="Instantiatable" />
         <activity android:name=".taguAdapter" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".timelineActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+        <activity android:name=".timelineActivity"/>
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
