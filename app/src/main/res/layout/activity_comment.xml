@@ -27,8 +27,9 @@
 
             <ImageView
                 android:id="@+id/backButton"
-                android:layout_width="26dp"
+                android:layout_width="30dp"
                 android:layout_height="55dp"
+                android:rotation="0"
                 app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24" />
 
             <TextView
