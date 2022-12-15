@@ -69,7 +69,7 @@ class mypageActivity : AppCompatActivity() {
 
 
         val userImage = findViewById<ImageView>(R.id.userImage)
-        val addressText = findViewById<TextView>(R.id.addressText)
+//        val addressText = findViewById<TextView>(R.id.addressText)
         val nameText = findViewById<TextView>(R.id.nameText)
         val ageText = findViewById<TextView>(R.id.ageText)
         val profileText = findViewById<TextView>(R.id.profileText)

@@ -45,15 +45,15 @@
         android:id="@+id/layoutMasterPassword"
         android:layout_width="312dp"
         android:layout_height="71dp"
-        android:layout_centerHorizontal="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:passwordToggleEnabled="true">
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nowpasswordEdit"
+            android:id="@+id/mailaddressEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

@@ -3,16 +3,12 @@ package com.example.withme
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
 
 class withdrawalActivity : AppCompatActivity() {
     val client = OkHttpClient()
@@ -24,8 +20,11 @@ class withdrawalActivity : AppCompatActivity() {
         setContentView(R.layout.activity_withdrawal)
 
         var withdrawalButton = findViewById<Button>(R.id.withdrawalButton)
-        var nowpasswordEdit = findViewById<EditText>(R.id.nowpasswordEdit)
+        var nowpasswordEdit = findViewById<EditText>(R.id.mailaddressEdit)
         val emptyError = errormsg.emptyError
+
+        nowpasswordEdit.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
+
 
         //退会ボタンが押された時の処理
         withdrawalButton.setOnClickListener {

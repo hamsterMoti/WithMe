@@ -28,7 +28,7 @@ class dialogWithdrawal(con: AppCompatActivity, password:String) : DialogFragment
             .setMessage("本当に削除していいですか？")
             .setPositiveButton("削除") { dialog, id ->
                 //削除URL
-                var apiUrl = myApp.apiUrl+"userDelete.php?userId="+"masami@gmail.com"+"&password="+password
+                var apiUrl = myApp.apiUrl+"userDelete.php?userId="+myApp.loginMyId+"&password="+password
                 Log.v("urldata",apiUrl)
                 val request = Request.Builder().url(apiUrl).build()
                 val errorText = "エラー"
@@ -49,7 +49,7 @@ class dialogWithdrawal(con: AppCompatActivity, password:String) : DialogFragment
                             cont.runOnUiThread {
                                 Toast.makeText(cont.applicationContext, "退会成功しました", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(cont.applicationContext, loginActivity::class.java)
-                                startActivity(intent)
+                                cont.startActivity(intent)
                             }
                         }
                     }
