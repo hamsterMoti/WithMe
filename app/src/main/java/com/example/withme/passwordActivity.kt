@@ -29,12 +29,9 @@ class passwordActivity : AppCompatActivity() {
         val emptyError = errormsg.emptyError
         val myId = intent.getStringExtra("userId")
         val nickname = intent.getStringExtra("userName")
-        var birthday = intent.getStringExtra("birthday")
+        val birthday = intent.getStringExtra("birthday")
         val gender = intent.getStringExtra("gender")
 
-//        val formatter = DateTimeFormatter.ofPattern("yyyy/[]M/[]d")
-//        birthday = LocalDate.parse(birthday, formatter).toString()
-//        Log.v("date",birthday.toString())
         nextButton.setOnClickListener {
             if (passwordEdit.text.toString().isEmpty()) {
                 passwordEdit.error = emptyError

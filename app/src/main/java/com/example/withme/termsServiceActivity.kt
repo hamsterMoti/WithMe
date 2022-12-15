@@ -31,11 +31,7 @@ class termsServiceActivity : AppCompatActivity() {
         // チェックされたらタイムライン画面に遷移する
         nextButton.setOnClickListener{
             if(agreeCheckBox.isChecked) {
-                Log.v("tagagree", "check")
-
                 if (userAddURL != null) {
-                    Log.v("tag1", userAddURL)
-
                     // http接続開始
                     val request = Request.Builder().url(userAddURL).build()
                     client.newCall(request).enqueue(object : Callback {
@@ -60,7 +56,6 @@ class termsServiceActivity : AppCompatActivity() {
                                 }
                             } else if (resultError.getString("result") == "success") {
                                 this@termsServiceActivity.runOnUiThread {
-                                    val myApp = myApplication.getInstance()
                                     val intent =
                                         Intent(applicationContext, timelineActivity::class.java)
                                     startActivity(intent)
