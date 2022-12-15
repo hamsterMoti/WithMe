@@ -23,6 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/activity_talk_adapter" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ImageView
@@ -33,6 +34,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user_8" />
+        app:srcCompat="@drawable/search" />
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="305dp"
+        android:layout_height="479dp"
+        android:text="投稿に応募して参加しよう"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/swiper_for_webview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

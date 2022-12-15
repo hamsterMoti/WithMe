@@ -72,6 +72,7 @@ class mypageActivity : AppCompatActivity() {
 //        val addressText = findViewById<TextView>(R.id.addressText)
         val nameText = findViewById<TextView>(R.id.nameText)
         val ageText = findViewById<TextView>(R.id.ageText)
+        val textView35 = findViewById<TextView>(R.id.textView35)
         val profileText = findViewById<TextView>(R.id.profileText)
         val postButton = findViewById<ImageView>(R.id.postButton)
         val goodButton = findViewById<ImageView>(R.id.goodButton)
@@ -168,10 +169,11 @@ class mypageActivity : AppCompatActivity() {
 
 //                        mainfragment.createList(postList,this@mypageActivity)
                         //adapter呼び出し
-                        nolist(postList,ImageVi)
+                        nolist(postList,ImageVi,textView35)
                         profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = goodAdapter(postList,this@mypageActivity)
                         profileRecyclerView.adapter = adapter
+                        textView35.setText("投稿してみよう！")
                     }
                 }
             }
@@ -182,32 +184,37 @@ class mypageActivity : AppCompatActivity() {
         //投稿一覧
         postButton.setOnClickListener {
 //            mainfragment.createList(postList,this@mypageActivity)
-            nolist(postList,ImageVi)
+            nolist(postList,ImageVi,textView35)
             profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
             val adapter = goodAdapter(postList,this@mypageActivity)
             profileRecyclerView.adapter = adapter
+            textView35.setText("投稿してみよう！")
 
         }
         //応募一覧表
         goodButton.setOnClickListener {
-            nolist(goodList,ImageVi)
+            nolist(goodList,ImageVi,textView35)
 //            mainfragment.createList(goodList,this@mypageActivity)
             profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
             val adapter = goodAdapter(goodList,this@mypageActivity)
             profileRecyclerView.adapter = adapter
+            textView35.setText("投稿に応募してみよう！")
         }
 
     }
 
-    fun nolist(listlisrt:MutableList<gooddata>,Imagevi: ImageView){//リストがない場合の画像
+    fun nolist(listlisrt:MutableList<gooddata>,Imagevi: ImageView,textView35:TextView){//リストがない場合の画像
         //リストが空白なら画像表示
         Log.v("sizewatch",listlisrt.size.toString())
         if(listlisrt.size == 0){
             //表示
             Imagevi.setVisibility(View.VISIBLE)
+            textView35.setVisibility(View.VISIBLE)
         }else{
             //非表示(領域も埋める)
             Imagevi.setVisibility(View.GONE)
+            textView35.setVisibility(View.GONE)
+
         }
     }
 

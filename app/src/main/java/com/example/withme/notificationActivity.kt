@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +56,7 @@ class notificationActivity : AppCompatActivity() {
         val notificationRecycle = findViewById<RecyclerView>(R.id.notificationRecycle)
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         val ImageVi = findViewById<ImageView>(R.id.noimage)
+        val notuuti = findViewById<TextView>(R.id.notuuti)
         var apiUrl = myApp.apiUrl+"notifyList.php?userId="+myApp.loginMyId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
@@ -102,9 +104,11 @@ class notificationActivity : AppCompatActivity() {
                         if(listlisrt.size == 0){
                             //表示
                             ImageVi.setVisibility(View.VISIBLE)
+                            notuuti.setVisibility(View.VISIBLE)
                         }else{
                             //非表示(領域も埋める)
                             ImageVi.setVisibility(View.GONE)
+                            notuuti.setVisibility(View.GONE)
                         }
 
                     }
