@@ -4,9 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -35,8 +37,8 @@ class commentActivity : AppCompatActivity() {
         messageList = ArrayList() //配列を初期化
         messageAdapter = MessageAdapter(this,messageList)
 
-        val titleText = findViewById<TextView>(R.id.titleText)
         val backButton = findViewById<ImageView>(R.id.backButton)
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
 
 
         //intentでpostDetail.phpにアクセスするURLを取得
@@ -49,8 +51,22 @@ class commentActivity : AppCompatActivity() {
             httpAccess(commentAccessURL)
             Log.v("commentAccessURL", commentAccessURL)
 
+            swipeRefreshLayout.setOnRefreshListener {
+                httpAccess(commentAccessURL)
+            }
+            //timelineRecycleの一番上でスクロールされた時のみ、SwipeRefreshを有効にする。
+            swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
+                object : ViewTreeObserver.OnScrollChangedListener {
+                    override fun onScrollChanged() {
+                        if (messageRecyclerView.getScrollY() == 0)
+                            swipeRefreshLayout.setEnabled(true)
+                        else
+                            swipeRefreshLayout.setEnabled(false)
+                    }
+                }
+            )
 
-            //送信処理
+                //送信処理
             sendButton.setOnClickListener {
                 val message = messageBox.text.toString()
                 val messageURL =
@@ -72,6 +88,8 @@ class commentActivity : AppCompatActivity() {
     }
     //    コメントを表示
     private  fun httpAccess(apiUrl:String){
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
+
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this,messageList)
         val request = Request.Builder().url(apiUrl).build()
@@ -107,6 +125,8 @@ class commentActivity : AppCompatActivity() {
                         messageRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         val adapter = MessageAdapter(this@commentActivity ,messageList)
                         messageRecyclerView.adapter = adapter
+                        //ぐるぐる消す
+                        swipeRefreshLayout.isRefreshing = false
 
                     }
                 }
