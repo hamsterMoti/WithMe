@@ -115,10 +115,10 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                     )
                     bottomSheetView.findViewById<View>(R.id.textView5).setOnClickListener {
                         Log.v("newpost", "投稿削除")
-                        var apiUrl =
-                            myApp.apiUrl + "postDelete.php?postNo=" + dateSet[position].postNo
-                        Log.v("blockurl", apiUrl.toString())
-                        okituusinn(apiUrl, activity,"投稿一覧")
+
+                        val dialog = dialogWithdrawal(activity, dateSet[position].postNo,"goodAdapter")
+                        dialog.show(activity.supportFragmentManager, "simple")
+
                         //bottomシートclause
                         bottomSheetDialog.dismiss()
                     }

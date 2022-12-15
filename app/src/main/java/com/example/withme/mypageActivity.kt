@@ -58,16 +58,6 @@ class mypageActivity : AppCompatActivity() {
 
     fun mypageActivitysub(myapp:myApplication){
 
-        var loginUserId = myApp.loginMyId
-        var userId = intent.getStringExtra("targetId")
-        if(userId == null){
-            userId = myApp.loginMyId
-        }else{
-            myapp.checkId = userId.toString()
-        }
-        var saFlag = 0
-
-
         val userImage = findViewById<ImageView>(R.id.userImage)
 //        val addressText = findViewById<TextView>(R.id.addressText)
         val nameText = findViewById<TextView>(R.id.nameText)
@@ -82,13 +72,33 @@ class mypageActivity : AppCompatActivity() {
         var postList = mutableListOf<gooddata>()
         var goodList = mutableListOf<gooddata>()
 
+        var loginUserId = myApp.loginMyId
+        var userId = intent.getStringExtra("targetId")
+
+        if(userId == null){
+            userId = myApp.loginMyId
+        }else{
+            myapp.checkId = userId.toString()
+        }
+        var saFlag = 0
+
+        if(loginUserId == userId){
+            editprofileButton.setText("編集")
+        }else{
+            editprofileButton.setText("ブロックする")
+        }
+
+
         //editprofileボタンタップ時の処理
         editprofileButton.setOnClickListener {
-            if(loginUserId == userId){
+            if(loginUserId == userId){//自分自身の場合プロフィール編集
                 var intent = Intent(applicationContext, editprofileActivity::class.java)
                 intent.putExtra("userName",userName)
                 intent.putExtra("profile",profile)
                 startActivity(intent)
+            }else{
+                var url = myApp.apiUrl + "blockCtl.php?userId=" + myApp.loginMyId + "&blockUserId=" + userId + "&blockFlg=1"
+                blockhtt(url) //ブロック処理
             }
         }
 
@@ -108,6 +118,8 @@ class mypageActivity : AppCompatActivity() {
                 val resultError = JSONObject(csvStr)
                 if(resultError.getString("result") == "error") {
                     this@mypageActivity.runOnUiThread {
+                        var errMsg = resultError.getString("errMsg")
+                        Toast.makeText(applicationContext, errMsg, Toast.LENGTH_SHORT).show()
                     }
                 }else if(resultError.getString("result") == "success"){
                     this@mypageActivity.runOnUiThread {
@@ -125,7 +137,7 @@ class mypageActivity : AppCompatActivity() {
                             saFlag = 1
                         }else{
 //                            addressText.setText("")
-                            editprofileButton.setVisibility(View.INVISIBLE)
+//                            editprofileButton.setVisibility(View.INVISIBLE)
                             saFlag = 2
                         }
                         nameText.setText(userName)
@@ -136,7 +148,7 @@ class mypageActivity : AppCompatActivity() {
                         }
 
                         ageText.setText(age+"歳")
-                        if(gender == "男性"){
+                        if(gender == "男"){
                             userImage.setImageResource(R.drawable.men)
                         }else{
                             userImage.setImageResource(R.drawable.woman)
@@ -201,6 +213,34 @@ class mypageActivity : AppCompatActivity() {
             textView35.setText("投稿に応募してみよう！")
         }
 
+    }
+
+    fun blockhtt(url:String){
+        val client = OkHttpClient()
+        val request = Request.Builder().url(url).build()
+        val errorText = "エラー"
+        // Log.v("blockurl",apiUrl)
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                this@mypageActivity.runOnUiThread {
+                    Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val csvStr = response.body!!.string()
+                val resultError = JSONObject(csvStr)
+                if (resultError.getString("result") == "error") {
+                    this@mypageActivity.runOnUiThread {
+                        var errMsg = resultError.getString("errMsg")
+                        Toast.makeText(applicationContext, errMsg, Toast.LENGTH_SHORT).show()
+                    }
+                } else if (resultError.getString("result") == "success") {
+                    this@mypageActivity.runOnUiThread {
+                        Toast.makeText(applicationContext, "成功", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
     }
 
     fun nolist(listlisrt:MutableList<gooddata>,Imagevi: ImageView,textView35:TextView){//リストがない場合の画像

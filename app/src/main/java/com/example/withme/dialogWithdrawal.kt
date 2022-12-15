@@ -17,43 +17,93 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
-class dialogWithdrawal(con: AppCompatActivity, password:String) : DialogFragment() {
+class dialogWithdrawal(con: AppCompatActivity, password:String,flag:String) : DialogFragment() {
     val myApp = myApplication.getInstance()
     var cont = con
+    var flag = flag
     var password = password
     val client = OkHttpClient()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("アカウントの削除")
+        builder.setTitle("削除")
             .setMessage("本当に削除していいですか？")
             .setPositiveButton("削除") { dialog, id ->
-                //削除URL
-                var apiUrl = myApp.apiUrl+"userDelete.php?userId="+myApp.loginMyId+"&password="+password
-                Log.v("urldata",apiUrl)
-                val request = Request.Builder().url(apiUrl).build()
-                val errorText = "エラー"
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        cont.runOnUiThread {
-                            Toast.makeText(cont.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    override fun onResponse(call: Call, response: Response) {
-                        val csvStr = response.body!!.string()
-                        val resultError = JSONObject(csvStr)
-                        if(resultError.getString("result") == "error") {
+
+                if(flag == "withdrawalActivity") {
+                    //削除URL
+                    var apiUrl =
+                        myApp.apiUrl + "userDelete.php?userId=" + myApp.loginMyId + "&password=" + password
+                    Log.v("urldata", apiUrl)
+                    val request = Request.Builder().url(apiUrl).build()
+                    val errorText = "エラー"
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
                             cont.runOnUiThread {
-                                Toast.makeText(cont.applicationContext, "パスワードが間違っています", Toast.LENGTH_SHORT).show()
-                            }
-                        }else if(resultError.getString("result") == "success"){
-                            cont.runOnUiThread {
-                                Toast.makeText(cont.applicationContext, "退会成功しました", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(cont.applicationContext, loginActivity::class.java)
-                                cont.startActivity(intent)
+                                Toast.makeText(
+                                    cont.applicationContext,
+                                    errorText,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
-                    }
+
+                        override fun onResponse(call: Call, response: Response) {
+                            val csvStr = response.body!!.string()
+                            val resultError = JSONObject(csvStr)
+                            if (resultError.getString("result") == "error") {
+                                cont.runOnUiThread {
+                                    var errMsg = resultError.getString("errMsg")
+                                    Toast.makeText(
+                                        cont.applicationContext,
+                                        errMsg,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else if (resultError.getString("result") == "success") {
+                                cont.runOnUiThread {
+                                    Toast.makeText(
+                                        cont.applicationContext,
+                                        "退会成功しました",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    val intent =
+                                        Intent(cont.applicationContext, loginActivity::class.java)
+                                    cont.startActivity(intent)
+                                }
+                            }
+                        }
+                    })
+                }else if(flag == "goodAdapter"){
+                    var apiUrl = myApp.apiUrl + "postDelete.php?postNo=" + password
+                    val client = OkHttpClient()
+                    val request = Request.Builder().url(apiUrl).build()
+                    val errorText = "エラー"
+                    // Log.v("blockurl",apiUrl)
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            cont.runOnUiThread {
+                                Toast.makeText(cont.applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        override fun onResponse(call: Call, response: Response) {
+                            val csvStr = response.body!!.string()
+                            val resultError = JSONObject(csvStr)
+                            if (resultError.getString("result") == "error") {
+                                cont.runOnUiThread {
+                                    Toast.makeText(cont.applicationContext, "ブロック済みです", Toast.LENGTH_SHORT).show()
+                                }
+                            } else if (resultError.getString("result") == "success") {
+                                cont.runOnUiThread {
+                                    Toast.makeText(cont.applicationContext, "成功", Toast.LENGTH_SHORT).show()
+                                        var mypageActivity = cont as mypageActivity
+                                        val myApp = myApplication.getInstance()
+                                        mypageActivity.mypageActivitysub(myApp)
+
+                                }
+                            }
+                        }
                 })
+                }
             }
             .setNegativeButton("キャンセル") { dialog, id ->
                 println("dialog:$dialog which:$id")
