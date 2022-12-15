@@ -20,7 +20,6 @@ class createaccountActivity : AppCompatActivity() {
     val errormsg = errorApplication.getInstance()
     private lateinit var birthday: TextView
     val cal: Calendar = Calendar.getInstance()
-    var oldBirthday = 0
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,21 +29,20 @@ class createaccountActivity : AppCompatActivity() {
             ?.hide()
 
         val nicknameEdit = findViewById<EditText>(R.id.nicknameEdit)
-        val mailaddressEdit = findViewById<EditText>(R.id.nicknameEdit)
+        val mailaddressEdit = findViewById<EditText>(R.id.mailaddressEdit)
         val nextButton = findViewById<Button>(R.id.nextButton)
         val genderGroup = findViewById<RadioGroup>(R.id.genderRadioGroup)
         val menRadio = findViewById<RadioButton>(R.id.menRadioButton)
         var genderText = ""
-        var num = 0
-        var a = ""
         val emptyError = errormsg.emptyError
 //      生年月日
         birthday = findViewById<TextView>(R.id.birthday)
 
-        var year = cal.get(Calendar.YEAR)
-        var month = cal.get(Calendar.MONTH) + 1
-        var day = cal.get(Calendar.DATE)
-        birthday.text = "0000-00-00"
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH) + 1
+        val day = cal.get(Calendar.DATE)
+        val date = "$year-$month-$day"
+        birthday.text = date
 
 
         birthday.setOnClickListener{
@@ -58,10 +56,11 @@ class createaccountActivity : AppCompatActivity() {
                 nicknameEdit.error = emptyError
             } else if (mailaddressEdit.text.toString().isEmpty()) {
                 mailaddressEdit.error = emptyError
-            }else if(birthday.text.toString().isEmpty()){
-                Toast.makeText(applicationContext, emptyError, Toast.LENGTH_SHORT).show()
-
+            }else if(birthday.text.toString() >= date){
+                val errormsg = "入力値が不正もしくはありません"
+                Toast.makeText(applicationContext, errormsg, Toast.LENGTH_SHORT).show()
             } else {
+                Log.v("mail",mailaddressEdit.text.toString())
                 val nickname = nicknameEdit.text.toString()
                 val myId = mailaddressEdit.text.toString()
                 val id = genderGroup.checkedRadioButtonId
@@ -74,7 +73,6 @@ class createaccountActivity : AppCompatActivity() {
 
                     }
                 }
-//                myApp.loginMyId = myId
                 var birthGetText = birthday.text
                 //生年月日をString型に変換
                 birthGetText = birthGetText.toString()
