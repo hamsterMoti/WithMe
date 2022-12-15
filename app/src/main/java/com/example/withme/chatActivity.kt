@@ -26,9 +26,6 @@ class chatActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList:ArrayList<Message>
 
-    var receiverRoom:String? = null
-    var sendRoom:String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -52,7 +49,7 @@ class chatActivity : AppCompatActivity() {
         Log.v("初期更新",initialURL)
         // 画面を開いた瞬間にhttp接続開始
         httpAccess(initialURL)
-//        送信ボタン
+//        送信処理
         sendButton.setOnClickListener{
             val message = messageBox.text.toString()
 
