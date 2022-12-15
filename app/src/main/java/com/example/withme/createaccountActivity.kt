@@ -6,15 +6,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import okhttp3.OkHttpClient
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -35,7 +30,7 @@ class createaccountActivity : AppCompatActivity() {
             ?.hide()
 
         val nicknameEdit = findViewById<EditText>(R.id.nicknameEdit)
-        val mailaddressEdit = findViewById<EditText>(R.id.mailaddressEdit)
+        val mailaddressEdit = findViewById<EditText>(R.id.nicknameEdit)
         val nextButton = findViewById<Button>(R.id.nextButton)
         val genderGroup = findViewById<RadioGroup>(R.id.genderRadioGroup)
         val menRadio = findViewById<RadioButton>(R.id.menRadioButton)

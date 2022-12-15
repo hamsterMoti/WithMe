@@ -27,8 +27,8 @@ class loginActivity : AppCompatActivity() {
 
         val loginButton = findViewById<Button>(R.id.loginButton)
         val createAccountText = findViewById<TextView>(R.id.createAccountText)
-        val userEdit = findViewById<EditText>(R.id.myIdEdit)
-        val passEdit = findViewById<EditText>(R.id.passEdit)
+        val userEdit = findViewById<EditText>(R.id.nicknameEdit)
+        val passEdit = findViewById<EditText>(R.id.mailaddressEdit)
         val emptyError = errormsg.emptyError
         val passForgetText = findViewById<TextView>(R.id.passForgetText)
 
