@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +30,7 @@ class blockActivity : AppCompatActivity() {
     fun blockActivitysub(myapp:myApplication){
 
         val blockrecycle = findViewById<RecyclerView>(R.id.blockrecycle)
-
+        val ImageVi = findViewById<ImageView>(R.id.nolist)
 
         //var apiUrl = myApp.apiUrl
         var apiUrl = myapp.apiUrl+"/blockList.php?userId="+myapp.loginMyId
@@ -68,6 +70,14 @@ class blockActivity : AppCompatActivity() {
                             Log.v("blockinfo","profile:" + userId+"userName"+userName+"icon"+icon+"profile"+profile)
                             listlisrt.add(blockDate(userId, userName, icon, profile))
 
+                        }
+//                        りすとがない場合画像表示
+                        if(listlisrt.size == 0){
+                            //表示
+                            ImageVi.setVisibility(View.VISIBLE)
+                        }else{
+                            //非表示(領域も埋める)
+                            ImageVi.setVisibility(View.GONE)
                         }
 
                         blockrecycle.layoutManager = LinearLayoutManager(applicationContext)
