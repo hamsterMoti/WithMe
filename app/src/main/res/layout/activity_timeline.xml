@@ -36,7 +36,7 @@
                 android:id="@+id/timelinebar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#A16103"
+                android:background="@color/withmecolor"
                 android:minHeight="?attr/actionBarSize"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -135,9 +135,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="10dp"
         android:src="@drawable/ic_baseline_add_24"
-
-
-        app:backgroundTint="#BAA4C4"
+        app:backgroundTint="@color/withmecolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

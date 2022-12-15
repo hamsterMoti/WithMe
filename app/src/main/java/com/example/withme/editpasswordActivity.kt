@@ -47,7 +47,6 @@ class editpasswordActivity : AppCompatActivity() {
                 val pass = passwordEdit.text.toString()
                 val userURL = "${myApp.apiUrl}passUpd.php?userId=$myId&password=$pass"
                 httpAccess(userURL)
-                Log.v("userURL",userURL)
             }
         }
     }
@@ -75,6 +74,8 @@ class editpasswordActivity : AppCompatActivity() {
                 } else if (resultError.getString("result") == "success") {
                     this@editpasswordActivity.runOnUiThread {
                         val intent = Intent(applicationContext, loginActivity::class.java)
+                        val msg  = "パスワード変更しました。"
+                        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
                         startActivity(intent)
                     }
                 }
