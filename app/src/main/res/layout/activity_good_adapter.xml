@@ -10,6 +10,7 @@
 
 
     <LinearLayout
+        android:id="@+id/zentai"
         android:layout_width="350dp"
         android:layout_height="76dp"
         android:orientation="horizontal">

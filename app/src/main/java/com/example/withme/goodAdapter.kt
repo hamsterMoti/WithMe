@@ -24,6 +24,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
         var titleText:TextView
         var moreimage:ImageView
         var statusImage:ImageView
+        var zentai:LinearLayout
 
 
         init {
@@ -32,6 +33,7 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
             titleText = item.findViewById(R.id.titleText)
             moreimage = item.findViewById(R.id.moreImage)
             statusImage = item.findViewById(R.id.imageView16)
+            zentai = item.findViewById(R.id.zentai)
 
         }
 
@@ -92,33 +94,18 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
 
 
         //アイコン画像がタップされた時の処理
-        holder.userImage.setOnClickListener{
+        holder.zentai.setOnClickListener{
             //timeline詳細画面へ遷移
             var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
             intent.putExtra("postNo",dateSet[position].postNo)
             Log.v("postNo",dateSet[position].postNo)
             activity.startActivity(intent)
         }
-        //ユーザネームがタップされた時の処理
-        holder.contoributorName.setOnClickListener{
-            //timeline詳細画面へ遷移
-            var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
-            intent.putExtra("postNo",dateSet[position].postNo)
-            Log.v("postNo",dateSet[position].postNo)
-            activity.startActivity(intent)
-        }
-        //投稿内容がタップされた時の処理
-        holder.titleText.setOnClickListener{
-            //timeline詳細画面へ遷移
-            var intent = Intent(activity.applicationContext, detailtimelineActivity::class.java)
-            intent.putExtra("postNo",dateSet[position].postNo)
-            Log.v("postNo",dateSet[position].postNo)
-            activity.startActivity(intent)
-        }
+
         //more画像がタップされた時ボトムシートを表示
         holder.moreimage.setOnClickListener{
             if (dateSet[position].moreimage.equals("投稿一覧")) { //投稿一覧リストの場合
-                if(dateSet[position].saFlag == 1) {
+                if(dateSet[position].saFlag == 1) {//自分だったら投稿一覧のボトムシート表示
                     val bottomSheetDialog = BottomSheetDialog(
                         activity, R.style.BottomSheetDialogTheme
                     )
@@ -170,47 +157,13 @@ class goodAdapter  (private  val dateSet:MutableList<gooddata>,private val activ
                 bottomSheetDialog.setContentView(bottomSheetView)
                 bottomSheetDialog.show()
             }
-
         }
-        //ステイタスボタンをタップしたときの処理
-        holder.statusImage.setOnClickListener {
-          if((myApp.loginMyId==dateSet[position].userId)&&(dateSet[position].moreimage=="投稿一覧")){
-              var apiUrl = myApp.apiUrl+"statusCtl.php?userId="+myApp.loginMyId+"&postNo="+dateSet[position].postNo+"&statusFlg="+dateSet[position].statusImage
-              val request = Request.Builder().url(apiUrl).build()
-              val errorText = "エラー"
-              Log.v("blockurl", apiUrl.toString())
-              client.newCall(request).enqueue(object : Callback {
-                  override fun onFailure(call: Call, e: IOException) {
-                      activity.runOnUiThread {
-                          Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                      }
-                  }
-                  override fun onResponse(call: Call, response: Response) {
-                      val csvStr = response.body!!.string()
-                      val resultError = JSONObject(csvStr)
-                      if(resultError.getString("result") == "error") {
-                          activity.runOnUiThread {
-                              Toast.makeText(activity.applicationContext, errorText, Toast.LENGTH_SHORT).show()
-                          }
-                      }else if(resultError.getString("result") == "success"){
-                          activity.runOnUiThread {
-                              var mypageActivity = activity as mypageActivity
-                              val myApp = myApplication.getInstance()
-                              mypageActivity.mypageActivitysub(myApp)
-                          }
-                      }
-                  }
-              })
-          }
-
-        }
-
-
     }
     override fun getItemCount(): Int {
         return dateSet.size
     }
 }
+
 
 fun okituusinn(url:String,activity:AppCompatActivity,kind:String){
     val client = OkHttpClient()
