@@ -36,7 +36,7 @@ class applicantListActivity : AppCompatActivity() {
 
         Log.v("postNo",postNo.toString())
         Log.v("title",title.toString())
-        applicantListActivitysub(myApp,postNo.toString())
+        applicantListActivitysub(myApp,postNo.toString())//通信処理
 
     }
 
@@ -45,8 +45,6 @@ class applicantListActivity : AppCompatActivity() {
         var applicantListRecyeclerView = findViewById<RecyclerView>(R.id.applicantListRecyeclerView)
         val countList = mutableListOf<applicantDate>()
         var meaddButton = findViewById<Button>(R.id.addButton)
-
-        //recycleviewの処理
         var apiUrl = myApp.apiUrl+"applyList.php?postNo="+postNo
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
@@ -94,6 +92,7 @@ class applicantListActivity : AppCompatActivity() {
             }
         })
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)
