@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -22,6 +24,8 @@ class detailtimelineActivity : AppCompatActivity() {
     val myApp = myApplication.getInstance()
     var postNo = ""
     var userId = ""
+    val errormsg = errorApplication.getInstance()
+
 
     private lateinit var messageRecyclerView: RecyclerView
     private lateinit var messageBox: EditText
@@ -59,12 +63,166 @@ class detailtimelineActivity : AppCompatActivity() {
         val DMButton = findViewById<Button>(R.id.DMButton)
         val oubobutton = findViewById<Button>(R.id.oubobutton)
         val backButton = findViewById<ImageView>(R.id.backButton)
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
 
         //val loginuserId = myApp.loginMyId
         var postNo = intent.getStringExtra("postNo")
         var recFlag = intent.getStringExtra("recFlag")
 //        var postNo = "6"
         var loginuserId = myApp.loginMyId
+
+        swipeRefreshLayout.setOnRefreshListener {
+            val apiUrl = "${myApp.apiUrl}postDetail.php?postNo=$postNo&loginUserId=$loginuserId"
+            val request = Request.Builder().url(apiUrl).build()
+            val errorText = "エラー"
+            Log.v("apiUrl",apiUrl)
+            client.newCall(request).enqueue(object : Callback {
+
+                override fun onFailure(call: Call, e: IOException) {
+                    this@detailtimelineActivity.runOnUiThread {
+                        swipeRefreshLayout.isRefreshing = false
+                        Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(call: Call, response: Response) {
+                    val csvStr = response.body!!.string()
+                    val resultError = JSONObject(csvStr)
+                    swipeRefreshLayout.isRefreshing = false
+
+                    if(resultError.getString("result") == "error") {
+                        this@detailtimelineActivity.runOnUiThread {
+                            val error = resultError.getString("errMsg")
+                            Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }else if(resultError.getString("result") == "success"){
+                        this@detailtimelineActivity.runOnUiThread {
+                            messageList = ArrayList() //配列を初期化
+                            postNo = resultError.getString("postNo")
+                            userId = resultError.getString("userId")
+                            val userName = resultError.getString("userName")
+                            var icon = resultError.getString("icon")
+                            var postDate = resultError.getString("postDate")
+                            title = resultError.getString("title")
+                            var categoryName = resultError.getString("categoryName")
+                            var content = resultError.getString("content")
+                            var gender = resultError.getString("gender")
+                            var term = resultError.getString("term")
+                            var capacity = resultError.getString("capacity")
+                            var hopeGenger = resultError.getString("hopeGenger")
+                            var lowLmit = resultError.getString("lowLmit")
+                            var highLmit = resultError.getString("highLmit")
+                            var status = resultError.getString("status")
+                            var recFlag = resultError.getString("recFlag")
+                            var appFlag = resultError.getString("appFlag")
+                            var commentCnt = resultError.getInt("commentCnt")
+                            val date = resultError.getJSONArray("postCommentList")
+//                        コメント数を表示
+                            val strCommentCnt = commentCnt.toString()
+                            commentCntText.text = "コメント数$strCommentCnt"
+                            if (commentCnt < 1) {
+                                val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
+                                recyclerview.visibility = View.INVISIBLE
+                            }else if(commentCnt < 2){
+                                val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
+                                recyclerview.visibility = View.VISIBLE
+                                viewAllText.visibility = View.VISIBLE
+
+                                for (i in 0 until date.length()) {
+                                    val json = date.getJSONObject(i)
+                                    var commentDate = json.getString("commentDate")
+                                    val commenterId = json.getString("commenterId")
+                                    val commenterName = json.getString("commenterName")
+                                    val comment = json.getString("comment")
+                                    messageList.add(Message(comment, commenterId, commenterName))
+                                }
+                            }else{
+                                val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
+                                recyclerview.visibility = View.VISIBLE
+                                viewAllText.visibility = View.VISIBLE
+
+                                //データが存在する間listにデータを挿入する
+                                for (i in 0 until 2) {
+                                    val json = date.getJSONObject(i)
+                                    var commentDate = json.getString("commentDate")
+                                    val commenterId = json.getString("commenterId")
+                                    val commenterName = json.getString("commenterName")
+                                    val comment = json.getString("comment")
+                                    messageList.add(Message(comment, commenterId, commenterName))
+
+                                }
+                            }
+
+                            messageRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                            val adapter = commentAdapter(this@detailtimelineActivity ,messageList)
+                            messageRecyclerView.adapter = adapter
+
+                            if(gender == "男"){
+                                contributorImage.setImageResource(R.drawable.men)
+                            }else{
+                                contributorImage.setImageResource(R.drawable.woman)
+                            }
+                            if(appFlag == "1"){
+                                oubobutton.setText("応募済み")
+                            }else{
+                                oubobutton.setText("応募する")
+                            }
+                            postDate = term.substring(0, 10)
+                            postdayText.setText("投稿日："+postDate)
+                            titleText.text = title
+                            overviewText.setText(content)
+                            term = term.substring(0, 10)
+                            kigen.setText(term)
+
+                            if(capacity=="null"){
+                                teiintext.setText("定員："+"指定なし")
+                            }else{
+                                teiintext.setText("定員："+capacity)
+                            }
+                            if(hopeGenger.isEmpty()){
+                                genderText.setText("性別："+"指定なし")
+                            }else{
+                                genderText.setText("性別："+hopeGenger)
+                            }
+                            if(((lowLmit==null)&&(highLmit==null))||((lowLmit=="0")&&(highLmit=="120"))){
+                                nendaiText.setText("年代："+"指定なし")
+                            }else{
+                                nendaiText.setText("年代："+lowLmit+"～"+highLmit)
+                            }
+                            contributorName.setText(userName)
+                            //ボタン非表示
+                            if(recFlag == "相談"){
+                                oubobutton.setVisibility(View.INVISIBLE)
+                            }
+                            if(loginuserId==userId){
+                                oubobutton.setText("応募一覧")
+                            }
+                            if(categoryName == "食べ物"){
+                                postImage.setImageResource(R.drawable.user_6)
+                            }else if(categoryName == "イベント"){
+                                postImage.setImageResource(R.drawable.user_7)
+                            } else if(categoryName == "エンタメ"){
+                                postImage.setImageResource(R.drawable.user_8)
+                            } else if(categoryName == "暮らし"){
+                                postImage.setImageResource(R.drawable.user_9)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+        //timelineRecycleの一番上でスクロールされた時のみ、SwipeRefreshを有効にする。
+        swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
+            object : ViewTreeObserver.OnScrollChangedListener {
+                override fun onScrollChanged() {
+                    if (messageRecyclerView.getScrollY() == 0)
+                        swipeRefreshLayout.setEnabled(true)
+                    else
+                        swipeRefreshLayout.setEnabled(false)
+                }
+            }
+        )
 
         //データ取得ーーーーー
         val apiUrl = "${myApp.apiUrl}postDetail.php?postNo=$postNo&loginUserId=$loginuserId"
@@ -75,7 +233,7 @@ class detailtimelineActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call, e: IOException) {
                 this@detailtimelineActivity.runOnUiThread {
-                    Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT).show()
                 }
             }
             @SuppressLint("SetTextI18n")
@@ -85,7 +243,8 @@ class detailtimelineActivity : AppCompatActivity() {
 
                 if(resultError.getString("result") == "error") {
                     this@detailtimelineActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
+                        val error = resultError.getString("errMsg")
+                        Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT)
                             .show()
                     }
                 }else if(resultError.getString("result") == "success"){
@@ -150,7 +309,7 @@ class detailtimelineActivity : AppCompatActivity() {
                         val adapter = commentAdapter(this@detailtimelineActivity ,messageList)
                         messageRecyclerView.adapter = adapter
 
-                        if(gender == "男性"){
+                        if(gender == "男"){
                             contributorImage.setImageResource(R.drawable.men)
                         }else{
                             contributorImage.setImageResource(R.drawable.woman)
@@ -206,7 +365,7 @@ class detailtimelineActivity : AppCompatActivity() {
         //マイページへ画面遷移
         contributorImage.setOnClickListener {
             myApp.checkId=userId
-            Toast.makeText(applicationContext, myApp.checkId, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(applicationContext, myApp.checkId, Toast.LENGTH_SHORT).show()
             val intent = Intent(applicationContext, mypageActivity::class.java)
             intent.putExtra("targetId",userId)
             startActivity(intent)
@@ -225,19 +384,21 @@ class detailtimelineActivity : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     this@detailtimelineActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onResponse(call: Call, response: Response) {
                     val csvStr = response.body!!.string()
                     val resultError = JSONObject(csvStr)
                     if (resultError.getString("result") == "error") {
+                        val error = resultError.getString("errMsg")
                         this@detailtimelineActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
                         }
                     } else if (resultError.getString("result") == "success") {
                         this@detailtimelineActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, "成功", Toast.LENGTH_SHORT).show()
+
+                            Toast.makeText(applicationContext, "コメント投稿されました", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -257,14 +418,13 @@ class detailtimelineActivity : AppCompatActivity() {
                         var apiUrl =
                             myApp.apiUrl + "/applyCtl.php?loginUserId=" + myApp.loginMyId + "&postNo=" + postNo + "&appFlag=null"
                         val request = Request.Builder().url(apiUrl).build()
-                        val errorText = "エラー"
                         // Log.v("blockurl",apiUrl)
                         client.newCall(request).enqueue(object : Callback {
                             override fun onFailure(call: Call, e: IOException) {
                                 this@detailtimelineActivity.runOnUiThread {
                                     Toast.makeText(
                                         applicationContext,
-                                        errorText,
+                                        errormsg.connectionError,
                                         Toast.LENGTH_SHORT
                                     )
                                         .show()
@@ -275,10 +435,11 @@ class detailtimelineActivity : AppCompatActivity() {
                                 val csvStr = response.body!!.string()
                                 val resultError = JSONObject(csvStr)
                                 if (resultError.getString("result") == "error") {
+                                    val error = resultError.getString("errMsg")
                                     this@detailtimelineActivity.runOnUiThread {
                                         Toast.makeText(
                                             applicationContext,
-                                            errorText,
+                                            error,
                                             Toast.LENGTH_SHORT
                                         )
                                             .show()
