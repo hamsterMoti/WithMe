@@ -32,10 +32,11 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="263dp"
-        android:layout_height="41dp"
+
+        android:layout_width="296dp"
+        android:layout_height="40dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="15dp"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:ignore="MissingConstraints">
 
+
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
@@ -61,7 +63,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintVertical_bias="0.0">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -238,11 +239,17 @@
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/chatRecycle1"
-                    android:layout_width="357dp"
-                    android:layout_height="140dp"
-                    android:visibility="invisible" />
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/swiper_for_webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="124dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chatRecycle1"
+                        android:layout_width="357dp"
+                        android:layout_height="140dp"
+                        android:visibility="invisible" />
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -294,6 +301,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-    </LinearLayout>
 
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
