@@ -33,6 +33,8 @@ class blockActivity : AppCompatActivity() {
         val blockrecycle = findViewById<RecyclerView>(R.id.blockrecycle)
         val ImageVi = findViewById<ImageView>(R.id.nolist)
         val blText = findViewById<TextView>(R.id.blText)
+        ImageVi.setVisibility(View.GONE)
+        blText.setVisibility(View.GONE)
 
         //var apiUrl = myApp.apiUrl
         var apiUrl = myapp.apiUrl+"/blockList.php?userId="+myapp.loginMyId

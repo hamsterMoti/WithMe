@@ -72,6 +72,9 @@ class mypageActivity : AppCompatActivity() {
         var postList = mutableListOf<gooddata>()
         var goodList = mutableListOf<gooddata>()
 
+        ImageVi.setVisibility(View.GONE)
+        textView35.setVisibility(View.GONE)
+
         var loginUserId = myApp.loginMyId
         var userId = intent.getStringExtra("targetId")
 
