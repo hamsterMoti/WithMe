@@ -17,9 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.withme.databinding.ActivityMainBinding
-import com.example.withme.databinding.ActivityMyApplicationBinding
-import com.example.withme.databinding.ActivityMypageBinding
+
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -47,6 +45,7 @@ class mypageActivity : AppCompatActivity() {
     var apply_content =""
     var apply_title = ""
     var apply_status = ""
+    var blockflag = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,7 +99,7 @@ class mypageActivity : AppCompatActivity() {
                 intent.putExtra("profile",profile)
                 startActivity(intent)
             }else{
-                var url = myApp.apiUrl + "blockCtl.php?userId=" + myApp.loginMyId + "&blockUserId=" + userId + "&blockFlg=1"
+                var url = myApp.apiUrl + "blockCtl.php?userId=" + myApp.loginMyId + "&blockUserId=" + userId + "&blockFlg="+blockflag
                 blockhtt(url) //ブロック処理
             }
         }
@@ -133,6 +132,7 @@ class mypageActivity : AppCompatActivity() {
                         age = resultError.getString("age")
                         gender = resultError.getString("gender")
                         flag = resultError.getString("flag")
+                        blockflag = resultError.getString("blockFlag")
 
                         //データ表示
                         if(userId == loginUserId){
@@ -148,6 +148,13 @@ class mypageActivity : AppCompatActivity() {
                             profileText.setText("未設定")
                         }else{
                             profileText.setText(profile)
+                        }
+                        if ((blockflag == "1")&&(userId != loginUserId)){
+                            editprofileButton.setText("ブロック済み")
+                            blockflag = "2"
+                        }else if((userId != loginUserId)&&(blockflag == "2")){
+                            editprofileButton.setText("ブロックする")
+                            blockflag = "1"
                         }
 
                         ageText.setText(age+"歳")
@@ -222,7 +229,7 @@ class mypageActivity : AppCompatActivity() {
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
         val errorText = "エラー"
-        // Log.v("blockurl",apiUrl)
+         Log.v("blockurl",url)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 this@mypageActivity.runOnUiThread {
@@ -240,6 +247,7 @@ class mypageActivity : AppCompatActivity() {
                 } else if (resultError.getString("result") == "success") {
                     this@mypageActivity.runOnUiThread {
                         Toast.makeText(applicationContext, "成功", Toast.LENGTH_SHORT).show()
+                        mypageActivitysub(myApp)
                     }
                 }
             }

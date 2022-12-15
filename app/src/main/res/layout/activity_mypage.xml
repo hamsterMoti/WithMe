@@ -11,7 +11,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="406dp"
         android:layout_height="73dp"
-        android:background="#FBF5BC"
+        android:background="@color/withmecolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,10 +61,10 @@
 
         <ImageView
             android:id="@+id/imageView14"
-            android:layout_width="86dp"
-            android:layout_height="72dp"
+            android:layout_width="60dp"
+            android:layout_height="57dp"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginBottom="12dp"
             android:rotation="-29"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
