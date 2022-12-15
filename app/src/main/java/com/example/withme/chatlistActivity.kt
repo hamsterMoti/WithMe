@@ -59,6 +59,10 @@ class chatlistActivity  : AppCompatActivity() {
         var apiUrl = myApp.apiUrl+"chatList.php?userId="+myApp.loginMyId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
+
+        ImageVi.setVisibility(View.GONE)
+        noText.setVisibility(View.GONE)
+
         Log.v("blockurl", apiUrl.toString())
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {

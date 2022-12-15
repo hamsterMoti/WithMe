@@ -60,6 +60,9 @@ class notificationActivity : AppCompatActivity() {
         var apiUrl = myApp.apiUrl+"notifyList.php?userId="+myApp.loginMyId
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
+
+        ImageVi.setVisibility(View.GONE)
+        notuuti.setVisibility(View.GONE)
         Log.v("blockurl",apiUrl)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
