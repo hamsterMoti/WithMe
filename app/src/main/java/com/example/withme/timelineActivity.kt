@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -40,6 +41,7 @@ class timelineActivity : AppCompatActivity() {
         val recruitGroup = findViewById<RadioGroup>(R.id.recruitRadioGroup)
         val douhanRadio = findViewById<RadioButton>(R.id.douhanRadioButton)
         val soudanRadioButton = findViewById<RadioButton>(R.id.soudanRadioButton)
+        val nolist = findViewById<TextView>(R.id.textView37)
         val ImageVi = findViewById<ImageView>(R.id.noimage)
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         val id = recruitGroup.checkedRadioButtonId
@@ -229,14 +231,17 @@ class timelineActivity : AppCompatActivity() {
     }
 
     fun nolist(listlisrt:MutableList<timelinedata>,Imagevi: ImageView){//リストがない場合の画像
+        val nolist = findViewById<TextView>(R.id.textView37)
         //リストが空白なら画像表示
         Log.v("sizewatch",listlisrt.size.toString())
         if(listlisrt.size == 0){
             //表示
             Imagevi.setVisibility(View.VISIBLE)
+            nolist.setVisibility(View.VISIBLE)
         }else{
             //非表示(領域も埋める)
             Imagevi.setVisibility(View.GONE)
+            nolist.setVisibility(View.GONE)
         }
     }
 

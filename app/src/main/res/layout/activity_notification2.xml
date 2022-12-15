@@ -20,16 +20,29 @@
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="1dp"
             tools:listitem="@layout/activity_notification_adapter" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ImageView
         android:id="@+id/noimage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user_8" />
+        app:srcCompat="@drawable/search" />
+
+    <TextView
+        android:id="@+id/notuuti"
+        android:layout_width="310dp"
+        android:layout_height="487dp"
+        android:text="通知はありません"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

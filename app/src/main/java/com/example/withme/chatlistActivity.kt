@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +51,7 @@ class chatlistActivity  : AppCompatActivity() {
     fun chatlistActivitysub(myapp:myApplication){
 
         val chatlistRecycle = findViewById<RecyclerView>(R.id.chatlistRecycle)
+        val noText = findViewById<TextView>(R.id.textView36)
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
         val countList = mutableListOf<talklinedata>()
         val ImageVi = findViewById<ImageView>(R.id.noimage)
@@ -101,9 +103,11 @@ class chatlistActivity  : AppCompatActivity() {
                         Log.v("sizewatch",countList.size.toString())
                         if(countList.size == 0){
                             //表示
+                            noText.setVisibility(View.VISIBLE)
                             ImageVi.setVisibility(View.VISIBLE)
                         }else{
                             //非表示(領域も埋める)
+                            noText.setVisibility(View.GONE)
                             ImageVi.setVisibility(View.GONE)
                         }
 

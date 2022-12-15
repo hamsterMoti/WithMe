@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ class blockActivity : AppCompatActivity() {
 
         val blockrecycle = findViewById<RecyclerView>(R.id.blockrecycle)
         val ImageVi = findViewById<ImageView>(R.id.nolist)
+        val blText = findViewById<TextView>(R.id.blText)
 
         //var apiUrl = myApp.apiUrl
         var apiUrl = myapp.apiUrl+"/blockList.php?userId="+myapp.loginMyId
@@ -75,9 +77,11 @@ class blockActivity : AppCompatActivity() {
                         if(listlisrt.size == 0){
                             //表示
                             ImageVi.setVisibility(View.VISIBLE)
+                            blText.setVisibility(View.VISIBLE)
                         }else{
                             //非表示(領域も埋める)
                             ImageVi.setVisibility(View.GONE)
+                            blText.setVisibility(View.GONE)
                         }
 
                         blockrecycle.layoutManager = LinearLayoutManager(applicationContext)

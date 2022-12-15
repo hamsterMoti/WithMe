@@ -28,5 +28,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user_8" />
+        app:srcCompat="@drawable/noblock" />
+
+    <TextView
+        android:id="@+id/blText"
+        android:layout_width="235dp"
+        android:layout_height="166dp"
+        android:text="望ましくない\nアカウントをブロック"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.282" />
 </androidx.constraintlayout.widget.ConstraintLayout>
