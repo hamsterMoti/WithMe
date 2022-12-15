@@ -178,8 +178,8 @@ class timelineActivity : AppCompatActivity() {
                 val resultError = JSONObject(csvStr)
                 if (resultError.getString("result") == "error") {
                     this@timelineActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, errorText, Toast.LENGTH_SHORT)
-                            .show()
+                        var errMsg = resultError.getString("errMsg")
+                        Toast.makeText(applicationContext, errMsg, Toast.LENGTH_SHORT).show()
                         //ぐるぐる消す
                         swipeRefreshLayout.isRefreshing = false
                     }

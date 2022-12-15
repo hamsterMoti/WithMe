@@ -32,7 +32,7 @@ class withdrawalActivity : AppCompatActivity() {
             if (nowpasswordEdit.text.toString().isEmpty()) {
                 nowpasswordEdit.error = emptyError
             }else {
-                val dialog = dialogWithdrawal(this@withdrawalActivity, nowpasswordEdit.text.toString())
+                val dialog = dialogWithdrawal(this@withdrawalActivity, nowpasswordEdit.text.toString(),"withdrawalActivity")
                 dialog.show(supportFragmentManager, "simple")
             }
 
