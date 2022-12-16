@@ -16,7 +16,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
-import java.security.AccessController.getContext
 
 class detailtimelineActivity : AppCompatActivity() {
 
@@ -58,6 +57,9 @@ class detailtimelineActivity : AppCompatActivity() {
         val contributorImage = findViewById<ImageView>(R.id.contributorImage)
         val commentCntText = findViewById<TextView>(R.id.commentCnt)
         val viewAllText = findViewById<TextView>(R.id.viewAllText)
+        val linearLayout = findViewById<LinearLayout>(R.id.linearLayout)
+        val scrollView2 = findViewById<ScrollView>(R.id.scrollView2)
+
 
 //        val profileEdit = findViewById<TextView>(R.id.profileEdit)
         val DMButton = findViewById<Button>(R.id.DMButton)
@@ -212,11 +214,12 @@ class detailtimelineActivity : AppCompatActivity() {
                 }
             })
         }
+
         //timelineRecycleの一番上でスクロールされた時のみ、SwipeRefreshを有効にする。
         swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
             object : ViewTreeObserver.OnScrollChangedListener {
                 override fun onScrollChanged() {
-                    if (messageRecyclerView.getScrollY() == 0)
+                    if (scrollView2.getScrollY() == 0)
                         swipeRefreshLayout.setEnabled(true)
                     else
                         swipeRefreshLayout.setEnabled(false)

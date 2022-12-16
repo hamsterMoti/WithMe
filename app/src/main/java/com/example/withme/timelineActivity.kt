@@ -9,7 +9,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import java.security.AccessController.getContext
 
 
 class timelineActivity : AppCompatActivity() {
