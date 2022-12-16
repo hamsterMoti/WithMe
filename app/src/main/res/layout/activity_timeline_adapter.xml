@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="363dp"
         android:layout_height="51dp"
-        android:background="#AFB4C3">
+        android:background="@color/withmecolor">
 
         <ImageView
             android:id="@+id/imageView6"
