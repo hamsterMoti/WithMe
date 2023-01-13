@@ -27,7 +27,7 @@
                 android:id="@+id/nametext"
                 android:layout_width="158dp"
                 android:layout_height="match_parent"
-                android:text="name(15文字まで)" />
+                android:text="name" />
 
             <TextView
                 android:id="@+id/textCount"
@@ -52,7 +52,7 @@
                 android:id="@+id/profileText"
                 android:layout_width="157dp"
                 android:layout_height="match_parent"
-                android:text="profile(66文字まで)" />
+                android:text="profile" />
 
             <TextView
                 android:id="@+id/count"
