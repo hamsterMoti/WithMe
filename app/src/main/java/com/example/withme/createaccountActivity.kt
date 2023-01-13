@@ -9,16 +9,23 @@ import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 import okhttp3.OkHttpClient
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 class createaccountActivity : AppCompatActivity() {
+//    新規登録の作成の流れ
+//    createActivity→passwordActivity→termServiceActivity
     val client = OkHttpClient()
     val myApp = myApplication.getInstance()
     val errormsg = errorApplication.getInstance()
-    private lateinit var birthday: TextView
+    private lateinit var birthyear: Spinner
+    private lateinit var birthmonth: Spinner
+    private lateinit var birthday: Spinner
+
+//    private lateinit var birthday: TextView
     val cal: Calendar = Calendar.getInstance()
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
@@ -33,33 +40,32 @@ class createaccountActivity : AppCompatActivity() {
         val nextButton = findViewById<Button>(R.id.nextButton)
         val genderGroup = findViewById<RadioGroup>(R.id.genderRadioGroup)
         val menRadio = findViewById<RadioButton>(R.id.menRadioButton)
+        birthyear = findViewById<Spinner>(R.id.birthyear)
+        birthmonth = findViewById<Spinner>(R.id.birthmonth)
+        birthday = findViewById<Spinner>(R.id.birthday)
         var genderText = ""
         val emptyError = errormsg.emptyError
-//      生年月日
-        birthday = findViewById<TextView>(R.id.birthday)
 
-        val year = cal.get(Calendar.YEAR)
-        val month = cal.get(Calendar.MONTH) + 1
-        val day = cal.get(Calendar.DATE)
-        val date = "$year-$month-$day"
-        birthday.text = date
+        val nicknameInputLayout = findViewById<TextInputLayout>(R.id.nickname_layout)
+        val mailInputLayout = findViewById<TextInputLayout>(R.id.mailaddress_layout)
 
+        arrayBirth(2030,1990,2030,"年",birthyear)
+        arrayBirth(13,1,13,"月",birthmonth)
+        arrayBirth(31,1,31,"日",birthday)
 
-        birthday.setOnClickListener{
-            showDatePicker()
-        }
 
         genderGroup.check(menRadio.id)
 
         nextButton.setOnClickListener {
             if (nicknameEdit.text.toString().isEmpty()) {
-                nicknameEdit.error = emptyError
-            } else if (mailaddressEdit.text.toString().isEmpty()) {
-                mailaddressEdit.error = emptyError
-            }else if(birthday.text.toString() >= date){
-                val errormsg = "入力値が不正もしくはありません"
-                Toast.makeText(applicationContext, errormsg, Toast.LENGTH_SHORT).show()
+                if (mailaddressEdit.text.toString().isEmpty()) {
+                    mailInputLayout.error = emptyError
+                    nicknameInputLayout.error = emptyError
+                }
             } else {
+                mailInputLayout.error = null
+                nicknameInputLayout.error = null
+
                 Log.v("mail",mailaddressEdit.text.toString())
                 val nickname = nicknameEdit.text.toString()
                 val myId = mailaddressEdit.text.toString()
@@ -73,12 +79,31 @@ class createaccountActivity : AppCompatActivity() {
 
                     }
                 }
-                var birthGetText = birthday.text
-                //生年月日をString型に変換
-                birthGetText = birthGetText.toString()
-                //生年月日をフォーマットする
+
+//                // 選択されているbirthyearを取得
+                var birthyearItem = birthyear.selectedItem.toString()
+//                // 選択されているbirthmonthを取得
+                var birthmonthItem = birthmonth.selectedItem.toString()
+//                // 選択されているbirthdayを取得
+                var birthdayItem = birthday.selectedItem.toString()
+                birthyearItem = birthyearItem.replace("年","-")
+                birthmonthItem = birthmonthItem.replace("月","-")
+                birthdayItem = birthdayItem.removeSuffix("日")
+
+
+//                replaceBirth(birthyearItem,"年")
+//                replaceBirth(birthmonthItem,"月")
+//                removeBirth(birthdayItem)
+                Log.v("birthdayItem2",birthdayItem)
+
+                var birthGetText = "$birthyearItem$birthmonthItem$birthdayItem"
+                Log.v("birthGetText",birthGetText)
+
+//                //生年月日をフォーマットする
                 val formatter = DateTimeFormatter.ofPattern("yyyy-[]M-[]d")
                 birthGetText = LocalDate.parse(birthGetText, formatter).toString()
+                Log.v("birthGetText",birthGetText)
+
 
                 val intent = Intent(this, passwordActivity::class.java)
                 intent.putExtra("userId",myId)
@@ -87,31 +112,27 @@ class createaccountActivity : AppCompatActivity() {
                 intent.putExtra("gender",genderText)
                 Log.v("genderText",genderText)
                 startActivity(intent)
-                Log.v("tag", birthGetText)
-
             }
 
         }
     }
 
-    private fun showDatePicker() {
-        var ye = ""
-        var mon = ""
-        var day = ""
-        val yyyy = cal.get(Calendar.YEAR)
-        val mm = cal.get(Calendar.MONTH)
-        val dd = cal.get(Calendar.DAY_OF_MONTH)
-        val datePickerDialog = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener() { view, year, month, dayOfMonth->
-                birthday.text = "${year}-${month + 1}-${dayOfMonth}"
-                ye = "${year}"
-                mon ="${month+1}"
-                day = "${dayOfMonth}"
-            },
-            yyyy,
-            mm,
-            dd)
-        datePickerDialog.show()
+//    spinnerの値を格納(最大数,いつから,いつまで,年か月か日)
+    private fun arrayBirth(maximum:Int,oldNum :Int,newNum:Int,text:String,spinnerName:Spinner)/*: Array<String?> */{
+        val arrayBirth = arrayOfNulls<String>(maximum)
+        for(i in 0 until newNum){
+            arrayBirth[i] = "${i+oldNum}$text"
+
+        }
+    val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arrayBirth)
+    spinnerName.adapter = arrayAdapter
+    }
+//  年と月を"-"に置き換える
+    private fun replaceBirth(birthItem:String,birthText:String){
+        val birthItem = birthItem.replace(birthText,"-")
+    }
+//  日を取り除く
+    private fun removeBirth(birthItem:String)/*:String*/{
+        birthItem.removeSuffix("日")
     }
 }
