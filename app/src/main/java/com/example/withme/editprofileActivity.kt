@@ -2,13 +2,16 @@ package com.example.withme
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.PointF.length
+import android.opengl.Matrix.length
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import okhttp3.*
@@ -31,21 +34,65 @@ class editprofileActivity : AppCompatActivity() {
         val nameEdit = findViewById<EditText>(R.id.nameEdit)
         val profileEdit = findViewById<EditText>(R.id.profileEdit)
         val saveButton = findViewById<Button>(R.id.saveButton)
+        var textCount = findViewById<TextView>(R.id.textCount)
+        var count = findViewById<TextView>(R.id.count)
         val userName = intent.getStringExtra("userName")
         val profile = intent.getStringExtra("profile")
 
+        nameEdit.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                var textColor = Color.GRAY
+                Log.v("textcount",p0?.length.toString())
+                var txtLength = p0?.length
+                textCount.setText(txtLength.toString()+"/15")
+                if(p0?.length!! >= 16){
+                    textColor = Color.RED
+                }
+                textCount.setTextColor(textColor)
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        })
+        profileEdit.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                var textColor = Color.GRAY
+                Log.v("textcount",p0?.length.toString())
+                var txtLength = p0?.length
+                count.setText(txtLength.toString()+"/66")
+                if(p0?.length!! >= 67){
+                    textColor = Color.RED
+                }
+                count.setTextColor(textColor)
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        })
+
         nameEdit.hint = userName
+        nameEdit.setText(userName)
+
         if(profile == "null"){
             profileEdit.hint = "未設定"
         }else{
+            profileEdit.setText(profile)
             profileEdit.hint = profile
         }
-        val errormsg = errorApplication.getInstance()
+        var errormsg = errorApplication.getInstance()
+
         //データ保存処理
         saveButton.setOnClickListener {
             if (nameEdit.text.toString().isEmpty()) {
                 nameEdit.error = errormsg.emptyError
+            }else if((nameEdit.text.length >= 16)||(profileEdit.text.length >= 67)) {
+
+                if (nameEdit.text.length >= 16) {
+                    nameEdit.error = errormsg.overError
+                }
+                if (profileEdit.text.length >= 67) {
+                    profileEdit.error = errormsg.overError
+                }
             }else{
+                
                 val apiUrl =
                     "${myApp.apiUrl}userUpd.php?userId=${myApp.loginMyId}&userName=${nameEdit.text.toString()}&profile=${profileEdit.text.toString()}"
                 val request = Request.Builder().url(apiUrl).build()
