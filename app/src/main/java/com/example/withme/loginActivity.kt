@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -26,19 +28,28 @@ class loginActivity : AppCompatActivity() {
             ?.hide()
 
         val loginButton = findViewById<Button>(R.id.loginButton)
-        val createAccountText = findViewById<TextView>(R.id.createAccountText)
+        val createAccountButton = findViewById<TextView>(R.id.createAccountButton)
         val userEdit = findViewById<EditText>(R.id.nicknameEdit)
         val passEdit = findViewById<EditText>(R.id.mailaddressEdit)
         val emptyError = errormsg.emptyError
         val passForgetText = findViewById<TextView>(R.id.passForgetText)
-
+        val mailtextLayout = findViewById<TextInputLayout>(R.id.mailaddress_layout)
+        val passInputLayout = findViewById<TextInputLayout>(R.id.password_layout)
 
         loginButton.setOnClickListener {
-            if (userEdit.text.toString().isEmpty()) {
-                userEdit.error = emptyError
-            } else if (passEdit.text.toString().isEmpty()) {
-                passEdit.error = emptyError
+            if(userEdit.text.toString().isEmpty()) {
+                if (passEdit.text.toString().isEmpty()) {
+                    mailtextLayout.error = emptyError
+                    passInputLayout.error = emptyError
+                }
+            }else if(passEdit.text.toString().isEmpty()){
+                passInputLayout.error = emptyError
+
             } else {
+                // エラーメッセージ解除
+                mailtextLayout.error = null
+                passInputLayout.error = null
+
                 val myId = userEdit.text.toString()
                 val pass = passEdit.text.toString()
 //                URLを変更
@@ -79,7 +90,7 @@ class loginActivity : AppCompatActivity() {
                 })
             }
         }
-        createAccountText.setOnClickListener {
+        createAccountButton.setOnClickListener {
             val intent = Intent(this, createaccountActivity::class.java)
             startActivity(intent)
         }

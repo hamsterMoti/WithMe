@@ -21,4 +21,11 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+<!--    edittexの枠線を変更-->
+    <style name="Sample.InputLayout.Activate" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">#0000FF</item>
+    </style>
+    <style name="EditTextBoxed" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/Sample.InputLayout.Activate</item>
+    </style>
 </resources>
