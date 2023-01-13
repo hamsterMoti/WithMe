@@ -83,6 +83,7 @@ class postActivity : AppCompatActivity() {
         val sgender = findViewById<TextView>(R.id.sgender)
         val sage = findViewById<TextView>(R.id.sage)
         val titlecount = findViewById<TextView>(R.id.titlecount)
+        val count = findViewById<TextView>(R.id.textView41)
         val stain = findViewById<TextView>(R.id.stain)
         sgender.setVisibility(View.GONE)
         sage.setVisibility(View.GONE)
@@ -103,6 +104,21 @@ class postActivity : AppCompatActivity() {
                     textColor = Color.RED
                 }
                 titlecount.setTextColor(textColor)
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        })
+        //title文字カウント
+        contentEdit.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                var textColor = Color.GRAY
+                Log.v("textcount",p0?.length.toString())
+                var txtLength = p0?.length
+                count.setText(txtLength.toString()+"/1000")
+                if(p0?.length!! >= 1001){
+                    textColor = Color.RED
+                }
+                contentEdit.setTextColor(textColor)
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

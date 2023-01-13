@@ -26,7 +26,7 @@ class dialogWithdrawal(con: AppCompatActivity, password:String,flag:String) : Di
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("削除")
-            .setMessage("本当に削除していいですか？")
+            .setMessage("本当に削除していいですか？\n※トークも削除されます")
             .setPositiveButton("削除") { dialog, id ->
 
                 if(flag == "withdrawalActivity") {
@@ -66,8 +66,7 @@ class dialogWithdrawal(con: AppCompatActivity, password:String,flag:String) : Di
                                         "退会成功しました",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    val intent =
-                                        Intent(cont.applicationContext, loginActivity::class.java)
+                                    val intent = Intent(cont.applicationContext, loginActivity::class.java)
                                     cont.startActivity(intent)
                                 }
                             }
