@@ -10,9 +10,12 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -67,6 +70,7 @@ class postActivity : AppCompatActivity() {
     fun postsub(myapp:myApplication){
 
         val emptyError = errormsg.emptyError
+        val overError = errormsg.overError
         recruitDaySp = findViewById<TextView>(R.id.recruitDaySp)
         val titleEdit = findViewById<EditText>(R.id.titleEdit)
         val categrySp = findViewById<Spinner>(R.id.categrySp)
@@ -78,6 +82,7 @@ class postActivity : AppCompatActivity() {
         val nasiButton = findViewById<RadioButton>(R.id.radioButton3)
         val sgender = findViewById<TextView>(R.id.sgender)
         val sage = findViewById<TextView>(R.id.sage)
+        val titlecount = findViewById<TextView>(R.id.titlecount)
         val stain = findViewById<TextView>(R.id.stain)
         sgender.setVisibility(View.GONE)
         sage.setVisibility(View.GONE)
@@ -86,6 +91,23 @@ class postActivity : AppCompatActivity() {
         var flag2 = 0
         var flag3 = 0
         var flag4 = 0
+
+        //title文字カウント
+        titleEdit.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                var textColor = Color.GRAY
+                Log.v("textcount",p0?.length.toString())
+                var txtLength = p0?.length
+                titlecount.setText(txtLength.toString()+"/15")
+                if(p0?.length!! >= 16){
+                    textColor = Color.RED
+                }
+                titlecount.setTextColor(textColor)
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        })
+
 
 
         //ラジオボタン処理
@@ -115,15 +137,19 @@ class postActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
 
-//            入力値チェック
-            if ((titleEdit.text.toString().isEmpty())) {
-                titleEdit.error = emptyError
-            }
-            if (contentEdit.text.toString().isEmpty()) {
-                contentEdit.error = emptyError
-            }
-            if(recruitDaySp.text.toString()=="タップしてください"){
-                Toast.makeText(this , "募集期間を入力してください", Toast.LENGTH_LONG).show()
+            if((titleEdit.text.toString().isEmpty())||(contentEdit.text.toString().isEmpty())||(titleEdit.text.length >= 16)||(recruitDaySp.text.toString()=="タップしてください")) {
+                if ((titleEdit.text.toString().isEmpty())) {
+                    titleEdit.error = emptyError
+                }
+                if (contentEdit.text.toString().isEmpty()) {
+                    contentEdit.error = emptyError
+                }
+                if (titleEdit.text.length >= 16) {
+                    titleEdit.error = overError
+                }
+                if (recruitDaySp.text.toString() == "タップしてください") {
+                    Toast.makeText(this, "募集期間を入力してください", Toast.LENGTH_LONG).show()
+                }
                 flag = 0
             }else{
                 flag = 1
@@ -135,12 +161,8 @@ class postActivity : AppCompatActivity() {
                 val syuruiSpitem = syuruiSp.selectedItem.toString()
 
 //          送るようにdata型に変更する
-                if (mon.length == 1) {
-                    mon = "0" + mon
-                }
-                if (day.length == 1) {
-                    day = "0" + day
-                }
+                if (mon.length == 1) { mon = "0" + mon }
+                if (day.length == 1) { day = "0" + day }
                 val bosyudata = ye + "-" + mon + "-" + day
 
 //          条件選択が指定なし簿場合空白にする
