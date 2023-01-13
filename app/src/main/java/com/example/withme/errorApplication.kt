@@ -8,6 +8,7 @@ class errorApplication {
     val notMatch : String = "一致しません"
     val connectionError : String = "通信できませんでした"
     val error : String = "エラーが発生しました"
+    val overError : String = "文字数オーバーです"
 
     companion object {
         private var instance: errorApplication? = null

@@ -8,22 +8,33 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="282dp"
-        android:layout_height="479dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="243dp"
-        android:layout_marginBottom="51dp"
+        android:layout_width="329dp"
+        android:layout_height="214dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.392">
 
-        <TextView
-            android:id="@+id/nametext"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="name" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/nametext"
+                android:layout_width="158dp"
+                android:layout_height="match_parent"
+                android:text="name(15文字まで)" />
+
+            <TextView
+                android:id="@+id/textCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="カウント" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/nameEdit"
@@ -32,11 +43,24 @@
             android:ems="10"
             android:inputType="textPersonName" />
 
-        <TextView
-            android:id="@+id/profileText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="profile" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/profileText"
+                android:layout_width="157dp"
+                android:layout_height="match_parent"
+                android:text="profile(66文字まで)" />
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="カウント" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/profileEdit"
@@ -46,10 +70,29 @@
             android:textSize="15sp" />
 
 
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="保存" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView38"
+        android:layout_width="201dp"
+        android:layout_height="27dp"
+        android:text="プロフィール編集"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.584"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.135" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="310dp"
+        android:layout_height="47dp"
+        android:text="保存"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.819" />
 </androidx.constraintlayout.widget.ConstraintLayout>
