@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 import okhttp3.OkHttpClient
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -32,15 +33,22 @@ class passwordActivity : AppCompatActivity() {
         val birthday = intent.getStringExtra("birthday")
         val gender = intent.getStringExtra("gender")
 
+        val passInputLayout = findViewById<TextInputLayout>(R.id.password_layout)
+        val repassInputLayout = findViewById<TextInputLayout>(R.id.repassword_layout)
+
         nextButton.setOnClickListener {
             if (passwordEdit.text.toString().isEmpty()) {
-                passwordEdit.error = emptyError
-            } else if (repasswordEdit.text.toString().isEmpty()) {
-                repasswordEdit.error = emptyError
+                passInputLayout.error = emptyError
+                if (repasswordEdit.text.toString().isEmpty()) {
+                    repassInputLayout.error = emptyError
+                }
             }else if(passwordEdit.text.toString() != repasswordEdit.text.toString() ){
-                passwordEdit.error = errormsg.notMatch
-                repasswordEdit.error = errormsg.notMatch
+                passInputLayout.error = errormsg.notMatch
+                repassInputLayout.error = errormsg.notMatch
             } else {
+                passInputLayout.error = null
+                repassInputLayout.error = null
+
                 if(myId != null) {
                     val pass = passwordEdit.text.toString()
                     val intent = Intent(this, termsServiceActivity::class.java)
