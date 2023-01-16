@@ -56,27 +56,38 @@ class myDialogFragment (var test:ArrayList<String>,con: Context): DialogFragment
         spinner2.adapter = adapter
         spinner3.adapter = ageadapter
 
+
         // ダイアログの作成
         val builder = AlertDialog.Builder(activity)
-        builder.setView(customAlertView)
-            .setPositiveButton("決定") { dialog, id -> // このボタンを押した時の処理を書きます。
+
+        val d =  builder.setView(customAlertView).setPositiveButton("決定",null).create()
+
+        d.show()
+        d.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+
                 test[1] = spinner.selectedItem as String
                 test[2] = spinner2.selectedItem as String
                 test[3] = spinner3.selectedItem as String
-                val sgender = (cont as postActivity).findViewById(R.id.sgender) as TextView
-                val sage = (cont as postActivity).findViewById(R.id.sage) as TextView
-                val stain = (cont as postActivity).findViewById(R.id.stain) as TextView
-                sgender.setVisibility(View.VISIBLE)
-                sage.setVisibility(View.VISIBLE)
-                stain.setVisibility(View.VISIBLE)
-                sgender.setText("性別："+test[0])
-                if(test[0].isEmpty()){
-                    sgender.setText("性別：指定なし")
-                }
-                sage.setText("年代："+test[1]+"～"+test[2]+"")
-                stain.setText("定員："+test[3])
 
-            }
-        return builder.create()
+                if(test[1] >= test[2]){
+                    Toast.makeText(cont.applicationContext, "期間が間違っています", Toast.LENGTH_SHORT).show()
+                }else {
+                    val sgender = (cont as postActivity).findViewById(R.id.sgender) as TextView
+                    val sage = (cont as postActivity).findViewById(R.id.sage) as TextView
+                    val stain = (cont as postActivity).findViewById(R.id.stain) as TextView
+                    sgender.setVisibility(View.VISIBLE)
+                    sage.setVisibility(View.VISIBLE)
+                    stain.setVisibility(View.VISIBLE)
+                    sgender.setText("性別：" + test[0])
+                    if (test[0].isEmpty()) {
+                        sgender.setText("性別：指定なし")
+                    }
+                    sage.setText("年代：" + test[1] + "～" + test[2] + "")
+                    stain.setText("定員：" + test[3])
+                    //ダイアログ閉じる
+                    d.cancel()
+                }
+        }
+        return d
     }
 }
