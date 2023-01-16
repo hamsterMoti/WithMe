@@ -84,7 +84,6 @@ class editprofileActivity : AppCompatActivity() {
             if (nameEdit.text.toString().isEmpty()) {
                 nameEdit.error = errormsg.emptyError
             }else if((nameEdit.text.length >= 16)||(profileEdit.text.length >= 67)) {
-
                 if (nameEdit.text.length >= 16) {
                     nameEdit.error = errormsg.overError
                 }
@@ -92,7 +91,6 @@ class editprofileActivity : AppCompatActivity() {
                     profileEdit.error = errormsg.overError
                 }
             }else{
-                
                 val apiUrl =
                     "${myApp.apiUrl}userUpd.php?userId=${myApp.loginMyId}&userName=${nameEdit.text.toString()}&profile=${profileEdit.text.toString()}"
                 val request = Request.Builder().url(apiUrl).build()
