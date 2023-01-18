@@ -1,10 +1,7 @@
 package com.example.withme
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.PointF.length
-import android.opengl.Matrix.length
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,7 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.textfield.TextInputLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -33,9 +30,12 @@ class editprofileActivity : AppCompatActivity() {
 
         val nameEdit = findViewById<EditText>(R.id.nameEdit)
         val profileEdit = findViewById<EditText>(R.id.profileEdit)
+        val namelayout = findViewById<TextInputLayout>(R.id.namelayout)
+        val profilelayout = findViewById<TextInputLayout>(R.id.profilelayout)
         val saveButton = findViewById<Button>(R.id.saveButton)
         var textCount = findViewById<TextView>(R.id.textCount)
         var count = findViewById<TextView>(R.id.count)
+        val emptyError = errormsg.emptyError
         val userName = intent.getStringExtra("userName")
         val profile = intent.getStringExtra("profile")
 
@@ -45,8 +45,13 @@ class editprofileActivity : AppCompatActivity() {
                 Log.v("textcount",p0?.length.toString())
                 var txtLength = p0?.length
                 textCount.setText(txtLength.toString()+"/15")
-                if(p0?.length!! >= 16){
+                if((p0?.length!! >= 16)||(p0?.length == 0)){
                     textColor = Color.RED
+                    if(p0?.length == 0){
+                        nameEdit.hint = ""
+                    }
+                }else{
+                    namelayout.error = null
                 }
                 textCount.setTextColor(textColor)
             }
@@ -61,6 +66,11 @@ class editprofileActivity : AppCompatActivity() {
                 count.setText(txtLength.toString()+"/66")
                 if(p0?.length!! >= 67){
                     textColor = Color.RED
+                }else{
+                    profilelayout.error = null
+                }
+                if(p0?.length!! == 0){
+                    profileEdit.hint = ""
                 }
                 count.setTextColor(textColor)
             }
@@ -82,13 +92,13 @@ class editprofileActivity : AppCompatActivity() {
         //データ保存処理
         saveButton.setOnClickListener {
             if (nameEdit.text.toString().isEmpty()) {
-                nameEdit.error = errormsg.emptyError
+                namelayout.error = emptyError
             }else if((nameEdit.text.length >= 16)||(profileEdit.text.length >= 67)) {
                 if (nameEdit.text.length >= 16) {
-                    nameEdit.error = errormsg.overError
+                    namelayout.error = errormsg.overError
                 }
                 if (profileEdit.text.length >= 67) {
-                    profileEdit.error = errormsg.overError
+                    profilelayout.error = errormsg.overError
                 }
             }else{
                 val apiUrl =

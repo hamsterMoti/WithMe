@@ -20,7 +20,7 @@ class withdrawalActivity : AppCompatActivity() {
         setContentView(R.layout.activity_withdrawal)
 
         var withdrawalButton = findViewById<Button>(R.id.withdrawalButton)
-        var nowpasswordEdit = findViewById<EditText>(R.id.mailaddressEdit)
+        var nowpasswordEdit = findViewById<EditText>(R.id.profileEdit)
         val emptyError = errormsg.emptyError
 
         nowpasswordEdit.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)

@@ -1,26 +1,16 @@
 package com.example.withme
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 //パスワード変更画面
 class editpasswordActivity : AppCompatActivity() {
@@ -37,8 +27,8 @@ class editpasswordActivity : AppCompatActivity() {
         val repasswordEdit = findViewById<EditText>(R.id.repasswordEdit)
         val changeButton = findViewById<Button>(R.id.changeButton)
         val emptyError = errormsg.emptyError
-        val mailInputLayout = findViewById<TextInputLayout>(R.id.mailaddress_layout)
-        val passInputLayout = findViewById<TextInputLayout>(R.id.password_layout)
+        val mailInputLayout = findViewById<TextInputLayout>(R.id.namelayout)
+        val passInputLayout = findViewById<TextInputLayout>(R.id.profilelayout)
         val repassInputLayout = findViewById<TextInputLayout>(R.id.repassword_layout)
 
 

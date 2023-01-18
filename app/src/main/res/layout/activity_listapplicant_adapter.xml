@@ -22,7 +22,7 @@
             app:srcCompat="@drawable/men" />
 
         <LinearLayout
-            android:id="@+id/name"
+            android:id="@+id/profilelayout"
             android:layout_width="117dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
