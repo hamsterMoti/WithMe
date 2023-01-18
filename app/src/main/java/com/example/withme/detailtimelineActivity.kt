@@ -31,6 +31,8 @@ class detailtimelineActivity : AppCompatActivity() {
     private lateinit var sendButton:ImageView
     private lateinit var messageAdapter: commentAdapter
     private lateinit var messageList:ArrayList<Message>
+    private lateinit var commentCntText:TextView
+    private lateinit var viewAllText : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +46,8 @@ class detailtimelineActivity : AppCompatActivity() {
 //        sendButton = findViewById(R.id.sendImage)
         messageList = ArrayList() //配列を初期化
         messageAdapter = commentAdapter(this,messageList)
+        commentCntText = findViewById<TextView>(R.id.commentCnt)
+        viewAllText = findViewById<TextView>(R.id.viewAllText)
 
         val postdayText = findViewById<TextView>(R.id.postdayText)
         val postImage = findViewById<ImageView>(R.id.postImage)
@@ -55,7 +59,7 @@ class detailtimelineActivity : AppCompatActivity() {
         val nendaiText = findViewById<TextView>(R.id.nendaiText)
         val contributorName = findViewById<TextView>(R.id.contributorName)
         val contributorImage = findViewById<ImageView>(R.id.contributorImage)
-        val commentCntText = findViewById<TextView>(R.id.commentCnt)
+//        val commentCntText = findViewById<TextView>(R.id.commentCnt)
         val viewAllText = findViewById<TextView>(R.id.viewAllText)
         val linearLayout = findViewById<LinearLayout>(R.id.linearLayout)
         val scrollView2 = findViewById<ScrollView>(R.id.scrollView2)
@@ -123,10 +127,12 @@ class detailtimelineActivity : AppCompatActivity() {
 //                        コメント数を表示
                             val strCommentCnt = commentCnt.toString()
                             commentCntText.text = "コメント数$strCommentCnt"
-                            if (commentCnt < 1) {
+//                            コメント数が0以下ならRecyclerViewを表示しない
+                            if (commentCnt <= 0) {
                                 val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
                                 recyclerview.visibility = View.INVISIBLE
-                            }else if(commentCnt < 2){
+//                             コメント数が1,2なら"RecyclerView"と"コメントの全て表示"を表示
+                            }else if(commentCnt <= 2){
                                 val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
                                 recyclerview.visibility = View.VISIBLE
                                 viewAllText.visibility = View.VISIBLE
@@ -275,11 +281,10 @@ class detailtimelineActivity : AppCompatActivity() {
 //                        コメント数を表示
                         val strCommentCnt = commentCnt.toString()
                         commentCntText.text = "コメント数$strCommentCnt"
+                        val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
                         if (commentCnt < 1) {
-                            val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
                             recyclerview.visibility = View.INVISIBLE
                         }else if(commentCnt < 2){
-                            val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
                             recyclerview.visibility = View.VISIBLE
                             viewAllText.visibility = View.VISIBLE
 
@@ -292,7 +297,6 @@ class detailtimelineActivity : AppCompatActivity() {
                                 messageList.add(Message(comment, commenterId, commenterName))
                             }
                         }else{
-                            val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
                             recyclerview.visibility = View.VISIBLE
                             viewAllText.visibility = View.VISIBLE
 
@@ -378,35 +382,13 @@ class detailtimelineActivity : AppCompatActivity() {
 
         //message送信処理ーーーーー
         DMButton.setOnClickListener {
-            var message = messageBox.text
-            var apiUrl =
-                myApp.apiUrl + "commentPost.php?userId=" + myApp.loginMyId + "&postNo=" + postNo + "&content=" + message
-            val request = Request.Builder().url(apiUrl).build()
-            val errorText = "エラー"
-             Log.v("blockurl",apiUrl)
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    this@detailtimelineActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT).show()
-                    }
-                }
-                override fun onResponse(call: Call, response: Response) {
-                    val csvStr = response.body!!.string()
-                    val resultError = JSONObject(csvStr)
-                    if (resultError.getString("result") == "error") {
-                        val error = resultError.getString("errMsg")
-                        this@detailtimelineActivity.runOnUiThread {
-                            Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
-                        }
-                    } else if (resultError.getString("result") == "success") {
-                        this@detailtimelineActivity.runOnUiThread {
-
-                            Toast.makeText(applicationContext, "コメント投稿されました", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            })
+            val message = messageBox.text
+            val messageURL =
+                "${myApp.apiUrl}commentPost.php?userId=${myApp.loginMyId}&postNo=$postNo&content=$message"
+            httpAccess(messageURL)
         }
+
+
 //        ーーーーーーーーーーーー
 
 //応募ボタン又は応募一覧表示ボタン処理ーーーーーー
@@ -473,20 +455,69 @@ class detailtimelineActivity : AppCompatActivity() {
         }
 //        ーーーーーーーーーーーー
     }
-//    private fun arrayComment(data:Int,arrayJson:Array<String>){
-//
-//        for (i in 0 until 2) {
-//            val json = data.getJSONObject(i)
-//            var commentNo = json.getString("commentNo")
-//            var commentDate = json.getString("commentDate")
-//            val commenterId = json.getString("commenterId")
-//            val commenterName = json.getString("commenterName")
-//            var commenterIcon = json.getString("commenterIcon")
-//            val comment = json.getString("comment")
-//            messageList.add(Message(comment, commenterId, commenterName))
-//
-//        }
-//    }
+    private  fun httpAccess(apiUrl:String){
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
+
+        messageList = ArrayList()
+        messageAdapter = commentAdapter(this,messageList)
+        val request = Request.Builder().url(apiUrl).build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                this@detailtimelineActivity.runOnUiThread {
+                    Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(call: Call, response: Response) {
+                val csvStr = response.body!!.string()
+                val resultError = JSONObject(csvStr)
+                if (resultError.getString("result") == "error") {
+                    val error = resultError.getString("errMsg")
+                    this@detailtimelineActivity.runOnUiThread {
+                        Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } else if (resultError.getString("result") == "success") {
+                    this@detailtimelineActivity.runOnUiThread {
+                        val commentCnt = resultError.getInt("commentCnt")
+                        val data = resultError.getJSONArray("postCommentList")
+                        if(commentCnt <= 2){
+                            val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
+                            recyclerview.visibility = View.VISIBLE
+                            viewAllText.visibility = View.VISIBLE
+                            for (i in 0 until data.length()) {
+                                val json = data.getJSONObject(i)
+                                val commenterId = json.getString("commenterId")
+                                val commenterName = json.getString("commenterName")
+                                val comment = json.getString("comment")
+                                messageList.add(Message(comment,commenterId,commenterName))
+                            }
+                        }else{
+                            //データが存在する間listにデータを挿入する
+                            for (i in 0 until 2) {
+                                val json = data.getJSONObject(i)
+                                val commenterId = json.getString("commenterId")
+                                val commenterName = json.getString("commenterName")
+                                val comment = json.getString("comment")
+                                messageList.add(Message(comment,commenterId,commenterName))
+                            }
+                        }
+                        messageRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                        val adapter = commentAdapter(this@detailtimelineActivity ,messageList)
+                        messageRecyclerView.adapter = adapter
+                        //ぐるぐる消す
+                        swipeRefreshLayout.isRefreshing = false
+                        val strCommentCnt = commentCnt.toString()
+                        commentCntText.text = "コメント数$strCommentCnt"
+
+                    }
+                }
+            }
+        })
+        messageBox.setText("")
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)

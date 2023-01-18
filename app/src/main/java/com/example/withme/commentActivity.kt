@@ -74,8 +74,8 @@ class commentActivity : AppCompatActivity() {
 
                 Log.v("送信メッセージ", messageURL)
                 //http通信開始
-                httpAccessPost(messageURL)
-                httpAccess(commentAccessURL)
+//                httpAccessPost(messageURL)
+                httpAccess(messageURL)
             }
             //戻るボタン
             backButton.setOnClickListener {
@@ -89,7 +89,6 @@ class commentActivity : AppCompatActivity() {
     //    コメントを表示
     private  fun httpAccess(apiUrl:String){
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
-
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this,messageList)
         val request = Request.Builder().url(apiUrl).build()
@@ -127,36 +126,6 @@ class commentActivity : AppCompatActivity() {
                         messageRecyclerView.adapter = adapter
                         //ぐるぐる消す
                         swipeRefreshLayout.isRefreshing = false
-
-                    }
-                }
-            }
-        })
-    }
-    //    メッセージ送信
-    private  fun httpAccessPost(apiUrl:String){
-        messageList = ArrayList()
-        messageAdapter = MessageAdapter(this,messageList)
-        val request = Request.Builder().url(apiUrl).build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                this@commentActivity.runOnUiThread {
-                    Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val csvStr = response.body!!.string()
-                val resultError = JSONObject(csvStr)
-                if (resultError.getString("result") == "error") {
-                    val error = resultError.getString("errMsg")
-                    this@commentActivity.runOnUiThread {
-                        Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                } else if (resultError.getString("result") == "success") {
-                    this@commentActivity.runOnUiThread {
 
                     }
                 }
