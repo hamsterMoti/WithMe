@@ -83,6 +83,7 @@ class postActivity : AppCompatActivity() {
         val sgender = findViewById<TextView>(R.id.sgender)
         val sage = findViewById<TextView>(R.id.sage)
         val titlecount = findViewById<TextView>(R.id.titlecount)
+        val textView41= findViewById<TextView>(R.id.textView41)
         val count = findViewById<TextView>(R.id.textView41)
         val stain = findViewById<TextView>(R.id.stain)
         sgender.setVisibility(View.GONE)
@@ -100,7 +101,7 @@ class postActivity : AppCompatActivity() {
                 Log.v("textcount",p0?.length.toString())
                 var txtLength = p0?.length
                 titlecount.setText(txtLength.toString()+"/15")
-                if(p0?.length!! >= 16){
+                if((p0?.length!! >= 16)||(p0?.length!! ==0 )){
                     textColor = Color.RED
                 }
                 titlecount.setTextColor(textColor)
@@ -115,10 +116,10 @@ class postActivity : AppCompatActivity() {
                 Log.v("textcount",p0?.length.toString())
                 var txtLength = p0?.length
                 count.setText(txtLength.toString()+"/1000")
-                if(p0?.length!! >= 1001){
+                if((p0?.length!! >= 1001)||(txtLength == 0)){
                     textColor = Color.RED
                 }
-                contentEdit.setTextColor(textColor)
+                textView41.setTextColor(textColor)
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
