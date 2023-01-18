@@ -70,7 +70,7 @@ class myDialogFragment (var test:ArrayList<String>,con: Context): DialogFragment
             test[3] = spinner3.selectedItem as String
 
                 Log.v("kakunin","test[1]:" + test[1].toString()+"\ntest[2]:" + test[2].toString())
-                if(test[1] >= test[2]){
+                if((test[1] >= test[2])&&(test[1] != "指定なし")){
                     Toast.makeText(cont.applicationContext, "期間が間違っています", Toast.LENGTH_SHORT).show()
                     //期限が間違えていたら初期値
                     test[0] = ""
