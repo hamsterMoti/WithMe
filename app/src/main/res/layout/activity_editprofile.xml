@@ -18,6 +18,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.392">
 
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/namelayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="294dp"
+            android:layout_height="64dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            app:errorEnabled="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25"
+            app:startIconDrawable="@drawable/ic_baseline_person_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FFFFFF"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,9 +52,8 @@
 
             <TextView
                 android:id="@+id/nametext"
-                android:layout_width="158dp"
-                android:layout_height="match_parent"
-                android:text="name" />
+                android:layout_width="259dp"
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/textCount"
@@ -36,12 +62,32 @@
                 android:text="カウント" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/nameEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profilelayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="293dp"
+            android:layout_height="65dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            app:errorEnabled="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25"
+            app:startIconDrawable="@drawable/ic_baseline_person_24"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profileEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FFFFFF"
+                android:ems="10"
+                android:hint="comment"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,9 +96,8 @@
 
             <TextView
                 android:id="@+id/profileText"
-                android:layout_width="157dp"
-                android:layout_height="match_parent"
-                android:text="profile" />
+                android:layout_width="260dp"
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/count"
@@ -61,13 +106,6 @@
                 android:layout_weight="1"
                 android:text="カウント" />
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/profileEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top|left"
-            android:textSize="15sp" />
 
 
     </LinearLayout>

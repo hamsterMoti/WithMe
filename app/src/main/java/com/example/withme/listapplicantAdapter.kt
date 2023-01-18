@@ -32,7 +32,7 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
             agegender = item.findViewById(R.id.agegender)
             addButton = item.findViewById(R.id.addButton)
             rejectionButton = item.findViewById(R.id.rejectionButton)
-            name = item.findViewById(R.id.name)
+            name = item.findViewById(R.id.profilelayout)
 
         }
     }

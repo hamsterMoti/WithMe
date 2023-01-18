@@ -65,12 +65,18 @@ class myDialogFragment (var test:ArrayList<String>,con: Context): DialogFragment
         d.show()
         d.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
 
-                test[1] = spinner.selectedItem as String
-                test[2] = spinner2.selectedItem as String
-                test[3] = spinner3.selectedItem as String
+            test[1] = spinner.selectedItem as String
+            test[2] = spinner2.selectedItem as String
+            test[3] = spinner3.selectedItem as String
 
+                Log.v("kakunin","test[1]:" + test[1].toString()+"\ntest[2]:" + test[2].toString())
                 if(test[1] >= test[2]){
                     Toast.makeText(cont.applicationContext, "期間が間違っています", Toast.LENGTH_SHORT).show()
+                    //期限が間違えていたら初期値
+                    test[0] = ""
+                    test[1] = 0.toString()
+                    test[2] = 120.toString()
+                    test[3] = ""
                 }else {
                     val sgender = (cont as postActivity).findViewById(R.id.sgender) as TextView
                     val sage = (cont as postActivity).findViewById(R.id.sage) as TextView

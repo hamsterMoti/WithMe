@@ -261,51 +261,9 @@ class postActivity : AppCompatActivity() {
                 mon ="${month+1}"
                 day = "${dayOfMonth}"
             },
-            yyyy,
-            mm,
-            dd)
+            yyyy, mm, dd)
         datePickerDialog.show()
     }
-
-//    //ギャラリーを開くためのメソッド
-//    private fun openGalleryForImage() {
-//
-//        //ギャラリーに画面を遷移するためのIntent
-//        val intent = Intent(Intent.ACTION_PICK)
-//        intent.type = "image/*"
-//        startActivityForResult(intent, REQUEST_GALLERY_TAKE)
-//
-//    }
-//    override fun onActivityResult(
-//        requestCode: Int, resultCode: Int,
-//        resultData: Intent?
-//    ) {
-//        super.onActivityResult(requestCode, resultCode, resultData)
-//        if (requestCode == REQUEST_GALLERY_TAKE && resultCode == RESULT_OK) {
-//            if (resultData != null) {
-//                uri = resultData.data!!
-//
-//                try {
-//                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
-//                    bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
-//                    photo.setImageURI(uri)
-//                    Log.v("uri",uri.toString())
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
-//        //var baos = ByteArrayOutputStream()
-//        file = File(File(java.lang.String.valueOf(this@postActivity.getExternalCacheDir())), TEMP_FILE_NAME)
-//        var fos: FileOutputStream? = null
-//        file.createNewFile()
-//        fos = FileOutputStream(file);
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-        //jpgarr = baos.toByteArray()
-        //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
-        //b64Encode= Base64.getEncoder().encodeToString(jpgarr)
-//    }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val timeline = Intent(this, timelineActivity::class.java)

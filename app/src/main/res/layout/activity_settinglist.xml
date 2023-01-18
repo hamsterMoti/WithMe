@@ -21,14 +21,16 @@
 
         <TextView
             android:id="@+id/blockText"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="ブロック一覧表" />
+            android:layout_width="303dp"
+            android:layout_height="wrap_content"
+            android:text="ブロック一覧表"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/outText"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="退会する" />
+            android:layout_height="wrap_content"
+            android:text="退会する"
+            android:textSize="24sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
