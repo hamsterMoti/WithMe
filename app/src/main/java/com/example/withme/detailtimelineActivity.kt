@@ -77,149 +77,6 @@ class detailtimelineActivity : AppCompatActivity() {
 //        var postNo = "6"
         var loginuserId = myApp.loginMyId
 
-        swipeRefreshLayout.setOnRefreshListener {
-            val apiUrl = "${myApp.apiUrl}postDetail.php?postNo=$postNo&loginUserId=$loginuserId"
-            val request = Request.Builder().url(apiUrl).build()
-            val errorText = "エラー"
-            Log.v("apiUrl",apiUrl)
-            client.newCall(request).enqueue(object : Callback {
-
-                override fun onFailure(call: Call, e: IOException) {
-                    this@detailtimelineActivity.runOnUiThread {
-                        swipeRefreshLayout.isRefreshing = false
-                        Toast.makeText(applicationContext, errormsg.connectionError, Toast.LENGTH_SHORT).show()
-                    }
-                }
-                @SuppressLint("SetTextI18n")
-                override fun onResponse(call: Call, response: Response) {
-                    val csvStr = response.body!!.string()
-                    val resultError = JSONObject(csvStr)
-                    swipeRefreshLayout.isRefreshing = false
-
-                    if(resultError.getString("result") == "error") {
-                        this@detailtimelineActivity.runOnUiThread {
-                            val error = resultError.getString("errMsg")
-                            Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }else if(resultError.getString("result") == "success"){
-                        this@detailtimelineActivity.runOnUiThread {
-                            messageList = ArrayList() //配列を初期化
-                            postNo = resultError.getString("postNo")
-                            userId = resultError.getString("userId")
-                            val userName = resultError.getString("userName")
-                            var icon = resultError.getString("icon")
-                            var postDate = resultError.getString("postDate")
-                            title = resultError.getString("title")
-                            var categoryName = resultError.getString("categoryName")
-                            var content = resultError.getString("content")
-                            var gender = resultError.getString("gender")
-                            var term = resultError.getString("term")
-                            var capacity = resultError.getString("capacity")
-                            var hopeGenger = resultError.getString("hopeGenger")
-                            var lowLmit = resultError.getString("lowLmit")
-                            var highLmit = resultError.getString("highLmit")
-                            var status = resultError.getString("status")
-                            var recFlag = resultError.getString("recFlag")
-                            var appFlag = resultError.getString("appFlag")
-                            var commentCnt = resultError.getInt("commentCnt")
-                            val date = resultError.getJSONArray("postCommentList")
-//                        コメント数を表示
-                            val strCommentCnt = commentCnt.toString()
-                            commentCntText.text = "コメント数$strCommentCnt"
-//                            コメント数が0以下ならRecyclerViewを表示しない
-                            if (commentCnt <= 0) {
-                                val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
-                                recyclerview.visibility = View.INVISIBLE
-//                             コメント数が1,2なら"RecyclerView"と"コメントの全て表示"を表示
-                            }else if(commentCnt <= 2){
-                                val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
-                                recyclerview.visibility = View.VISIBLE
-                                viewAllText.visibility = View.VISIBLE
-
-                                for (i in 0 until date.length()) {
-                                    val json = date.getJSONObject(i)
-                                    var commentDate = json.getString("commentDate")
-                                    val commenterId = json.getString("commenterId")
-                                    val commenterName = json.getString("commenterName")
-                                    val comment = json.getString("comment")
-                                    messageList.add(Message(comment, commenterId, commenterName))
-                                }
-                            }else{
-                                val recyclerview = findViewById<RecyclerView>(R.id.chatRecycle1)
-                                recyclerview.visibility = View.VISIBLE
-                                viewAllText.visibility = View.VISIBLE
-
-                                //データが存在する間listにデータを挿入する
-                                for (i in 0 until 2) {
-                                    val json = date.getJSONObject(i)
-                                    var commentDate = json.getString("commentDate")
-                                    val commenterId = json.getString("commenterId")
-                                    val commenterName = json.getString("commenterName")
-                                    val comment = json.getString("comment")
-                                    messageList.add(Message(comment, commenterId, commenterName))
-
-                                }
-                            }
-
-                            messageRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                            val adapter = commentAdapter(this@detailtimelineActivity ,messageList)
-                            messageRecyclerView.adapter = adapter
-
-                            if(gender == "男"){
-                                contributorImage.setImageResource(R.drawable.men)
-                            }else{
-                                contributorImage.setImageResource(R.drawable.woman)
-                            }
-                            if(appFlag == "1"){
-                                oubobutton.setText("応募済み")
-                            }else{
-                                oubobutton.setText("応募する")
-                            }
-                            postDate = term.substring(0, 10)
-                            postdayText.setText("投稿日："+postDate)
-                            titleText.text = title
-                            overviewText.setText(content)
-                            term = term.substring(0, 10)
-                            kigen.setText(term)
-
-                            if(capacity=="null"){
-                                teiintext.setText("定員："+"指定なし")
-                            }else{
-                                teiintext.setText("定員："+capacity)
-                            }
-                            if(hopeGenger.isEmpty()){
-                                genderText.setText("性別："+"指定なし")
-                            }else{
-                                genderText.setText("性別："+hopeGenger)
-                            }
-                            if(((lowLmit==null)&&(highLmit==null))||((lowLmit=="0")&&(highLmit=="120"))){
-                                nendaiText.setText("年代："+"指定なし")
-                            }else{
-                                nendaiText.setText("年代："+lowLmit+"～"+highLmit)
-                            }
-                            contributorName.setText(userName)
-                            //ボタン非表示
-                            if(recFlag == "相談"){
-                                oubobutton.setVisibility(View.INVISIBLE)
-                            }
-                            if(loginuserId==userId){
-                                oubobutton.setText("応募一覧")
-                            }
-                            if(categoryName == "食べ物"){
-                                postImage.setImageResource(R.drawable.user_6)
-                            }else if(categoryName == "イベント"){
-                                postImage.setImageResource(R.drawable.user_7)
-                            } else if(categoryName == "エンタメ"){
-                                postImage.setImageResource(R.drawable.user_8)
-                            } else if(categoryName == "暮らし"){
-                                postImage.setImageResource(R.drawable.user_9)
-                            }
-                        }
-                    }
-                }
-            })
-        }
 
         //timelineRecycleの一番上でスクロールされた時のみ、SwipeRefreshを有効にする。
         swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(
@@ -237,7 +94,7 @@ class detailtimelineActivity : AppCompatActivity() {
         val apiUrl = "${myApp.apiUrl}postDetail.php?postNo=$postNo&loginUserId=$loginuserId"
         val request = Request.Builder().url(apiUrl).build()
         val errorText = "エラー"
-         Log.v("apiUrl",apiUrl)
+         Log.v("apiUrl","投稿詳細"+apiUrl)
         client.newCall(request).enqueue(object : Callback {
 
             override fun onFailure(call: Call, e: IOException) {
@@ -278,6 +135,7 @@ class detailtimelineActivity : AppCompatActivity() {
                         var appFlag = resultError.getString("appFlag")
                         var commentCnt = resultError.getInt("commentCnt")
                         val date = resultError.getJSONArray("postCommentList")
+                        Log.v("apiUrl","データ"+postDate)
 //                        コメント数を表示
                         val strCommentCnt = commentCnt.toString()
                         commentCntText.text = "コメント数$strCommentCnt"
@@ -326,7 +184,7 @@ class detailtimelineActivity : AppCompatActivity() {
                         }else{
                             oubobutton.setText("応募する")
                         }
-                        postDate = term.substring(0, 10)
+                        postDate = postDate.substring(0, 10)
                         postdayText.setText("投稿日："+postDate)
                         titleText.text = title
                         overviewText.setText(content)
