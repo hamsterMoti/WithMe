@@ -107,9 +107,9 @@ class timelineActivity : AppCompatActivity() {
                 findViewById(R.id.bottomSheet) as LinearLayout?
             )
             //bottom処理
-            bottomsheet(bottomSheetView,R.id.newPost,bottomSheetDialog,"sSort","1",timelineRecycl,recruitText,ImageVi)
-            bottomsheet(bottomSheetView,R.id.oldPost,bottomSheetDialog,"sSort","2",timelineRecycl,recruitText,ImageVi)
-            bottomsheet(bottomSheetView,R.id.deadlinePost,bottomSheetDialog,"sSort","3",timelineRecycl,recruitText,ImageVi)
+            bottomsheet(bottomSheetView,R.id.newPost,bottomSheetDialog,"sSort","3",timelineRecycl,recruitText,ImageVi)
+            bottomsheet(bottomSheetView,R.id.oldPost,bottomSheetDialog,"sSort","1",timelineRecycl,recruitText,ImageVi)
+            bottomsheet(bottomSheetView,R.id.deadlinePost,bottomSheetDialog,"sSort","2",timelineRecycl,recruitText,ImageVi)
 
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.show()
@@ -163,7 +163,6 @@ class timelineActivity : AppCompatActivity() {
 //    通信処理
     fun access(timelineRecycl: RecyclerView,rec:String,Imagevi:ImageView) {
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swiper_for_webview)
-
         val DouhanList = mutableListOf<timelinedata>()
         val SoudanList = mutableListOf<timelinedata>()
         var apiUrl = myApp.apiUrl + "search.php?userId=" + myApp.loginMyId+sString+sSort+sCategory
