@@ -40,7 +40,7 @@
         android:id="@+id/newPost"
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        android:text="投稿日時の新しい順"
+        android:text="投稿日時の新しい順(デフォルト)"
         android:textAlignment="center" />
 
     <TextView
@@ -55,7 +55,7 @@
         android:id="@+id/deadlinePost"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:text="期限が近い順(デフォルト)"
+        android:text="期限が近い順"
         android:textAlignment="center"
         android:textSize="16sp" />
 </LinearLayout>
