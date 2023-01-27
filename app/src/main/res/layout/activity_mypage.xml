@@ -149,7 +149,7 @@
         android:id="@+id/editprofileButton"
         android:layout_width="175dp"
         android:layout_height="49dp"
-        android:backgroundTint="#F4E3A2"
+        android:backgroundTint="@color/withmecolor"
         android:text="編集"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"

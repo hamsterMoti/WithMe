@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +44,8 @@ class applicantListActivity : AppCompatActivity() {
     fun applicantListActivitysub(myapp:myApplication,postNo:String){
 
         var applicantListRecyeclerView = findViewById<RecyclerView>(R.id.applicantListRecyeclerView)
+        var nolistImage = findViewById<ImageView>(R.id.imageView18)
+        var nolistText = findViewById<TextView>(R.id.textView39)
         val countList = mutableListOf<applicantDate>()
         var meaddButton = findViewById<Button>(R.id.addButton)
         var apiUrl = myApp.apiUrl+"applyList.php?postNo="+postNo
@@ -80,6 +83,15 @@ class applicantListActivity : AppCompatActivity() {
                             addFlg = json.getInt("addFlg")
                             Log.v("kakunin","確認"+userName+"roomFlg"+addFlg)
                             countList.add(applicantDate(0,userName,userId,age,gender,addFlg,postNo,roomFlg))
+                        }
+                        if(countList.size == 0){
+                            //表示
+                            nolistImage.setVisibility(View.VISIBLE)
+                            nolistText.setVisibility(View.VISIBLE)
+                        }else{
+                            //非表示(領域も埋める)
+                            nolistImage.setVisibility(View.GONE)
+                            nolistText.setVisibility(View.GONE)
                         }
                         Log.v("blockurl",roomFlg.toString())
                         Thread.sleep(500)
