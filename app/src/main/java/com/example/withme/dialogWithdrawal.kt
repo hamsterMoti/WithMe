@@ -93,7 +93,7 @@ class dialogWithdrawal(con: AppCompatActivity, password:String,flag:String) : Di
                                 }
                             } else if (resultError.getString("result") == "success") {
                                 cont.runOnUiThread {
-                                    Toast.makeText(cont.applicationContext, "成功", Toast.LENGTH_SHORT).show()
+//                                    Toast.makeText(cont.applicationContext, "成功", Toast.LENGTH_SHORT).show()
                                         var mypageActivity = cont as mypageActivity
                                         val myApp = myApplication.getInstance()
                                         mypageActivity.mypageActivitysub(myApp)

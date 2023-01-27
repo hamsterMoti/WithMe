@@ -123,8 +123,7 @@ class editprofileActivity : AppCompatActivity() {
                             }
                         } else if (resultError.getString("result") == "success") {
                             this@editprofileActivity.runOnUiThread {
-                                Toast.makeText(applicationContext, "保存しました", Toast.LENGTH_SHORT)
-                                    .show()
+                               //(applicationContext, "保存しました", Toast.LENGTH_SHORT).show()
                                 //マイページ画面へ遷移
                                 val intent = Intent(applicationContext, mypageActivity::class.java)
                                 startActivity(intent)
