@@ -209,7 +209,7 @@ class mypageActivity : AppCompatActivity() {
         //投稿一覧
         postButton.setOnClickListener {
             postButton.setAlpha(255)
-            goodButton.setAlpha(80)
+            goodButton.setAlpha(50)
 //            mainfragment.createList(postList,this@mypageActivity)
             nolist(postList,ImageVi,textView35)
             profileRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
@@ -220,7 +220,7 @@ class mypageActivity : AppCompatActivity() {
         }
         //応募一覧表
         goodButton.setOnClickListener {
-            postButton.setAlpha(80)
+            postButton.setAlpha(50)
             goodButton.setAlpha(255)
             nolist(goodList,ImageVi,textView35)
 //            mainfragment.createList(goodList,this@mypageActivity)
