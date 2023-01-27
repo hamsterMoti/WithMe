@@ -232,8 +232,7 @@ class postActivity : AppCompatActivity() {
                             }
                         } else if (resultError.getString("result") == "success") {
                             this@postActivity.runOnUiThread {
-                                Toast.makeText(applicationContext, "投稿しました", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(applicationContext, "投稿しました", Toast.LENGTH_SHORT) .show()
                                 //マイページ画面へ遷移
                                 var intent =
                                     Intent(applicationContext, timelineActivity::class.java)

@@ -97,8 +97,7 @@ class listapplicantAdapter  (private  val dateSet:MutableList<applicantDate>,pri
                             }else if(resultError.getString("result") == "success"){
                                 activity.runOnUiThread {
 //                                    applicantListActivitysub(myApp,postNo)
-                                    Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT)
-                                        .show()
+                                    //Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT) .show()
                                     var apiUrl = myApp.apiUrl+"memberAdd.php?userId="+dateSet[position].userId+"&roomNo="+dateSet[position].postNo
                                     url(apiUrl,dateSet[position].postNo)
                                 }

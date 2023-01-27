@@ -185,7 +185,7 @@ fun okituusinn(url:String,activity:AppCompatActivity,kind:String){
                 }
             } else if (resultError.getString("result") == "success") {
                 activity.runOnUiThread {
-                    Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(activity.applicationContext, "成功", Toast.LENGTH_SHORT).show()
                     if(kind == "投稿一覧") {
                         var mypageActivity = activity as mypageActivity
                         val myApp = myApplication.getInstance()
