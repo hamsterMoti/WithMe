@@ -7,8 +7,8 @@
     tools:context=".settinglistActivity">
 
     <LinearLayout
-        android:layout_width="313dp"
-        android:layout_height="557dp"
+        android:layout_width="339dp"
+        android:layout_height="544dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
@@ -19,18 +19,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <View
+            android:id="@+id/line1"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#A5A5A5"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/blockText"
-            android:layout_width="303dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_margin="5dp"
             android:text="ブロック一覧表"
-            android:textSize="24sp" />
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/line２"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#A5A5A5"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/outText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="33dp"
+            android:layout_margin="5dp"
             android:text="退会する"
-            android:textSize="24sp" />
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/line３"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#A5A5A5"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="158dp"
+        android:layout_height="36dp"
+        android:text="設定一覧"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.041" />
 </androidx.constraintlayout.widget.ConstraintLayout>
