@@ -15,28 +15,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:id="@+id/chatEntire"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/chatEntire"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical">-->
 
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="113dp"
-            android:layout_height="54dp"
-            android:rotation="-180"
-            app:srcCompat="@drawable/ic_baseline_arrow_right_alt_24" />
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_marginLeft="9dp"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chatRecycle"
+            android:layout_marginTop="56dp"
             android:layout_width="match_parent"
             android:layout_height="574dp"
             android:visibility="visible" />
-    </LinearLayout>
+<!--    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/chatDetail"
-        android:layout_above="@+id/chatEntire"
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_alignParentBottom="true"
