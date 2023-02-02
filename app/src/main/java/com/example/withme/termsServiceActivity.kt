@@ -27,7 +27,9 @@ class termsServiceActivity : AppCompatActivity() {
 
 //        intentでURLを受け取る
         val userAddURL = intent.getStringExtra("UserURL")
-
+        if (userAddURL != null) {
+            Log.v("userAddURL",userAddURL)
+        }
         // チェックされたらタイムライン画面に遷移する
         nextButton.setOnClickListener{
             if(agreeCheckBox.isChecked) {

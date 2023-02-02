@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="350dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/edittext_backbround"
+    android:orientation="vertical"
     app:cardBackgroundColor="#FFFFFF"
     app:cardCornerRadius="10dp"
     app:cardUseCompatPadding="true">
@@ -10,34 +12,36 @@
 
     <LinearLayout
         android:id="@+id/talkall"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/userImage"
-            android:layout_width="77dp"
-            android:layout_height="53dp"
+            android:layout_width="73dp"
+            android:layout_height="match_parent"
             app:srcCompat="@drawable/user_2" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/roomName"
                 android:layout_width="252dp"
-                android:layout_height="5dp"
-                android:layout_weight="1"
+                android:layout_height="10dp"
+                android:layout_weight="2"
+                android:paddingBottom="3dp"
                 android:text="ケーキは何派？" />
 
             <TextView
                 android:id="@+id/titleText"
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="いつにしますか？"
                 android:textSize="12dp" />
         </LinearLayout>
@@ -45,5 +49,5 @@
     </LinearLayout>
 
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>
 

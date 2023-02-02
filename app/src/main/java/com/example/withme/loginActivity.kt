@@ -36,6 +36,8 @@ class loginActivity : AppCompatActivity() {
         val mailtextLayout = findViewById<TextInputLayout>(R.id.mailaddress_layout)
         val passInputLayout = findViewById<TextInputLayout>(R.id.password_layout)
 
+
+
         loginButton.setOnClickListener {
             if(userEdit.text.toString().isEmpty()) {
                 if (passEdit.text.toString().isEmpty()) {

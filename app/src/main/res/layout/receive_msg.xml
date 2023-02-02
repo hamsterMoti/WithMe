@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textSize="13sp"
+        android:textSize="11sp"
         android:paddingStart="6dp"
         android:paddingTop="2dp"
         android:text="TextView"
