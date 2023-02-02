@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFEFC"
+    android:background="#D9D9D9"
+    android:paddingStart="2dp"
     app:showAsAction="ifRoom"
     tools:context=".timelineActivity">
 
@@ -22,15 +23,6 @@
             android:layout_height="40dp"
             android:orientation="horizontal">
 
-            <!--                        <SearchView-->
-            <!--                            android:id="@+id/editTextTextPersonName"-->
-            <!--                            android:layout_width="275dp"-->
-            <!--                            android:layout_height="31dp"-->
-            <!--                            android:icon="@drawable/ic_baseline_add_24"-->
-            <!--                            android:iconifiedByDefault="false"-->
-            <!--                            android:queryHint="検索"-->
-            <!--                            app:layout_constraintStart_toStartOf="parent"-->
-            <!--                            app:layout_constraintTop_toTopOf="parent" />-->
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/timelinebar"
@@ -38,21 +30,28 @@
                 android:layout_height="wrap_content"
                 android:background="@color/withmecolor"
                 android:minHeight="?attr/actionBarSize"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:theme="?attr/actionBarTheme">
+                android:paddingStart="5dp"
+                android:paddingLeft="25dp"
+                android:theme="?attr/actionBarTheme"
+                app:titleMarginStart="6dp"
+                app:titleMarginTop="1dp">
+
 
                 <EditText
                     android:id="@+id/editTextTextPersonName"
                     android:layout_width="250dp"
                     android:layout_height="25dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edittext_backbround"
+                    android:background="@drawable/timelineedittext_drawable"
+                    android:backgroundTint="#E8A8C7CC"
+                    android:drawableStart="@drawable/ic_baseline_search_24"
                     android:ems="10"
+                    android:paddingLeft="5dp"
                     android:hint="検索"
                     android:inputType="textPersonName"
-                    android:paddingLeft="20dp"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    app:startIconDrawable="@drawable/ic_baseline_search_24"
+                    tools:ignore="RtlSymmetry" />
                 <!--絞り込み-->
                 <Button
                     android:id="@+id/searchbutton"
@@ -76,7 +75,10 @@
                     android:rotation="91"
                     app:srcCompat="@drawable/ic_baseline_multiple_stop_24" />
 
+
             </androidx.appcompat.widget.Toolbar>
+
+
         </LinearLayout>
 
         <RadioGroup
@@ -118,6 +120,7 @@
                 android:id="@+id/profileRecyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="534dp"
+                android:paddingLeft="4dp"
                 tools:listitem="@layout/activity_timeline_adapter">
 
 
